@@ -1,0 +1,7 @@
+{
+  "name": "kia",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
