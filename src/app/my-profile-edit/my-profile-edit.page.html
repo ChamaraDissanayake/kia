@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/my-profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-image" fullscreen="true">
+  <!-- <div style="width: 100%; height: 3px; background: rgb(235, 0, 41);" slot="fixed"></div> -->
+
+  <div>
+    <h2 style="text-align: -webkit-center;">Edit profile</h2>
+
+    <form [formGroup]="signup" (ngSubmit)="updateDetails()">
+      <div class="main-div">
+        <div class="input-wrapper">
+          <div style="margin-left: 10px;">
+            <ion-label>Name</ion-label>
+          </div>
+          <ion-item class="input-style">
+            <ion-input readonly='true' clickable='false' #myName type="text"></ion-input>
+          </ion-item>
+        </div>
+        <div class="input-wrapper">
+          <div style="margin-left: 10px;">
+            <ion-label>Mobile Number</ion-label>
+          </div>
+          <ion-item class="input-style">
+            <ion-input #myMobile type="tel" maxlength="10" minlength="10" placeholder="07X XX XX XXX" formControlName="mobile"></ion-input>
+          </ion-item>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validation_messages.mobile">
+              <div class="error-message"
+                *ngIf="signup.get('mobile').hasError(validation.type) && (signup.get('mobile').dirty || signup.get('mobile').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="input-wrapper">
+          <div style="margin-left: 10px;">
+            <ion-label>Email address</ion-label>
+          </div>
+          <ion-item class="input-style">
+            <ion-input #myEmail placeholder="Enter your e-mail here" type="text" formControlName="email"></ion-input>
+          </ion-item>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validation_messages.email">
+              <div class="error-message"
+                *ngIf="signup.get('email').hasError(validation.type) && (signup.get('email').dirty || signup.get('email').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+
+        <div style="margin-top: 50px; text-align: center;">
+          <ion-button type="submit" [disabled]="!signup.valid" class="btnNavigate">Save</ion-button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</ion-content>
+<ion-footer no-border>
+  <img class="kia-main-footer" src="../../assets/kia-footer.png" alt="kia-footer">
+</ion-footer>

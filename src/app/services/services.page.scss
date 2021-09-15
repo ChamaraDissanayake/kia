@@ -1,0 +1,70 @@
+// ion-content.background-image{
+//     --background: url(../../assets/kia-background.jpg) 0 0/100% 100% no-repeat;
+// }
+
+.section-title-st2::before {
+    content: '';
+    border-left: 3px solid rgb(235, 0, 41);
+    height: 25px;
+    display: block;
+    position: absolute;
+    // margin-top: 5px;
+    padding-right: 10px;
+}
+
+.container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 30px;
+}
+
+.cap-wrapper .cap-wrapper-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 20;
+    width: 100%;
+    height: auto;
+    padding: 13px 18px;
+    background-color: transparent;
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+    -webkit-transform: translate3d(0,calc(100% - 55px), 0px);
+    transform: translate3d(0,calc(100% - 55px), 0px);
+}
+
+.cap-wrapper .cap-wrapper-caption .c-heading {
+    color: #fff;
+    // line-height: 2;
+    font-size: x-large;
+    font-weight: bold;
+    margin: unset;
+}
+
+.our-services{
+    border-top:  rgb(235, 0, 41) 3px solid;
+    width: 55px;
+    margin: unset;
+}
+
+.lbl-contact{
+    width: 100%;
+    height: 36px;
+    background:  rgb(235, 0, 41);
+    padding-top: 1%;
+    text-align: center;
+}
+
+.focus-main-color[aria-expanded="true"] {
+    color: #fff;
+    background-color: rgb(235, 0, 41) !important;
+    border-color: rgb(235, 0, 41) !important;
+}
+
+.serviceContent{
+    background: #0f0f0f;
+    color: white;
+}

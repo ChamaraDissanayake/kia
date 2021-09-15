@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-image vertical-center" fullscreen="true">
+  <!-- <div style="width: 100%; height: 3px; background: rgb(235, 0, 41);" slot="fixed"></div> -->
+
+  <div style="text-align: -webkit-center; margin-top: 50px; margin-bottom: 20px;">
+    <label class="topics" style="margin-bottom: 10px;">Select service center</label>
+    <ion-item class="selector-wrapper" style="width: fit-content;">
+      <ion-select placeholder="Service center" okText="Confirm" cancelText="Dismiss"
+        (ionChange)="selectShowroom($event)">
+        <ion-select-option *ngFor="let item of serviceCenters" value="{{item.shop_id}}">{{item.shop_name}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+
+    <div style="min-height: 40%;" *ngIf="showroomId!=''">
+      <div style="text-align:center">
+        <label class="topics">Service center Name</label><br>
+        <label>{{showroomName}}</label>
+      </div>
+      <div style="text-align:center; margin-top:10px;">
+        <label class="topics">Service center Address</label><br>
+        <label>{{showroomAddress}}</label>
+      </div>
+      <div style="text-align:center;  margin-top:10px;">
+        <label class="topics">Opening Hours</label><br>
+        <label>{{showRoomOpenHours}}</label>
+      </div>
+      <div style="text-align: -webkit-center; margin-bottom: 20px;" *ngIf="supervisors.length>0">
+        <label class="topics" style="margin-bottom: 10px;">Select supervisor</label>
+        <ion-item class="selector-wrapper" style="width: fit-content;">
+          <ion-select placeholder="Supervisor" okText="Confirm" cancelText="Dismiss" (ionChange)="selectSupervisor($event)">
+            <ion-select-option *ngFor="let item of supervisors" value="{{item.supervisor_id}},{{item.supervisor_name}}">{{item.supervisor_name}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+    </div>
+
+  <div style="margin-top: 50px; text-align: center; width: 100%;">
+    <ion-button class="btnNavigate" [disabled]='!isValid' (click)="gotoCalendar()" style="margin-right: 40px;">Next
+    </ion-button>
+    <ion-button class="btnNavigate" [routerLink]="['/home']">Cancel</ion-button>
+  </div>
+</ion-content>
+<ion-footer no-border>
+  <img class="kia-main-footer" src="../../assets/kia-footer.png" alt="kia-footer">
+</ion-footer>

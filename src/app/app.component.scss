@@ -62,7 +62,7 @@ ion-menu.md ion-item ion-icon {
 }
 
 ion-menu.md ion-item ion-label {
-  font-weight: 500;
+  font-weight: bold;
 }
 
 ion-menu.ios ion-content {
@@ -117,3 +117,18 @@ ion-note {
 ion-item.selected {
   --color: var(--ion-color-primary);
 }
+
+.gradientBackground{
+  // --background: rgb(0,1,31) !important;
+  --background: linear-gradient(rgb(223, 165, 100) 20%, rgb(0,0,0) 60%) !important;
+}
+
+ion-item{
+  --background: transparent;
+}
+
+// :host {
+//   .item-inner{
+//     border-bottom: rgb(57, 57, 57) 2px solid !important;
+//   }
+// }

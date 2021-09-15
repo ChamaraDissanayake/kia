@@ -24,3 +24,122 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+
+// .monthview-container{
+    // background: white;
+    // border-radius: 20px;
+    // width: 90%;
+// }
+
+.event-detail-container {
+    display: none;
+}
+
+// .monthview-selected{
+//     background: rgb(235, 0, 41) !important;
+// }
+
+.swiper-pagination-bullet {
+    background: rgb(235, 0, 41) !important;
+}
+
+.swiper-container-horizontal>.swiper-pagination-bullets {
+    top: 10px !important;
+    // visibility: hidden;
+}
+
+:root {
+    --ion-color-kiared:  rgba(235, 0, 39, 0.959);
+    --ion-color-kiared-rgb: 255, 215, 0;
+    --ion-color-kiared-contrast: #000000;
+    --ion-color-kiared-contrast-rgb: 0, 0, 0;
+    --ion-color-kiared-shade: #e00f00;
+    --ion-color-kiared-tint: #ff291a;
+}
+.ion-color-kiared {
+    --ion-color-base: var(--ion-color-kiared) !important;
+    --ion-color-base-rgb: var(--ion-color-kiared-rgb) !important;
+    --ion-color-contrast: var(--ion-color-kiared-contrast) !important;
+    --ion-color-contrast-rgb: var(--ion-color-kiared-contrast-rgb) !important;
+    --ion-color-shade: var(--ion-color-kiared-shade) !important;
+    --ion-color-tint: var(--ion-color-kiared-tint) !important;
+}
+
+@font-face {
+    font-family: 'kia';
+    src:url('./assets/font/KiaSignatureRegular.ttf');
+}
+
+.alert-tappable.sc-ion-alert-md.bookedSlot {
+    position: relative;
+    height: 48px;
+    overflow: hidden;
+    background: rgb(231, 190, 218);
+}
+
+.alert-wrapper.sc-ion-alert-md {
+    background: #0f0f0f;
+    border: 1px solid rgb(235, 0, 41);
+    border-radius: 10px;
+    color: white;
+}
+
+.alert-radio-label.sc-ion-alert-md {
+    color: white;
+}
+
+.alert-sub-title.sc-ion-alert-md {
+    color: white;
+    font-size: 14px;
+    text-align: center;
+}
+
+[aria-checked=true].sc-ion-alert-md .alert-radio-icon.sc-ion-alert-md {
+    border-color: rgb(235, 0, 41);
+}
+
+.alert-radio-inner.sc-ion-alert-md {
+    background-color: rgb(235, 0, 41);
+}
+
+.alert-button-inner.sc-ion-alert-md {
+    color: rgb(235, 0, 41);
+}
+
+.alert-radio-group.sc-ion-alert-md, .alert-checkbox-group.sc-ion-alert-md {
+    border-top: 1px solid var(--ion-color-step-150, rgb(235, 0, 41));
+    border-bottom: 1px solid var(--ion-color-step-150, rgb(235, 0, 41));
+}
+
+[aria-checked=true].sc-ion-alert-md .alert-radio-label.sc-ion-alert-md {
+    color: var(--ion-color-step-850, rgb(235, 0, 41));
+}
+
+ion-button{
+    font-weight: bold;
+}
+
+.btnNavigate{
+    --background: linear-gradient(to right,rgb(234,183,126) 0%, rgb(117, 91, 61) 100%);
+    --border-radius: 10px;
+    width: 142px;
+    height: 54px;
+    font-weight: bold;
+    font-size: larger;
+    text-transform: none;
+}
+
+ion-content.background-image{
+    --background: url(./assets/kia-background.png) 0 0/100% 100% no-repeat;
+    --color: white;
+    // --background: linear-gradient(rgba(234,183,126,1) 0%, rgba(234,183,126,0.75) 10%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,1) 100%);
+}
+
+.input-style{
+    border-radius: 10px;
+    width: 80%;
+    font-size: 16px;
+    text-align: center;
+    letter-spacing: 2px;
+}

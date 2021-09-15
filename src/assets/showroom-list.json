@@ -1,0 +1,26 @@
+[
+    {
+        "shop_id": 1,
+        "shop_name": "Colombo showroom",
+        "shop_address": "47 Kirula Rd, Colombo 05",
+        "tel_no":"011 22 28 128"
+    },
+    {
+        "shop_id": 2,
+        "shop_name": "Kandy service center",
+        "shop_address": "47 Kirula Rd, Colombo 05",
+        "tel_no":"081 22 28 128"
+    },
+    {
+        "shop_id": 3,
+        "shop_name": "Galle service center",
+        "shop_address": "47 Kirula Rd, Colombo 05",
+        "tel_no":"091 22 28 128"
+    },
+    {
+        "shop_id": 4,
+        "shop_name": "Jaffna showroom",
+        "shop_address": "47 Kirula Rd, Colombo 05",
+        "tel_no":"021 22 28 128"
+    }
+]

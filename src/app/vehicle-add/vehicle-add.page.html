@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/my-profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-image" fullscreen="true">
+  <!-- <div style="width: 100%; height: 3px; background: rgb(235, 0, 41);" slot="fixed"></div> -->
+
+  <div *ngIf="kiaProviderService.vehicle_id!=''" style="text-align: -webkit-center;">
+    <h2>Update vehicle</h2>
+    <form [formGroup]="signup" (ngSubmit)="updateNumber(vehicle.value)">
+      <div class="input-wrapper">
+        <ion-item class="input-style">
+          <ion-input #vehicle style='text-transform: uppercase; text-align: center;' placeholder="Ex: AAA-1234" type="text" formControlName="vehicleNumber"></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.vehicleNumber">
+            <div class="error-message"
+              *ngIf="signup.get('vehicleNumber').hasError(validation.type) && (signup.get('vehicleNumber').dirty || signup.get('vehicleNumber').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <ion-button type="submit" [disabled]="!signup.valid" class="btnNavigate" style="margin-right: 40px;">Update</ion-button>
+    </form>
+  </div>
+  <div *ngIf="kiaProviderService.vehicle_id==''" style="text-align: -webkit-center;">
+    <h2>Vehicle add</h2>
+    <form [formGroup]="signup" (ngSubmit)="addNumber(vehicleAdd.value)">
+      <div class="input-wrapper">
+        <ion-item class="input-style">
+          <ion-input #vehicleAdd style='text-transform: uppercase; text-align: center' placeholder="Ex: AAA-1234" type="text" formControlName="vehicleNumber"></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.vehicleNumber">
+            <div class="error-message"
+              *ngIf="signup.get('vehicleNumber').hasError(validation.type) && (signup.get('vehicleNumber').dirty || signup.get('vehicleNumber').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <ion-button type="submit" [disabled]="!signup.valid" class="btnNavigate" style="margin-right: 40px;">Add</ion-button>
+    </form>
+  </div>
+
+</ion-content>
+<ion-footer no-border>
+  <img class="kia-main-footer" src="../../assets/kia-footer.png" alt="kia-footer">
+</ion-footer>

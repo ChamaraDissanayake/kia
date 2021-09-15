@@ -1,0 +1,46 @@
+// ion-content.background-image{
+//     --background: url(../../assets/kia-background.jpg) 0 0/100% 100% no-repeat;
+// }
+.background-transparent{
+    background: transparent !important;
+}
+
+.vertical-center {
+    .fixed-content,
+    .scroll-content {
+        display: flex;
+        align-items: center;
+
+        ion-list {
+            max-width: 300px;
+            width: 100%;
+            margin: auto;
+            text-align: center;
+        }
+    }
+}
+
+.topics{
+    text-align: center;
+    font-size: x-large; 
+    font-weight: bold;
+    margin: unset;
+}
+
+// .btnNavigate{
+//     --background:#3b1600;
+//     --border-radius: 10px;
+//     width: 142px;
+//     height: 54px;
+//     font-weight: bold;
+//     font-size: larger;
+//     text-transform: none;
+// }
+
+.selector-wrapper{
+    min-width: 36%;
+    width: fit-content;
+    padding: 0px 10px;
+    background: white;
+    border-radius: 10px;
+}

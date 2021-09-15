@@ -1,0 +1,76 @@
+video{
+    max-width: 100%;
+    max-height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.toolbar-background {
+    background: white !important;
+}
+
+ion-fab-button::part(native) {
+    background-color: rgb(235, 0, 41);
+    font-weight: bold;
+}
+
+ion-fab-button {
+    width: 60px;
+    height: 60px;
+}
+
+.fab-horizontal-center {
+    margin-left: unset;
+    margin-inline-start: -40px !important;
+}
+
+.btn-brochure{
+    border-radius: 10px;
+    --background: gainsboro;
+    color: #0f0f0f;
+}
+
+.lbl-on-image {
+    position: absolute;
+    color: white;
+    border-left: 3px solid rgb(235, 0, 41);
+    padding-left: 10px;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.lbl-on-video{
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    font-weight: bold;
+    color: white;
+}
+
+.swiper-container-horizontal > .swiper-pagination-bullets {
+    visibility: hidden;
+}
+
+.VRarrowsContainer{
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    bottom: -43%;
+}
+
+.vrContainer{
+    align-items: center;
+    text-align: center;
+}
+.image-on-video{
+    width: 80px;
+    top: 33%;
+    left: 40%;
+}
+.btnHide{
+    visibility: hidden;
+}
+.enabled {
+    --background: linear-gradient(rgb(234,183,126) 0%, rgb(117, 91, 61) 100%);
+    --color: #FFFFFF;
+}

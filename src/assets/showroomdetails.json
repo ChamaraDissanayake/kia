@@ -1,0 +1,18 @@
+{
+	"shop_id":"1",
+    "shop_name":"KIA Service Center",
+    "shop_address":"47 Kirula Rd, Colombo 05",
+    "shop_openTime":"09:00",
+    "shop_closeTime":"17:00",
+    "tel_no":"071 131 9050",
+    "latitude":6.8928209,
+    "longitude":79.8705022,
+    "supervisors":[
+        {"supervisor_id":"1", "supervisor_name":"Chamara"},
+        {"supervisor_id":"2", "supervisor_name":"Dissanayake"},
+        {"supervisor_id":"3", "supervisor_name":"Dhanushka"},
+        {"supervisor_id":"4", "supervisor_name":"Janaka"},
+        {"supervisor_id":"5", "supervisor_name":"Manila"},
+        {"supervisor_id":"6", "supervisor_name":"Dilshan"}
+    ]
+}

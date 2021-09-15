@@ -1,0 +1,174 @@
+<ion-header>
+  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+    <ion-title>      
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button style="color: white;" menu="main-menu"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true" style="--background: #0f0f0f;">
+  <!-- <div style="width: 100%; height: 3px; background: rgb(235, 0, 41);" slot="fixed"></div> -->
+
+  <div>
+    <div style="width: 100%; text-align: center; position:absolute; z-index: 2; top: 40%;">
+      <div style="text-align: center;">
+        <ion-button class="btn-view-more" (click)="gotoSelectedVehicle()">View More</ion-button>
+      </div>
+    </div>
+    <ion-slides pager="true" [options]="slideOpts" *ngIf="sliderChange" (click)="gotoSelectedVehicle()">
+      <!-- <ion-slide>
+        <img src="https://www.kia.lk/wp-content/themes/kiamotors/assets/dist/images/vm-thumb/picanto-clear-white-thumb-001.jpg" alt="KIA MOTORS">
+      </ion-slide> -->
+      <ion-slide *ngFor="let item of kiaSlider">
+        <img [src]="item.src" style="background: white;" alt="KIA MOTORS">
+      </ion-slide>
+      <!-- <ion-slide>
+        <img src="../../assets/kia_slide_2.jpg" alt="KIA MOTORS">
+      </ion-slide>
+      <ion-slide>
+        <img src="../../assets/kia_slide_3.jpg" alt="KIA MOTORS">
+      </ion-slide> -->
+    </ion-slides>
+    <ion-slides pager="true" [options]="slideOpts" *ngIf="!sliderChange" (click)="gotoSelectedVehicle()">
+      <ion-slide *ngFor="let item of kiaSlider">
+        <img [src]="item.src" style="background: white;" alt="KIA MOTORS">
+      </ion-slide>
+    </ion-slides>
+  </div>
+
+  <div style="padding: 16px 0px;">
+    <div style="width: 100%; text-align: center;">
+      <div class="btn-group btn-group-toggle row justify-content-center text-white" data-toggle="buttons">
+        <label class="btn btn-secondary vehicle-cat-btn rounded-0">
+          <input type="radio" name="options" value="option1" (click)="changeSlider($event)"> SUV and MPV
+        </label>
+        <label class="btn btn-secondary vehicle-cat-btn rounded-0" style="background: rgb(88, 88, 88);">
+          <input type="radio" name="options" value="option2" checked (click)="changeSlider($event)"> Cars
+        </label>
+        <label class="btn btn-secondary vehicle-cat-btn rounded-0">
+          <input type="radio" name="options" value="option3" (click)="changeSlider($event)"> Commercial
+        </label>
+      </div>
+    </div>
+<!-- 
+    <ion-radio-group class="btn-group btn-group-toggle row justify-content-center text-white" (ionChange)=changeSlider($event)>
+      <ion-radio id="option1" value="1"></ion-radio>
+      <ion-label class="btn btn-secondary vehicle-cat-btn rounded-0" label-for="option1">SUV and MPV</ion-label>
+      <ion-radio id="option2" value="2"></ion-radio>
+      <ion-label class="btn btn-secondary vehicle-cat-btn rounded-0" label-for="option2">Cars</ion-label>
+      <ion-radio id="option3" value="3"></ion-radio>
+      <ion-label class="btn btn-secondary vehicle-cat-btn rounded-0" label-for="option3">Commercial</ion-label>
+    </ion-radio-group> -->
+
+    <div class="container">
+      <div class="section-title-st2">
+        <h3 class="ml-3" style="margin: unset; color: white;">Our Services</h3>
+      </div>
+    </div>
+  </div>
+  <div class="row no-gutters no-padding">
+    <div class="col-12 col-md-6 col-lg-4 p-0 light-padding">
+      <div class="cap-wrapper" (click)="gotoShowroom()">
+        <div class="flip-bg-img-horizontally gradient-overlay w-100 h-100" style="position: absolute;"></div>
+        <div class="cap-wrapper-img">
+          <img class="img-fluid"
+            src="https://www.kia.lk/wp-content/themes/kiamotors/assets/dist/images/after-sales-icons/vehicle-services.jpg"
+            alt="kia-test-drive">
+        </div>
+        <div class="cap-wrapper-caption">
+          <h5 class="left-border c-heading left-border-hide-xs">Test Drive</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4 p-0 light-padding">
+      <div class="cap-wrapper" (click)="gotoServices('0')">
+        <div class="flip-bg-img-horizontally gradient-overlay w-100 h-100" style="position: absolute;"></div>
+        <div class="cap-wrapper-img">
+          <img class="img-fluid"
+            src="https://www.kia.lk/wp-content/themes/kiamotors/assets/dist/images/after-sales-icons/Mechanical-Repair-Service.jpg"
+            alt="kia-service-and-maintenance">
+        </div>
+        <div class="cap-wrapper-caption">
+          <h5 class="left-border c-heading left-border-hide-xs">Service and Maintenance</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4 p-0 light-padding">
+      <div class="cap-wrapper" (click)="gotoServices('1')">
+        <div class="flip-bg-img-horizontally gradient-overlay w-100 h-100" style="position: absolute;"></div>
+        <div class="cap-wrapper-img">
+          <img class="img-fluid"
+            src="https://www.kia.lk/wp-content/themes/kiamotors/assets/dist/images/after-sales-icons/Kia-5-year-Warranty.jpg"
+            alt="kia-bodyshop">
+        </div>
+        <div class="cap-wrapper-caption">
+          <h5 class="left-border c-heading left-border-hide-xs">Bodyshop</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4 p-0 light-padding">
+      <div class="cap-wrapper" (click)="gotoServices('2')">
+        <div class="flip-bg-img-horizontally gradient-overlay w-100 h-100" style="position: absolute;"></div>
+        <div class="cap-wrapper-img">
+          <img class="img-fluid"
+            src="https://www.kia.lk/wp-content/themes/kiamotors/assets/dist/images/after-sales-icons/Collision-Repair-Service.jpg"
+            alt="kia-workshop">
+        </div>
+        <div class="cap-wrapper-caption">
+          <h5 class="left-border c-heading left-border-hide-xs">Workshop</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4 p-0 light-padding">
+      <div class="cap-wrapper" (click)="gotoServices('3')">
+        <div class="flip-bg-img-horizontally gradient-overlay w-100 h-100" style="position: absolute;"></div>
+        <div class="cap-wrapper-img">
+          <img class="img-fluid"
+            src="https://www.kia.lk/wp-content/themes/kiamotors/assets/dist/images/after-sales-icons/24-7-Roadside-Assistance.jpg"
+            alt="kia-emergency-breakdown">
+        </div>
+        <div class="cap-wrapper-caption">
+          <h5 class="left-border c-heading left-border-hide-xs">Emergency Breakdown</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="center" style="bottom: 70px;">
+    <ion-fab-button class="fab-label enabled" style="height: 50px; width: 50px; margin-top: 6px; margin-left: 4px;">Book</ion-fab-button>
+
+    <ion-fab-list side="start">
+      <ion-fab-button (click)="gotoShowroom()" class="enabled">
+        <ion-label class="fab-label">Test<br>Drive</ion-label>
+      </ion-fab-button>
+    </ion-fab-list>
+
+    <ion-fab-list side="top">
+      <ion-fab-button [disabled]='kiaProviderService.permissionLevel!=2' (click)='gotoRegisterdServices(2)' [ngClass]="kiaProviderService.permissionLevel==2 ? 'enabled' : 'disabled'">
+        <ion-label class="fab-label">Service</ion-label>
+      </ion-fab-button>
+    </ion-fab-list>
+
+    <ion-fab-list side="end">
+      <ion-fab-button [disabled]='kiaProviderService.permissionLevel!=2' (click)='gotoRegisterdServices(3)' [ngClass]="kiaProviderService.permissionLevel==2 ? 'enabled' : 'disabled'">
+        <ion-label class="fab-label">Body<br>Shop</ion-label>
+      </ion-fab-button>
+    </ion-fab-list>
+
+    <ion-fab-list side="bottom">
+      <ion-fab-button [disabled]='kiaProviderService.permissionLevel!=2' (click)='gotoRegisterdServices(4)' [ngClass]="kiaProviderService.permissionLevel==2 ? 'enabled' : 'disabled'">
+        <ion-label class="fab-label">Work<br>Shop</ion-label>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
+  <!-- <ion-fab-button [ngClass]="!btnEnabled ? 'disabled' : 'enabled'">test</ion-fab-button> -->
+
+</ion-content>
+
+<ion-footer  no-border>
+  <img class="kia-main-footer" src="../../assets/kia-footer.png" alt="kia-footer">
+</ion-footer>

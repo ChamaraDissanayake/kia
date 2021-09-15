@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/phone-verify"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-image" fullscreen="true">
+  <!-- <div style="width: 100%; height: 3px; background: rgb(235, 0, 41);" slot="fixed"></div> -->
+  <div style="margin-top: 100px;">
+    <div style="text-align: center;">
+      <div>
+        <ion-label style="font-size: larger; font-weight: bold;" class="text-white">
+          Please enter<br> OTP <br> sent to your Phone
+        </ion-label>
+      </div>
+      <div>
+        <ion-row>
+          <ion-col>
+            <ion-input type='tel' class="x" style='color: #3b1600;' #otp1 required="true" maxLength="1" [(ngModel)]="OTP.first"
+              (keyup)="otpController($event,otp2,'')">
+            </ion-input>
+            <ion-input type='tel' class="x" style='color: #3b1600;' #otp2 required="true" maxLength="1" [(ngModel)]="OTP.second"
+              (keyup)="otpController($event,otp3,otp1)">
+            </ion-input>
+            <ion-input type='tel' class="x" style='color: #3b1600;' #otp3 required="true" maxLength="1" [(ngModel)]="OTP.third"
+              (keyup)="otpController($event,otp4,otp2)">
+            </ion-input>
+            <ion-input type='tel' class="x" style='color: #3b1600;' #otp4 required="true" maxLength="1" [(ngModel)]="OTP.fourth"
+              (keyup)="otpController($event,'',otp3)">
+            </ion-input>
+          </ion-col>
+        </ion-row>
+      </div>
+      <div style="margin-top: 50px; text-align: center; width: 100%;">
+        <ion-button class="btnNavigate" style="margin-right: 40px;" [disabled]='!isValid' (click)="next()">Confirm</ion-button>
+        <ion-button class="btnNavigate" (click)='reset()'>Reset</ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<ion-footer no-border>
+  <img class="kia-main-footer" src="../../assets/kia-footer.png" alt="kia-footer">
+</ion-footer>

@@ -1,0 +1,101 @@
+<ion-header>
+  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="background-image" fullscreen="true">
+  <!-- <div style="width: 100%; height: 3px; background: rgb(235, 0, 41);" slot="fixed"></div> -->
+
+  
+  <form [formGroup]="signup" (ngSubmit)="submitDetails()">
+    <div class="text-white main-div">
+      <div>
+        <ion-label>Enter your name</ion-label>
+      </div>
+      <div class="input-wrapper">
+        <ion-item class="input-style">
+          <ion-input placeholder="Enter your name here" type="text" formControlName="name"></ion-input>
+          <!-- <ion-input placeholder="Enter your name here" type="text" [(ngModel)]="signup.name"
+          formControlName="name"></ion-input> -->
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.name">
+            <div class="error-message"
+              *ngIf="signup.get('name').hasError(validation.type) && (signup.get('name').dirty || signup.get('name').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+      </div>
+  
+      <div class="text-white main-div">
+        <div>
+          <ion-label>Mobile number</ion-label>
+        </div>
+        <div class="input-wrapper">
+          <ion-item class="input-style">
+            <ion-input type="tel" maxlength="10" minlength="10" placeholder="07X XX XX XXX" formControlName="mobile"></ion-input>
+          </ion-item>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validation_messages.mobile">
+              <div class="error-message"
+                *ngIf="signup.get('mobile').hasError(validation.type) && (signup.get('mobile').dirty || signup.get('mobile').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <ion-label>Email address</ion-label>
+      </div>
+      <div class="input-wrapper">
+        <ion-item class="input-style">
+          <ion-input placeholder="Enter your e-mail here" type="text" formControlName="email"></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.email">
+            <div class="error-message"
+              *ngIf="signup.get('email').hasError(validation.type) && (signup.get('email').dirty || signup.get('email').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <div>
+        <ion-label>Vehicle number</ion-label>
+      </div>
+      <div class="input-wrapper">
+        <ion-item class="input-style">
+          <ion-input style='text-transform: uppercase;' placeholder="Ex: AAA-1234" type="text" formControlName="vehicleNumber"></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.vehicleNumber">
+            <div class="error-message"
+              *ngIf="signup.get('vehicleNumber').hasError(validation.type) && (signup.get('vehicleNumber').dirty || signup.get('vehicleNumber').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 50px; text-align: center;">
+      <ion-button type="submit" [disabled]="!signup.valid" class="btnNavigate" style="margin-right: 40px;">Submit</ion-button>
+      <ion-button class="btnNavigate" [routerLink]="['/login']">Back</ion-button>
+    </div>
+
+  </form>
+</ion-content>
+<ion-footer no-border>
+  <img class="kia-main-footer" src="../../assets/kia-footer.png" alt="kia-footer">
+</ion-footer>

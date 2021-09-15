@@ -1,0 +1,83 @@
+
+// ion-content.background-image{
+//     --background: url(../../assets/kia-background.jpg) 0 0/100% 100% no-repeat;
+// }
+
+.padding-top{
+    padding-top:20px;
+}
+
+// ion-select.test{
+//     color: #971e49;
+// }
+
+// .btnNavigate{
+//     --background:#3b1600;
+//     --border-radius: 10px;
+//     width: 142px;
+//     height: 54px;
+//     font-weight: bold;
+//     font-size: larger;
+//     text-transform: none;
+// }
+
+.calendar-header{
+    color: #0f0f0f;
+}
+
+.change-month{
+    color: #0f0f0f;
+}
+
+.indicator-container {
+    padding-left: 0.5rem;
+    padding-bottom: 0.4rem;
+}
+   
+.event-indicator {
+    background: var(--ion-color-success);
+    width: 5px;
+    height: 5px;
+    border-radius: 5px;
+    display: table-cell;
+}
+
+:host ::ng-deep {
+    .monthview-primary-with-event {
+      background-color: rgb(231, 190, 218);
+    }
+   
+    // .monthview-primary-with-event.fullyBooked {
+    //     background-color: rgb(62, 50, 230) !important;
+    // }
+
+    .monthview-selected {
+        background-color: rgb(235, 0, 41) !important;
+    }
+
+    .monthview-datetable td.monthview-primary-with-event {
+        background-color:  rgb(231, 190, 218);
+    }
+
+    // .monthview-datetable[_ngcontent-ynx-c137] th[_ngcontent-ynx-c137] {
+    //     text-align: center;
+    // }
+
+    .table thead th{
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+}
+   
+.event-full{
+    background: red;
+    // width: 10px;
+    // height: 10px;
+    // border-radius: 50%;
+    // position: absolute;
+}
+// .with-event {
+//     background-color:  gold;
+
+    // border-radius: 15px;
+// }

@@ -1,0 +1,39 @@
+// ion-content.background-image{
+//     --background: url(../../assets/kia-background.jpg) 0 0/100% 100% no-repeat;
+// }
+
+.main-div{
+    text-align:-webkit-center;
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+// .input-style{
+//     border-radius: 10px;
+//     width: 80%;
+//     font-size: 16px;
+//     text-align: center;
+//     letter-spacing: 2px;
+// }
+
+// .btnNavigate{
+//     --background:#3b1600;
+//     --border-radius: 10px;
+//     width: 142px;
+//     height: 54px;
+//     font-weight: bold;
+//     font-size: larger;
+//     text-transform: none;
+// }
+
+.input-wrapper{
+    margin: 10px 0px 20px 0px;
+}
+
+.error-message {
+    margin-left: 10%;
+    text-align: left;
+    color: red;
+    font-size: large;
+}

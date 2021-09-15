@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true" class="background-image">
+  <!-- <div style="width: 100%; height: 3px; background: rgb(235, 0, 41);" slot="fixed"></div> -->
+  <div style="margin-top: 100px;">
+    <div style="text-align: center;">
+      <div>
+        <ion-label style="font-size: larger; font-weight: bold;" class="text-white">
+          Your Booking <br> has been <br> Confirmed
+        </ion-label>  
+      </div>
+      <div>
+        <img src="../../assets/kia-done.png" style="width: 40%; margin-top: 20px; margin-bottom: 20px;">
+      </div>
+      <div>
+        <ion-button class="btnNavigate" [routerLink]="['/home']">Exit</ion-button>
+      </div>
+    </div>
+  </div>
+
+</ion-content>
+<ion-footer  no-border>
+  <img class="kia-main-footer" src="../../assets/kia-footer.png" alt="kia-footer">
+</ion-footer>

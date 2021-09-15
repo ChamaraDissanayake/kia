@@ -1,0 +1,23 @@
+[
+    {
+        "id": "0",
+        "type": "Service",
+        "date": "2021/10/03",
+        "time": "14:00",
+        "supervisor": "510"
+    },
+    {
+        "id": "1",
+        "type": "Body shop",
+        "date": "2021/10/01",
+        "time": "13:00",
+        "supervisor": "20"
+    },
+    {
+        "id": "2",
+        "type": "Workshop",
+        "date": "2021/09/23",
+        "time": "11:00",
+        "supervisor": "10"
+    }
+]

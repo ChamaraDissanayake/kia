@@ -1,0 +1,18 @@
+// ion-content.background-image{
+//     --background: url(../../assets/kia-background.jpg) 0 0/100% 100% no-repeat;
+// }
+
+.showroomItem{
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    margin: 20px;
+    width: 70%;
+    text-align: center;
+}
+
+.btn-view{
+    --border-radius:6px;
+    --background: rgb(235, 0, 41);
+    text-transform: none;
+    margin: 10px;
+}

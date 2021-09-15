@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-image" fullscreen="true">
+  <!-- <div style="width: 100%; height: 3px; background: rgb(235, 0, 41);" slot="fixed"></div> -->
+
+  <div>
+    <div style="padding-left: 20px;">
+      <h4>{{profile.my_name}}</h4>
+      <h4>{{profile.my_tel_no}}</h4>
+      <h4>{{profile.my_email}}</h4>
+      <ion-button (click)="gotoEditProfile()" class="btn-edit">Edit</ion-button>
+    </div>
+    <div style="margin-top: 40px; border-top: 1px solid white;">
+      <div style="padding-left: 20px;">
+        <ion-item style="--background: transparent; margin-bottom: 20px;">
+          <h2 style="font-weight: bold; margin: unset;">Vehicles</h2>
+          <ion-button style="margin-left: 50%;" (click)="gotoAddVehicle('')" class="btn-edit">+ Add</ion-button>  
+        </ion-item>
+        <div *ngFor="let item of profile.my_vehicles">
+          <tr style="vertical-align: middle;">
+            <td style="width: 100px;">
+              <ion-label>{{item}}</ion-label>
+            </td>
+            <td>
+              <ion-button (click)="gotoAddVehicle(item)" class="btn-edit vehicle">Edit</ion-button>
+            </td>
+          </tr>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+</ion-content>
+<ion-footer no-border>
+  <img class="kia-main-footer" src="../../assets/kia-footer.png" alt="kia-footer">
+</ion-footer>
