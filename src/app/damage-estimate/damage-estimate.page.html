@@ -17,9 +17,9 @@
         <ion-label>{{item.description}}</ion-label>
       </td>
       <td class="col-4">
-        <ion-button class="btn-edit vehicle" (click)="gotoView()" *ngIf="item.status==4">View</ion-button>
-        <ion-button class="btn-edit vehicle" (click)="gotoRespond()" *ngIf="item.status==2">Respond</ion-button>
-        <ion-button class="btn-edit vehicle" (click)="gotoImageUpload()" *ngIf="item.status==1 || item.status==3">Pending</ion-button>
+        <ion-button class="btn-edit" (click)="gotoView(false)" *ngIf="item.status==4">View</ion-button>
+        <ion-button class="btn-edit" (click)="gotoRespond()" *ngIf="item.status==2">Respond</ion-button>
+        <ion-button class="btn-edit" (click)="gotoView(true)" *ngIf="item.status==1 || item.status==3">Pending</ion-button>
       </td>
     </tr>
   </div>

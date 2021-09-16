@@ -10,10 +10,65 @@
 </ion-header>
 
 <ion-content class="background-image" fullscreen="true">
-  <ion-label>Message</ion-label>
-  <ion-item>
-    <ion-textarea style="margin-left: 10%; margin-right: 10%;" auto-grow=true placeholder="Write a note"></ion-textarea>
-  </ion-item>
+  <form [formGroup]="collitionForm" (ngSubmit)="submitDetails()">
+    <div style="margin-top: 20px;">
+      <ion-label>Message</ion-label>
+      <ion-item style="border-radius: 24px; padding: 5px;">
+        <ion-textarea auto-grow=true placeholder="Write a note" formControlName="description"></ion-textarea>
+      </ion-item>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.description">
+          <div class="error-message"
+            *ngIf="collitionForm.get('description').hasError(validation.type) && (collitionForm.get('description').dirty || collitionForm.get('description').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div style="margin-top: 20px;">
+      <tr class="row" style="place-items: center">
+        <td class="col-4">
+          <ion-label>Upload image</ion-label>
+        </td>
+        <td class="col-8">
+          <ion-button class="btn-edit" (click)="getImages()">Choose image</ion-button>
+        </td>
+      </tr>
+      <ion-list *ngFor = "let image of images">
+        <ion-item>
+          <img src={{image}}/>
+        </ion-item>
+      </ion-list>
+      <!-- <tr>
+        <span *ngFor="let item of imgURLs">
+          <img class="thumbnail" [src]='item.src'>
+        </span>
+      </tr> -->
+    </div>
+  
+    <div style="margin-top: 20px;">
+      <tr class="row" style="place-items: center">
+        <td class="col-4">
+          <ion-label>Upload video</ion-label>
+        </td>
+        <td class="col-8">
+          <ion-button class="btn-edit">Choose image</ion-button>
+        </td>
+      </tr>
+      <!-- <tr>
+        <span *ngFor="let item of imgURLs">
+          <img class="thumbnail" [src]='item.src'>
+        </span>
+      </tr> -->
+    </div>
+    <div style="width: 100%; margin-top: 20px; text-align: center;">
+      <ion-button class="btnNavigate" type="Submit" [disabled]="!collitionForm.valid">Submit</ion-button>
+    </div>
+  </form>
+
+
+
+  
 </ion-content>
 <ion-footer no-border>
   <img class="kia-main-footer" src="../../assets/kia-footer.png" alt="kia-footer">

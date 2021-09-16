@@ -8,6 +8,9 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { Device } from '@ionic-native/device/ngx';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { File } from '@ionic-native/file/ngx';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +23,10 @@ import { Device } from '@ionic-native/device/ngx';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [Device,
+  providers: [
+    Device,
+    ImagePicker,
+    File,
     { 
       provide: RouteReuseStrategy, 
       useClass: IonicRouteStrategy

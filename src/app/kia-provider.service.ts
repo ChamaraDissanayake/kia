@@ -35,4 +35,5 @@ export class KiaProviderService {
   start_time: number = 0;
   end_time: number = 0;
   is_inquiry: boolean = false;
+  isDamageEstimatePending: boolean = true;
 }

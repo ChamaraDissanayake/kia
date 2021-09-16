@@ -10,6 +10,68 @@
 </ion-header>
 
 <ion-content class="background-image" fullscreen="true">
+  <div style="margin-top: 20px;">
+    <ion-label>Message list</ion-label>
+    <div style="margin: 5px;">
+      <div class="message-container" *ngFor="let msg of messages">
+        <tr class="row">
+          <td class="col-10">
+            <ion-textarea auto-grow=true read-only=true class="received" *ngIf="msg.isAdmin" value="{{msg.message}}"></ion-textarea>
+          </td>
+          <td class="col-2"></td>
+        </tr>
+        <tr class="row">
+          <td class="col-2"><td>
+          <td class="col-10">
+            <ion-textarea auto-grow=true read-only=true class="sent" *ngIf="!msg.isAdmin" value="{{msg.message}}"></ion-textarea>
+          </td>
+        </tr>
+      </div>
+    </div>
+
+  </div>
+    <div style="margin-top: 20px;">
+      <tr class="row" style="place-items: center">
+        <td class="col-6">
+          <ion-label>View images</ion-label>
+        </td>
+        <td class="col-6">
+          <ion-button class="btn-edit">View</ion-button>
+        </td>
+      </tr>
+      <!-- <tr>
+        <span *ngFor="let item of imgURLs">
+          <img class="thumbnail" [src]='item.src'>
+        </span>
+      </tr> -->
+    </div>
+  
+    <div style="margin-top: 20px;">
+      <tr class="row" style="place-items: center">
+        <td class="col-6">
+          <ion-label>View videos</ion-label>
+        </td>
+        <td class="col-6">
+          <ion-button class="btn-edit">View</ion-button>
+        </td>
+      </tr>
+      <!-- <tr>
+        <span *ngFor="let item of imgURLs">
+          <img class="thumbnail" [src]='item.src'>
+        </span>
+      </tr> -->
+    </div>
+
+    <div style="margin-top: 20px;" *ngIf="!kiaProviderService.isDamageEstimatePending">
+      <tr class="row" style="place-items: center">
+        <td class="col-6">
+          <ion-label>Download estimate</ion-label>
+        </td>
+        <td class="col-6">
+          <ion-button class="btn-edit">Download</ion-button>
+        </td>
+      </tr>
+    </div>
 
 </ion-content>
 <ion-footer no-border>

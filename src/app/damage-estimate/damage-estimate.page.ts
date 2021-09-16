@@ -15,7 +15,7 @@ export class DamageEstimatePage implements OnInit {
     // private platform: Platform,
 
     private router: Router,
-    // public kiaProviderService: KiaProviderService
+    public kiaProviderService: KiaProviderService
     ) { }
 
 // https://www.youtube.com/watch?v=2C66eWfZdmU
@@ -26,11 +26,8 @@ export class DamageEstimatePage implements OnInit {
     this.router.navigateByUrl('/damage-estimate-respond');
   }
 
-  gotoView(){
+  gotoView(isPending: boolean){
+    this.kiaProviderService.isDamageEstimatePending = isPending;
     this.router.navigateByUrl('/damage-estimate-view');
-  }
-
-  gotoImageUpload(){
-    this.router.navigateByUrl('/damage-image-upload');
   }
 }
