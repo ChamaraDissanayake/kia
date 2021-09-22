@@ -13,6 +13,7 @@ ion-label{
     width: 33%;
     padding-left: 5px;
     padding-top: 5px;
+    overflow: hidden;
 }
 
 .error-message {
@@ -43,4 +44,9 @@ ion-label{
 .message-container{
     width: 100%;
     background: rgba(0, 0, 0, 0.5);
+}
+
+.video-count{
+    padding-left: 20px;
+    font-size: small;
 }

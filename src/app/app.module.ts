@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { Device } from '@ionic-native/device/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
 import { File } from '@ionic-native/file/ngx';
 
 
@@ -26,6 +27,7 @@ import { File } from '@ionic-native/file/ngx';
   providers: [
     Device,
     ImagePicker,
+    Camera,
     File,
     { 
       provide: RouteReuseStrategy, 

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import { File } from '@ionic-native/file/ngx';
 import sliderAll from '../../assets/SliderAll.json';
@@ -16,12 +17,14 @@ import sliderAll from '../../assets/SliderAll.json';
 export class DamageImageUploadPage implements OnInit {
   imgURLs=sliderAll;
   public collitionForm : FormGroup;
-  images:any = [];
+  images:any[] = [];
+  videos:any[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private imagePicker: ImagePicker,
+    private camera: Camera,
     private file: File) {
     this.collitionForm = this.formBuilder.group({
       description:['', [Validators.required, Validators.pattern('[A-Za-z0-9 ]{9,}'), Validators.minLength(10)]],
@@ -35,6 +38,13 @@ validation_messages = {
 };
 
   ngOnInit() {
+    this.imagePicker.hasReadPermission().then((val)=>{
+      if(val == false){
+        this.imagePicker.requestReadPermission();
+      }
+    },(err)=>{
+      this.imagePicker.requestReadPermission();
+    })
   }
 
   submitDetails(){
@@ -43,18 +53,44 @@ validation_messages = {
 
   getImages(){
     var options:ImagePickerOptions={
-      maximumImagesCount:5,
+      maximumImagesCount:10,
+      outputType:1,
       width:100,
-      height:100
+      height:100,
+      allow_video:true
     }
     this.imagePicker.getPictures(options).then((results)=>{
       for(var i = 0; i<results.length; i++){
-        let filename = results[i].substring(results[i].lastIndexOf('/')+1);
-        let path = results[i].substring(0,results[i].lastIndexOf('/')+1);
-        this.file.readAsDataURL(path,filename).then((base64string)=>{
-          this.images.push(base64string);
-        })
+        // let filename = results[i].substring(results[i].lastIndexOf('/')+1);
+        // let path = results[i].substring(0,results[i].lastIndexOf('/')+1);
+        // console.log("filename: " + filename, " path: " + path);
+        // this.file.readAsDataURL(path,filename).then((base64string)=>{
+        //   this.images.push(base64string);
+        //   console.log("base64string: " + base64string);
+        // })
+        let base64OfImage = "data:image/png;base64,"+results[i];
+        this.images.push(base64OfImage);
       }
+    },(err)=>{
+      alert(JSON.stringify(err));
     })
+  }
+
+  getVideo(){
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      mediaType: this.camera.MediaType.VIDEO,
+      sourceType:0
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64 (DATA_URL):
+      let base64Video = 'data:video/mp4;base64,' + imageData;
+      this.videos.push(base64Video);
+     }, (err) => {
+      alert(JSON.stringify(err));
+     });
   }
 }
