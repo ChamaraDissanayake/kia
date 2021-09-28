@@ -10,13 +10,24 @@ declare var google;
   styleUrls: ['./find-us.page.scss'],
 })
 export class FindUsPage implements OnInit {
+  @ViewChild('container') container;
+  @ViewChild('topic') topic;
   @ViewChild('map') mapElement: ElementRef;
+
   map: any;
   showroom = showroomDetails;
-
+  myheight = '500px'
   constructor(private platform: Platform) { }
 
   ngOnInit() {
+    this.platform.ready().then(()=>{
+      setTimeout(() => {
+        let containerHeight= this.container.nativeElement.offsetHeight;
+        let topicHeight = this.topic.nativeElement.offsetHeight;
+        this.myheight = (containerHeight-topicHeight).toString()+'px';
+        console.log(containerHeight-topicHeight);
+      },2000)
+    })
   }
 
   // ngAfterViewInit(): void {
@@ -40,6 +51,8 @@ export class FindUsPage implements OnInit {
         map: this.map
       });
     // }, 10000);
+    
+      console.log(this.topic.nativeElement.offsetHeight);
     })
 
 

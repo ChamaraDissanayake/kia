@@ -11,9 +11,8 @@
 
 <ion-content class="background-image" fullscreen="true">
   <div style="margin-top: 20px;">
-    <ion-label>Message list</ion-label>
-    <div style="margin: 5px;">
-      <div class="message-container" *ngFor="let msg of messages">
+    <div style="margin: 10px;">
+      <div *ngFor="let msg of messages">
         <tr class="row">
           <td class="col-10">
             <ion-textarea auto-grow=true read-only=true class="received" *ngIf="msg.isAdmin" value="{{msg.message}}"></ion-textarea>
@@ -28,12 +27,12 @@
         </tr>
       </div>
     </div>
-
   </div>
+  <div class="message-container">
     <div style="margin-top: 20px;">
       <tr class="row" style="place-items: center">
         <td class="col-6">
-          <ion-label>View images</ion-label>
+          <ion-label class="topics">View images</ion-label>
         </td>
         <td class="col-6">
           <ion-button class="btn-edit">View</ion-button>
@@ -49,7 +48,7 @@
     <div style="margin-top: 20px;">
       <tr class="row" style="place-items: center">
         <td class="col-6">
-          <ion-label>View videos</ion-label>
+          <ion-label class="topics">View videos</ion-label>
         </td>
         <td class="col-6">
           <ion-button class="btn-edit">View</ion-button>
@@ -72,7 +71,7 @@
         </td>
       </tr>
     </div>
-
+  </div>
 </ion-content>
 <!-- <ion-footer no-border>
   <img class="kia-main-footer" src="../../assets/kia-footer.png" alt="kia-footer">

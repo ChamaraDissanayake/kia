@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -14,7 +15,8 @@ export class PhoneVerifyPage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    public kiaProviderService: KiaProviderService) { 
+    public kiaProviderService: KiaProviderService,
+    private http: HttpClient) { 
     this.signup = this.formBuilder.group({
       name:['', [Validators.required, Validators.pattern('[A-Za-z0-9 ]{2,}')]],
       // email: ['', Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')],
@@ -52,10 +54,33 @@ export class PhoneVerifyPage implements OnInit {
 
   submitDetails(){
     console.log(this.signup.value);
-    this.kiaProviderService.user_name = this.signup.get('name').value;
-    this.kiaProviderService.user_phone = this.signup.get('mobile').value;
-    this.kiaProviderService.user_email = this.signup.get('email').value;
-    this.kiaProviderService.vehicle_id = this.signup.get('vehicleNumber').value;
+    // this.kiaProviderService.user_name = this.signup.get('name').value;
+    // this.kiaProviderService.user_phone = this.signup.get('mobile').value;
+    // this.kiaProviderService.user_email = this.signup.get('email').value;
+    // this.kiaProviderService.vehicle_id = this.signup.get('vehicleNumber').value;
+
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "name":this.signup.get('name').value,
+			"email":this.signup.get('email').value,
+			"phone":this.signup.get('mobile').value,
+			"vehicle_no":this.signup.get('vehicleNumber').value,
+			"device_id":this.kiaProviderService.deviceId
+    },
+      
+    url: any = this.kiaProviderService.baseURL + 'addUsers';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      // console.log(`Congratulations data was successfully received`, data);
+      this.kiaProviderService.user_id = data.user_id
+      this.kiaProviderService.permissionLevel=data.register_status;
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+    });  
+
+    
     this.router.navigateByUrl("/otp");
   }
 }

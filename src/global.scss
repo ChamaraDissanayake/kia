@@ -41,13 +41,13 @@
 // }
 
 .swiper-pagination-bullet {
-    background: rgb(235, 0, 41) !important;
+    background: linear-gradient(to right,#ba8750 0%, #9e6432 100%) !important;
+    
 }
 
-.swiper-container-horizontal>.swiper-pagination-bullets {
-    top: 10px !important;
-    // visibility: hidden;
-}
+// .swiper-container-horizontal>.swiper-pagination-bullets {
+//     top: 10px !important;
+// }
 
 :root {
     --ion-color-kiared:  rgba(235, 0, 39, 0.959);
@@ -75,12 +75,12 @@
     position: relative;
     height: 48px;
     overflow: hidden;
-    background: rgb(231, 190, 218);
+    background: gray;
 }
 
 .alert-wrapper.sc-ion-alert-md {
-    background: #0f0f0f;
-    border: 1px solid rgb(235, 0, 41);
+    background: #1b1b1b;
+    border: 1px solid white;
     border-radius: 10px;
     color: white;
 }
@@ -96,42 +96,92 @@
 }
 
 [aria-checked=true].sc-ion-alert-md .alert-radio-icon.sc-ion-alert-md {
-    border-color: rgb(235, 0, 41);
+    border-color: white;
 }
 
 .alert-radio-inner.sc-ion-alert-md {
-    background-color: rgb(235, 0, 41);
+    background-color: white;
 }
 
 .alert-button-inner.sc-ion-alert-md {
-    color: rgb(235, 0, 41);
+    color: white;
 }
 
 .alert-radio-group.sc-ion-alert-md, .alert-checkbox-group.sc-ion-alert-md {
-    border-top: 1px solid var(--ion-color-step-150, rgb(235, 0, 41));
-    border-bottom: 1px solid var(--ion-color-step-150, rgb(235, 0, 41));
+    // border-top: 1px solid var(--ion-color-step-150, rgb(235, 0, 41));
+    // border-bottom: 1px solid var(--ion-color-step-150, rgb(235, 0, 41));
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
 }
 
 [aria-checked=true].sc-ion-alert-md .alert-radio-label.sc-ion-alert-md {
-    color: var(--ion-color-step-850, rgb(235, 0, 41));
+    // color: var(--ion-color-step-850, rgb(235, 0, 41));
+    color: white;
 }
 
-ion-button{
-    font-weight: bold;
-}
+
+
+// .alert-tappable.sc-ion-alert-md.bookedSlot {
+//     position: relative;
+//     height: 48px;
+//     overflow: hidden;
+//     background: rgb(216, 212, 212);
+// }
+
+// .alert-wrapper.sc-ion-alert-md {
+//     background: white;
+//     border: 1px solid #1b1b1b;
+//     border-radius: 10px;
+//     color: #1b1b1b;
+// }
+
+// .alert-radio-label.sc-ion-alert-md {
+//     color: #1b1b1b;
+// }
+
+// .alert-sub-title.sc-ion-alert-md {
+//     color: #1b1b1b;
+//     font-size: 14px;
+//     text-align: center;
+// }
+
+// [aria-checked=true].sc-ion-alert-md .alert-radio-icon.sc-ion-alert-md {
+//     border-color: #1b1b1b;
+// }
+
+// .alert-radio-inner.sc-ion-alert-md {
+//     background-color: #1b1b1b;
+// }
+
+// .alert-button-inner.sc-ion-alert-md {
+//     color: #1b1b1b;
+// }
+
+// .alert-radio-group.sc-ion-alert-md, .alert-checkbox-group.sc-ion-alert-md {
+//     // border-top: 1px solid var(--ion-color-step-150, rgb(235, 0, 41));
+//     // border-bottom: 1px solid var(--ion-color-step-150, rgb(235, 0, 41));
+//     border-top: 1px solid #1b1b1b;
+//     border-bottom: 1px solid #1b1b1b;
+// }
+
+// [aria-checked=true].sc-ion-alert-md .alert-radio-label.sc-ion-alert-md {
+//     // color: var(--ion-color-step-850, rgb(235, 0, 41));
+//     color: #1b1b1b;
+// }
+
+
 
 .btnNavigate{
-    --background: linear-gradient(to right,rgb(234,183,126) 0%, rgb(117, 91, 61) 100%);
+    --background: linear-gradient(to right,#ba8750 0%, #9e6432 100%);
     --border-radius: 10px;
     width: 142px;
     height: 54px;
-    font-weight: bold;
-    font-size: larger;
+    font-size: 18px;
     text-transform: none;
 }
 
 ion-content.background-image{
-    --background: url(./assets/kia-background.png) 0 0/100% 100% no-repeat;
+    --background: url(./assets/kia-background.jpg) 0 0/100% 100% no-repeat;
     --color: white;
     // --background: linear-gradient(rgba(234,183,126,1) 0%, rgba(234,183,126,0.75) 10%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,1) 100%);
 }
@@ -142,4 +192,28 @@ ion-content.background-image{
     font-size: 16px;
     text-align: center;
     letter-spacing: 2px;
+}
+
+.topics{
+    font-size: 18px;
+    margin: unset;
+}
+
+.content{
+    font-size: smaller;
+}
+
+.selector-wrapper{
+    min-width: 36%;
+    width: fit-content;
+    padding: 0px 10px;
+    background: white;
+    border-radius: 7px;
+    font-weight: bold;
+}
+
+.btn-edit{
+    --border-radius:6px;
+    text-transform: none;
+    --background:linear-gradient(to right,#1d1d1d 10%, #505050 45%, #505050 55%,  #1d1d1d 90%);
 }

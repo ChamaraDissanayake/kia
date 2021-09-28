@@ -2,14 +2,19 @@
 //     --background: url(../../assets/kia-background.jpg) 0 0/100% 100% no-repeat;
 // }
 
-.btn-edit{
-    --border-radius:6px;
-    --background:#3b1600;
-    text-transform: none;
-}
-
 .vehicle{
     height: 24px;
-    margin-left: 30%;
     font-size: small;
+}
+
+// .btn-edit{
+//     height: 58%;
+//     width: 42%;
+//     font-size: large;
+// }
+
+.btn-add{
+    height: 100%;
+    width: 50%;
+    font-size: large;
 }

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { Device } from '@ionic-native/device/ngx';
 import { KiaProviderService } from './kia-provider.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -18,11 +19,11 @@ export class AppComponent{
     // { title: 'Spam', url: '/folder/Spam', icon: 'warning' },
   ];
   // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  
   constructor(
     private router: Router,
     private platform: Platform,
     public kiaProviderService: KiaProviderService,
+    public http: HttpClient,
     private device: Device
     ) {
     this.platform.ready().then(()=>{
@@ -30,8 +31,10 @@ export class AppComponent{
       // setTimeout(() => {
       //   console.log("splash hide now")
       // }, 10000);
-      console.log('Device UUID is: ' + this.device.uuid);
-      kiaProviderService.deviceId = this.device.uuid;
+      let devideID = this.device.uuid;
+      this.sendDeviceID(devideID);
+      console.log('Device UUID is: ' + devideID);
+      kiaProviderService.deviceId = devideID;
     })
     
   }
@@ -104,5 +107,23 @@ export class AppComponent{
       this.kiaProviderService.booking_type = 6;
       this.router.navigateByUrl("/damage-estimate");
     }, 500);
+  }
+
+  sendDeviceID(deviceID:string) {
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "device_id":deviceID
+    },
+      
+    url: any = this.kiaProviderService.baseURL + 'appLoading';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      this.kiaProviderService.user_id = data.user_id
+      this.kiaProviderService.permissionLevel=data.register_status;
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+    });      
   }
 }

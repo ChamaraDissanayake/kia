@@ -10,11 +10,11 @@
 </ion-header>
 
 <ion-content class="background-image" fullscreen="true">
-  <form [formGroup]="collitionForm" (ngSubmit)="submitDetails()">
-    <div style="margin-top: 20px;">
-      <ion-label>Message</ion-label>
+  <form [formGroup]="collitionForm" (ngSubmit)="submitDetails()" style="margin: 20px;">
+    <div>
+      <ion-label class="topics">Message</ion-label>
       <ion-item style="border-radius: 24px; padding: 5px;">
-        <ion-textarea auto-grow=true placeholder="Write a note" formControlName="description"></ion-textarea>
+        <ion-textarea style="min-height: 86px;" auto-grow=true placeholder="Write a note" formControlName="description"></ion-textarea>
       </ion-item>
       <div class="validation-errors">
         <ng-container *ngFor="let validation of validation_messages.description">
@@ -27,12 +27,14 @@
     </div>
     <div style="margin-top: 20px;">
       <tr class="row" style="place-items: center">
-        <td class="col-6">
-          <ion-label>Upload image</ion-label>
+        <td class="col-1"></td>
+        <td class="col-5">
+          <ion-label class="topics">Upload image</ion-label>
         </td>
-        <td class="col-6">
+        <td class="col-5">
           <ion-button class="btn-edit" (click)="getImages()">Choose image</ion-button>
         </td>
+        <td class="col-1"></td>
       </tr>
 
       <tr style="background: rgba(0, 0, 0, 0.5);">
@@ -44,12 +46,14 @@
   
     <div style="margin-top: 20px;">
       <tr class="row" style="place-items: center">
-        <td class="col-6">
-          <ion-label>Upload video</ion-label>
+        <td class="col-1"></td>
+        <td class="col-5">
+          <ion-label class="topics">Upload video</ion-label>
         </td>
-        <td class="col-6">
+        <td class="col-5">
           <ion-button class="btn-edit" (click)="getVideo()">Choose video</ion-button>
         </td>
+        <td class="col-1"></td>
       </tr>
       <tr class="row" style="place-items: center" *ngIf="videos.length>0">
         <td class="col-6">

@@ -13,7 +13,7 @@
   <!-- <div style="width: 100%; height: 3px; background: rgb(235, 0, 41);" slot="fixed"></div> -->
 
   <div style="width: 100%; text-align: center; margin-top: 20px;">
-    <ion-label style="font-size: 18px; font-weight: bold;">Select Date</ion-label>
+    <ion-label class="topics">Select Date</ion-label>
   </div>
 
 
@@ -54,7 +54,7 @@
           [monthviewDisplayEventTemplate]="customtemplate">
         </calendar>
 
-        <ng-template #customtemplate let-view="view" let-row="row" let-col="col">
+        <!-- <ng-template #customtemplate let-view="view" let-row="row" let-col="col">
           <div [class.with-event]="view.dates[row*7+col].events.length">
             {{view.dates[row*7+col].label}}
             <div class="indicator-container" *ngIf="timeSlots.length>view.dates[row*7+col].events.length" (click)="clickOnEvent(false, view.dates[row*7+col].events.length)">
@@ -64,17 +64,17 @@
               <div class="event-indicator event-full" *ngFor="let e of view.dates[row*7+col].events"></div>
             </div>
           </div>
-        </ng-template>
+        </ng-template> -->
       </div>
     </div>
   </div>
 
   <div style="width: 100%; text-align: center; margin-top: 10px;">
-    <ion-label style="font-size: 20px; font-weight: bold;">Select time slot</ion-label>
+    <ion-label class="topics">Select time slot</ion-label>
   </div>
 
   <div style="text-align: -webkit-center;">
-    <ion-item style="width: fit-content; border-radius: 10px; min-width: 36%;">
+    <ion-item class="selector-wrapper">
       <ion-select okText="Confirm" cancelText="Dismiss" (ionChange)="selectTimeSlot($event)" placeholder="Time slot" *ngIf="firstView">
         <ion-select-option value="{{item.start}},{{item.end}}-{{item.status}}+{{item.slot}}" *ngFor="let item of bookedSlots" [ngClass]="{'bookedSlot': item.status == 'booked'}">{{item.start}}-{{item.end}}</ion-select-option>
       </ion-select>
@@ -83,11 +83,12 @@
       </ion-select>
     </ion-item>
   </div>
-  <div style="text-align: center; margin: 20px;" *ngIf="isSlotBooked || !isAvailableDay">
+  <!-- <div style="text-align: center; margin: 20px;" *ngIf="isSlotBooked || !isAvailableDay || isRecentDay"> -->
+  <div style="text-align: center; margin: 20px;" *ngIf="isSlotBooked || !isAvailableDay || isRecentDay">
     <ion-checkbox #inquiry color="danger" size="larger" checked="true" (ionChange)="checkBoxChanged($event.detail.checked)"></ion-checkbox>
     <span>
       <ion-label label-for="inquiry"
-        style="font-size: larger; font-weight: bold; padding-left: 10px; vertical-align: bottom;">
+        style="font-size: 16px; padding-left: 10px; vertical-align: bottom;">
         Make an inquiry
       </ion-label>
     </span>
@@ -95,11 +96,11 @@
 
   <div *ngIf="kiaProviderService.booking_type!=1">
     <div style="width: 100%; text-align: center; margin-top: 10px;">
-      <ion-label style="font-size: 20px; font-weight: bold;">Select vehicle</ion-label>
+      <ion-label class="topics">Select vehicle</ion-label>
     </div>
   
     <div style="text-align: -webkit-center; margin-bottom: 20px;">
-      <ion-item style="width: fit-content; border-radius: 10px; min-width: 36%;">
+      <ion-item class="selector-wrapper">
         <ion-select okText="Confirm" cancelText="Dismiss" (ionChange)="selectVehicle($event.target.value)" placeholder="Vehicle">
           <ion-select-option value="{{item}}" *ngFor="let item of profile" [ngClass]="{'bookedSlot': item.status == 'booked'}">{{item}}</ion-select-option>
         </ion-select>
@@ -109,7 +110,7 @@
 
   <div style="margin: 20px;" *ngIf="!isSlotBooked"></div>
 
-  <div style="text-align: -webkit-center;">
+  <div style="text-align: -webkit-center; margin-bottom: 20px;">
     <div style="width: 100%;">
       <ion-button class="btnNavigate" style="margin-right: 40px;" (click)="gotoNextPage()" [disabled]='isDisabled'>Confirm</ion-button>
       <ion-button *ngIf="kiaProviderService.booking_type==1" class="btnNavigate" [routerLink]="['/showroom']">Back</ion-button>

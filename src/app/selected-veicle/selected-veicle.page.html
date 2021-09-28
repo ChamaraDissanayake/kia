@@ -27,7 +27,7 @@
   </ion-fab>
 
   <div style="padding: unset;">
-    <ion-card *ngFor="let item of feed" style="margin: unset; font-family: kia;" (click)="playVideo(item.id)">
+    <ion-card *ngFor="let item of feed" style="margin: unset;" (click)="playVideo(item.id)">
       <ion-card-content style="padding: unset;">
         <video #player playinline preload="auto" poster="../../assets/kia-video-thumbnail.jpeg">
           <source [src]="item.src" type="video/mp4" [id]="item.id">
@@ -50,17 +50,16 @@
     <img src="../../assets/kia-360VR.png" alt="360 IMAGE">
   </div> -->
   <div style="background: white;">
-    <div style="text-align: center; padding-top: 10px;">
+    <div class="text-360">
       360VR
     </div>
-    <div class="row vrContainer">
-      <div class="col-2" style="padding-left: 20px; padding-right: 0px; padding-top: 20px;">
+    <div class="vrContainer">
+      <!-- <div class="col-2" style="padding-left: 20px; padding-right: 0px; padding-top: 20px;">
         <span (click)="slideNext()">
-          <!-- <ion-icon name="arrow-back" style="color: red;"></ion-icon> -->
           <img src="../../assets/kia-left-rotate-vr.png">
         </span>
-      </div>
-      <div class="col-8" *ngIf="changeSlider">
+      </div> -->
+      <div *ngIf="changeSlider">
         <ion-slides #slides slidesPerView="1" [options]="slideOpts">
           <!-- <ion-slides #slides slidesPerView="1" [options]="slideOpts" class="swiper-no-swiping"> -->
           <ion-slide *ngFor="let img of vrImages">
@@ -68,26 +67,20 @@
           </ion-slide>
         </ion-slides>
       </div>
-      <div class="col-8" *ngIf="!changeSlider">
+      <div *ngIf="!changeSlider">
         <ion-slides #slides slidesPerView="1" [options]="slideOpts">
           <!-- <ion-slides #slides slidesPerView="1" [options]="slideOpts" class="swiper-no-swiping"> -->
           <ion-slide *ngFor="let img of vrImages">
             <img [src]="img.src" alt="test">
           </ion-slide>
         </ion-slides>
-      </div>
-      <div class="col-2" style="padding-left: 0px; padding-right: 20px; padding-top: 20px;">
-        <span (click)="slidePrev()">
-          <!-- <ion-icon name="arrow-forward" style="color: red;"></ion-icon> -->
-          <img src="../../assets/kia-right-rotate-vr.png">
-        </span>
       </div>
     </div>
-    <div></div>
+    <div style="text-align: center;">
+      <img src="../../assets/kia-360-rotate-text.png" alt="Drag to rotate">
+    </div>
     <div style="text-align: center; padding-bottom: 10px;">
-      <!-- <img src="https://www.kia.lk/wp-content/themes/kiamotors/assets/dist/images/vr_colorMask.png" class="mask hvr-icon" alt="Clear White" title="Clear White">
-      <img src="https://www.kia.lk/wp-content/themes/kiamotors/assets/dist/images/vr_colorMask.png" class="mask hvr-icon" alt="Silky Silver" title="Silky Silver">
-      <img src="https://www.kia.lk/wp-content/themes/kiamotors/assets/dist/images/vr_colorMask.png" class="mask hvr-icon" alt="Uraban Green" title="Uraban Green"> -->
+
       <div>
         <ion-label>{{vehicleColor}}</ion-label>
       </div>
@@ -97,7 +90,7 @@
     </div>
   </div>
 
-  <div style="padding-bottom: 100px; background: #0f0f0f;">
+  <div style="background: #0f0f0f;">
     <tr>
       <td>
         <div>
@@ -113,7 +106,7 @@
       </td>
     </tr>
 
-    <ion-button class="btn-brochure" style="text-transform: none; margin-top:15px">Download Brochure</ion-button>
+    <ion-button class="btn-brochure" style="text-transform: none; margin-top:15px">Download brochure</ion-button>
 
     <!-- <div style="background: white;">
       <div style="text-align: center;">

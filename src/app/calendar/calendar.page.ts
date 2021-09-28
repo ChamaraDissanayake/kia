@@ -1,14 +1,11 @@
-import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-// import { ModalController, Platform } from '@ionic/angular';
 import { CalendarComponent } from 'ionic2-calendar'
-// import { from } from 'rxjs';
 import { KiaProviderService } from '../kia-provider.service';
-import CalendarEvents from '../../assets/calendarEvents.json'
-import { DatePipe } from '@angular/common';
+// import CalendarEvents from '../../assets/calendarEvents.json'
 import myProfile from '../../assets/myProfile.json'
-
-// import { CalModalPage } from '../pages/cal-modal/cal-modal.page';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Platform } from '@ionic/angular';
 
 
 @Component({
@@ -22,12 +19,11 @@ export class CalendarPage implements OnInit {
   eventSource = [];
   viewTitle: string;
   selectedDay: any;
-  // dateDifference: number;
-  // selectedSlot: any = 510;
   isSlotBooked: boolean = false;
   eventCount = 0;
-  calendarEvents = CalendarEvents[0];
-  timeSlots =  CalendarEvents[1];
+  // calendarEvents = CalendarEvents;
+  calendarEvents;
+  timeSlots
   isDisabled = true;
   bookedSlots;
   firstView: boolean = true;
@@ -53,14 +49,17 @@ export class CalendarPage implements OnInit {
 
   constructor(
     public kiaProviderService: KiaProviderService,
-    // private modalCtrl: ModalController,
-    // private platform: Platform,
-    // private zone: NgZone,
+    private http: HttpClient,
+    private platform: Platform,
     private router: Router) { }
 
   ngOnInit() {
+    console.log("calendar", this.kiaProviderService.showroom_id, this.kiaProviderService.booking_type)
+    this.platform.ready().then(()=>{
+      this.fillCalendar();
+    })
+  
     this.selectedDay = new Date();
-    this.bookedSlots = this.timeSlots;
 
     if(this.kiaProviderService.booking_type==1){
       this.vehicleSelected = true;
@@ -69,8 +68,35 @@ export class CalendarPage implements OnInit {
     }
   }
 
+  fillCalendar() {
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "shop_id":this.kiaProviderService.showroom_id,
+			"booking_type":this.kiaProviderService.booking_type
+    },
+    url: any = this.kiaProviderService.baseURL + 'bookingSettings';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log(`Congratulations calendar data was `, data);
+      this.calendarEvents = data;
+      let checked:boolean = true;
+      this.calendarEvents.forEach(calEvents =>{
+        if(checked){
+          checked=false;
+          this.timeSlots=calEvents.slots;
+        }
+      })
+      this.bookedSlots = this.timeSlots;
+      this.LoadEvents();
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+    }); 
+  }
+
   ionViewDidEnter(){
-    this.LoadEvents();
+    this.fillCalendar();
   }
 
   next() {
@@ -121,7 +147,6 @@ export class CalendarPage implements OnInit {
   }
 
   gotoNextPage() {
-    // this.addEvent();
     if(this.isSlotBooked || !this.isAvailableDay){
       this.kiaProviderService.is_inquiry = true;
     }else{
@@ -138,175 +163,91 @@ export class CalendarPage implements OnInit {
     }
   }
 
-  // createRandomEvents() {
-  //   var events = [];
-  //   for (var i = 0; i < 10; i += 1) {
-  //     var date = new Date();
-  //     var eventType = Math.floor(Math.random() * 2);
-  //     var startDay = Math.floor(Math.random() * 90) - 45;
-  //     var endDay = Math.floor(Math.random() * 2) + startDay;
-  //     var startTime;
-  //     var endTime;
-  //     if (eventType === 0) {
-  //       startTime = new Date(
-  //         Date.UTC(
-  //           date.getUTCFullYear(),
-  //           date.getUTCMonth(),
-  //           date.getUTCDate() + startDay
-  //         )
-  //       );
-  //       if (endDay === startDay) {
-  //         endDay += 1;
-  //       }
-  //       endTime = new Date(
-  //         Date.UTC(
-  //           date.getUTCFullYear(),
-  //           date.getUTCMonth(),
-  //           date.getUTCDate() + endDay
-  //         )
-  //       );
-  //       events.push({
-  //         title: 'All Day - ' + i,
-  //         startTime: startTime,
-  //         endTime: endTime,
-  //         allDay: true,
-  //       });
-  //     } else {
-  //       var startMinute = Math.floor(Math.random() * 24 * 60);
-  //       var endMinute = Math.floor(Math.random() * 180) + startMinute;
-  //       startTime = new Date(
-  //         date.getFullYear(),
-  //         date.getMonth(),
-  //         date.getDate() + startDay,
-  //         0,
-  //         date.getMinutes() + startMinute
-  //       );
-  //       endTime = new Date(
-  //         date.getFullYear(),
-  //         date.getMonth(),
-  //         date.getDate() + endDay,
-  //         0,
-  //         date.getMinutes() + endMinute
-  //       );
-  //       events.push({
-  //         title: 'Event - ' + i,
-  //         startTime: startTime,
-  //         endTime: endTime,
-  //         allDay: false,
-  //       });
-  //     }
-  //   }
-  //   this.eventSource = events;
-  //   console.log(events);
-  // }
-
-
-  // addEvent() {
-  //   var events = [];
-  //   var startTime;
-  //   var endTime;
-
-  //   startTime = new Date(
-  //     this.selectedDay.getFullYear(),
-  //     this.selectedDay.getMonth(),
-  //     this.selectedDay.getDate(),
-  //     0,
-  //     this.selectedDay.getMinutes()+this.stt
-  //   );
-  //   endTime = new Date(
-  //     this.selectedDay.getFullYear(),
-  //     this.selectedDay.getMonth(),
-  //     this.selectedDay.getDate(),
-  //     0,
-  //     this.selectedDay.getMinutes()+this.ett
-  //   );
-  //   events.push({
-  //     title: 'Book',
-  //     startTime: startTime,
-  //     endTime: endTime,
-  //     allDay: false,
-  //   });
-
-  //   this.eventSource = events
-  // }
-
   onCurrentDateChanged(event){
-    console.log('onCurrentDateChanged',event);
+    this.isSlotBooked=false;
+    this.isAvailableDay=true;
     this.firstView = !this.firstView;
     this.stt = 0;
     this.ett = 0;
     
     this.selectedDay = new Date(Date.UTC(event.getFullYear(), event.getMonth(), event.getDate(),0,0,0,0));
 
-    var current = new Date(Date.UTC(new Date().getFullYear(),new Date().getMonth(), new Date().getDate(),0,0,0,0));
+    // var current = new Date(Date.UTC(new Date().getFullYear(),new Date().getMonth(), new Date().getDate(),0,0,0,0));
 
-    if(((this.selectedDay.valueOf()-current.valueOf())/86400000)<4){
-      this.isAvailableDay = false;
-    } else {
-      this.isAvailableDay = true;
-    }
+    // if(((this.selectedDay.valueOf()-current.valueOf())/86400000)<4){
+    //   this.isRecentDay = true;
+    // } else {
+    //   this.isRecentDay = false;
+    // }
 
     this.calendarEvents.forEach(calEvents =>{
-      this.bookedSlots[calEvents.slot-1]["status"]="";
+      calEvents.slots.forEach(slotList => {
+        slotList.status='';
+      });
     })
 
-    if(this.eventCount>0){
-      this.calendarEvents.forEach(calEvents =>{
-        if(calEvents.year==event.getFullYear() && calEvents.month==event.getMonth() && calEvents.day==event.getDate()){
-          this.bookedSlots[calEvents.slot-1]["status"]="booked";
+    this.calendarEvents.forEach(calEvents =>{
+      if(calEvents.year==event.getFullYear() && calEvents.month==event.getMonth() && calEvents.day==event.getDate()){
+        if(!calEvents.isAvailable){
+          this.isAvailableDay=false;
+        }else{
+          this.isAvailableDay=true;
         }
-      })
-    }
+        calEvents.slots.forEach(slotList => {
+          if(!slotList.isSlotAvailable){
+            slotList.status='booked';
+          }else{
+            slotList.status='';
+          }
+        });
+        this.bookedSlots = calEvents.slots;
+      }
+    })
+
+    // if(this.eventCount>0){
+    //   this.calendarEvents.forEach(calEvents =>{
+    //     if(calEvents.year==event.getFullYear() && calEvents.month==event.getMonth() && calEvents.day==event.getDate()){
+    //       this.bookedSlots[calEvents.slot-1]["status"]="booked";
+    //     }
+    //   })
+    // }
     this.checkValidity();
+    console.log(this.isSlotBooked, !this.isAvailableDay)
   }
 
-  onEventSelected(event){
-    console.log(event);
-  }
+  // onEventSelected(event){
+  //   console.log(event);
+  // }
   LoadEvents(){
     // console.log(this.calendarEvents.length, this.calendarEvents)
     var events = [];
     var startTime;
     var endTime;
     this.calendarEvents.forEach(calEvents =>{
-      // var startMinute = 510;
-      // switch (calEvents.slot){
-      //   case "1":
-      //     startMinute = 510;
-      //     break;
-  
-      //   case"2":
-      //     startMinute = 660;
-      //     break;
-  
-      //   case"3":
-      //     startMinute = 840;
-      //     break;
-  
-      //   default:
-      //     startMinute = 510;
-      // }
 
-      startTime = new Date(Date.UTC(
-        calEvents.year,
-        calEvents.month,
-        calEvents.day,
-        0,
-        calEvents.start));
+      if(!calEvents.isAvailable){
+        startTime = new Date(Date.UTC(
+          calEvents.year,
+          calEvents.month,
+          calEvents.day,
+          0,
+          510));
+  
+        endTime = new Date(Date.UTC(
+          calEvents.year,
+          calEvents.month,
+          calEvents.day,
+          0,
+          840));
+  
+        events.push({
+          title: 'Booked',
+          startTime: startTime,
+          endTime: endTime,
+          allDay: false,
+        });
+      }
 
-      endTime = new Date(Date.UTC(
-        calEvents.year,
-        calEvents.month,
-        calEvents.day,
-        0,
-        calEvents.end));
-
-      events.push({
-        title: 'Booked',
-        startTime: startTime,
-        endTime: endTime,
-        allDay: false,
-      });
     })
     this.eventSource = events
   }
@@ -317,10 +258,10 @@ export class CalendarPage implements OnInit {
   //   }
   //   return '';
   // }
-  clickOnEvent(isFull, numberOfEvents){
-    this.isSlotBooked = isFull;
-    this.eventCount= numberOfEvents;
-  }
+  // clickOnEvent(isFull, numberOfEvents){
+  //   this.isSlotBooked = isFull;
+  //   this.eventCount= numberOfEvents;
+  // }
 
   // refresh() {
   //   this.zone.run(() => {

@@ -14,7 +14,7 @@
 
   <div *ngFor="let item of showroom" class="showroomItem text-white">
     <ion-label>{{item.shop_name}}</ion-label><br>
-    <ion-label>{{item.shop_address}}</ion-label><br>
+    <ion-label style="white-space: pre-line;">{{item.shop_address}}</ion-label><br>
     <ion-label>{{item.tel_no}}</ion-label><br>
     <ion-button (click)="gotoLocationView()" class="btn-view">View</ion-button>
   </div>

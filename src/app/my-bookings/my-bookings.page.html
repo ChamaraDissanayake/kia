@@ -14,10 +14,10 @@
   <h1 style="text-align: center;">My bookings</h1>
 
   <div *ngFor="let item of allBookings" class="booking-container">
-    <ion-label>{{item.type}},</ion-label>
-    <ion-label> {{item.date}},</ion-label>
-    <ion-label> {{item.time}},</ion-label>
-    <ion-label> {{item.supervisor}}</ion-label>
+    <ion-label class="topics">{{item.type}},</ion-label>
+    <ion-label class="topics"> {{item.date}},</ion-label>
+    <ion-label class="topics"> {{item.time}},</ion-label>
+    <ion-label class="topics"> {{item.supervisor}}</ion-label>
   </div>
   
 </ion-content>

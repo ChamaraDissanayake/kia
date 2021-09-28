@@ -31,9 +31,9 @@ export class ServicesPage implements OnInit, OnDestroy, ViewDidEnter {
   }
 
   ngOnDestroy(){
-    this.kiaProviderService.areaOneExpanded = false;
-    this.kiaProviderService.areaTwoExpanded = false;
-    this.kiaProviderService.areaThreeExpanded = false;
-    this.kiaProviderService.areaFourExpanded = false;
+    // this.kiaProviderService.areaOneExpanded = false;
+    // this.kiaProviderService.areaTwoExpanded = false;
+    // this.kiaProviderService.areaThreeExpanded = false;
+    // this.kiaProviderService.areaFourExpanded = false;
   }
 }

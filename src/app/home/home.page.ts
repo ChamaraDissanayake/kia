@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import sliderAll from '../../assets/SliderAll.json';
 import sliderSUV from '../../assets/SliderSUV.json';
 import sliderCar from '../../assets/SliderCar.json';
 import sliderCommercial from '../../assets/SliderCommercial.json';
 import { KiaProviderService } from '../kia-provider.service';
-import { MenuController } from '@ionic/angular';
+import { MenuController, Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -15,20 +15,32 @@ import { MenuController } from '@ionic/angular';
 export class HomePage implements OnInit {
   btnEnabled = false;
   sliderChange: boolean = false;
+  activeSlider: string = '';
+  videoPaused = true;
+
+  @ViewChild('player')videoPlayer;
+  @ViewChild('playImage')videoPlayButton;
+
   constructor(
     private router: Router,
     public kiaProviderService: KiaProviderService,
-    private menu: MenuController) { }
+    private menu: MenuController,
+    private platform: Platform) { }
 
   ngOnInit() {
   }
   
   ionViewDidEnter(){
+    this.platform.ready().then(()=>{
+      this.playVideo();
+    })
     this.menu.swipeGesture(true);
     this.resetValues();
   }
 
   ionViewWillLeave(){
+    this.videoPlayer.nativeElement.pause();
+    this.videoPaused=true;
     this.menu.swipeGesture(false);
   }
   kiaSlider = sliderAll;
@@ -48,31 +60,31 @@ export class HomePage implements OnInit {
     this.router.navigateByUrl("/selected-veicle");
   }
 
-  clicked(num: any) {
-    console.log("Clicked: " + num);
-  }
+  // clicked(num: any) {
+  //   console.log("Clicked: " + num);
+  // }
 
-  gotoServices(num: string) {
-    switch (num) {
-      case "0":
-        this.kiaProviderService.areaOneExpanded = true;
-        break;
-      case "1":
-        this.kiaProviderService.areaTwoExpanded = true;
-        break;
-      case "2":
-        this.kiaProviderService.areaThreeExpanded = true;
-        break;
-      case "3":
-        this.kiaProviderService.areaFourExpanded = true;
-        break;
+  // gotoServices(num: string) {
+  //   switch (num) {
+  //     case "0":
+  //       this.kiaProviderService.areaOneExpanded = true;
+  //       break;
+  //     case "1":
+  //       this.kiaProviderService.areaTwoExpanded = true;
+  //       break;
+  //     case "2":
+  //       this.kiaProviderService.areaThreeExpanded = true;
+  //       break;
+  //     case "3":
+  //       this.kiaProviderService.areaFourExpanded = true;
+  //       break;
 
-      default:
-        this.kiaProviderService.areaOneExpanded = true;
-        break;
-    }
-    this.router.navigateByUrl("/services");
-  }
+  //     default:
+  //       this.kiaProviderService.areaOneExpanded = true;
+  //       break;
+  //   }
+  //   this.router.navigateByUrl("/services");
+  // }
 
   gotoRegisterdServices(num: number){
     this.kiaProviderService.booking_type = num;
@@ -84,23 +96,37 @@ export class HomePage implements OnInit {
     this.router.navigateByUrl("/showroom");  
   }
 
-  changeSlider(event) {
+  changeSlider(option: string) {
     this.sliderChange = !this.sliderChange;
-    switch (event.target.value) {
+    switch (option) {
       case "option1":
         this.kiaSlider = sliderSUV;
+        this.activeSlider = 'suv';
         break;
 
       case "option2":
-        this.kiaSlider = sliderCar;;
+        this.kiaSlider = sliderCar;
+        this.activeSlider = 'car';
         break;
 
       case "option3":
-        this.kiaSlider = sliderCommercial;;
+        this.kiaSlider = sliderCommercial;
+        this.activeSlider = 'lorry';
         break;
 
       default:
-        this.kiaSlider = sliderAll;;
+        this.kiaSlider = sliderAll;
+        this.activeSlider = 'car';
+    }
+  }
+
+  playVideo(){
+    if(this.videoPaused){
+      this.videoPlayer.nativeElement.play();
+      this.videoPaused=!this.videoPaused;
+    }else{
+      this.videoPlayer.nativeElement.pause();
+      this.videoPaused=!this.videoPaused;
     }
   }
 

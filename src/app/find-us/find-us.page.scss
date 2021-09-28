@@ -1,13 +1,10 @@
 #map {
     width: 100%;
-    height: 85%;
+    // min-height: 544.31px; //height set programatically
 }
 
-// ion-content.background-image{
-//     --background: url(../../assets/kia-background.jpg) 0 0/100% 100% no-repeat;
-// }
-
-.showroomItem{
-    margin: 20px;
-    width: 85%;
+.fix-button{
+    position: fixed;
+    bottom: 20px;
+    width: 100%;
 }

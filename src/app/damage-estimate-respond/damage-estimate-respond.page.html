@@ -10,81 +10,88 @@
 </ion-header>
 
 <ion-content class="background-image" fullscreen="true">
-  <div style="margin-top: 20px;">
-    <ion-label>Message list</ion-label>
-    <div style="margin: 5px;">
-      <div class="message-container" *ngFor="let msg of messages">
-        <tr class="row">
-          <td class="col-10">
-            <ion-textarea auto-grow=true read-only=true class="received" *ngIf="msg.isAdmin" value="{{msg.message}}"></ion-textarea>
-          </td>
-          <td class="col-2"></td>
-        </tr>
-        <tr class="row">
-          <td class="col-2"><td>
-          <td class="col-10">
-            <ion-textarea auto-grow=true read-only=true class="sent" *ngIf="!msg.isAdmin" value="{{msg.message}}"></ion-textarea>
-          </td>
-        </tr>
+    <div style="margin: 20px 10px;">
+      <div style="margin: 5px;">
+        <div *ngFor="let msg of messages">
+          <tr class="row">
+            <td class="col-10">
+              <ion-textarea auto-grow=true read-only=true class="received" *ngIf="msg.isAdmin" value="{{msg.message}}">
+              </ion-textarea>
+            </td>
+            <td class="col-2"></td>
+          </tr>
+          <tr class="row">
+            <td class="col-2">
+            <td>
+            <td class="col-10">
+              <ion-textarea auto-grow=true read-only=true class="sent" *ngIf="!msg.isAdmin" value="{{msg.message}}">
+              </ion-textarea>
+            </td>
+          </tr>
+        </div>
       </div>
+
     </div>
 
-  </div>
-  <form [formGroup]="collitionForm" (ngSubmit)="submitDetails()">
-    <div style="margin-top: 20px;">
-      <ion-label>Message</ion-label>
-      <ion-item style="border-radius: 24px; padding: 5px;">
-        <ion-textarea auto-grow=true placeholder="Write a note" formControlName="description"></ion-textarea>
-      </ion-item>
-      <div class="validation-errors">
-        <ng-container *ngFor="let validation of validation_messages.description">
-          <div class="error-message"
-            *ngIf="collitionForm.get('description').hasError(validation.type) && (collitionForm.get('description').dirty || collitionForm.get('description').touched)">
-            {{ validation.message }}
-          </div>
-        </ng-container>
+    <form class="message-container" [formGroup]="collitionForm" (ngSubmit)="submitDetails()">
+      <div style="margin-top: 20px;">
+        <ion-label class="topics">Message</ion-label>
+        <ion-item style="border-radius: 24px; padding: 5px;">
+          <ion-textarea style="min-height: 86px;" auto-grow=true placeholder="Write a note" formControlName="description"></ion-textarea>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.description">
+            <div class="error-message"
+              *ngIf="collitionForm.get('description').hasError(validation.type) && (collitionForm.get('description').dirty || collitionForm.get('description').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
       </div>
-    </div>
-    <div style="margin-top: 20px;">
-      <tr class="row" style="place-items: center">
-        <td class="col-6">
-          <ion-label>Upload image</ion-label>
-        </td>
-        <td class="col-6">
-          <ion-button class="btn-edit" (click)="getImages()">Choose image</ion-button>
-        </td>
-      </tr>
+      <div style="margin-top: 20px;">
+        <tr class="row" style="place-items: center">
+          <td class="col-1"></td>
+          <td class="col-5">
+            <ion-label class="topics">Upload image</ion-label>
+          </td>
+          <td class="col-5">
+            <ion-button class="btn-edit" (click)="getImages()">Choose image</ion-button>
+          </td>
+          <td class="col-1"></td>
+        </tr>
 
-      <tr style="background: rgba(0, 0, 0, 0.5);">
-        <span *ngFor="let image of images">
-          <img class="thumbnail" [src]='image'>
-        </span>
-      </tr>
-    </div>
-  
-    <div style="margin-top: 20px;">
-      <tr class="row" style="place-items: center">
-        <td class="col-6">
-          <ion-label>Upload video</ion-label>
-        </td>
-        <td class="col-6">
-          <ion-button class="btn-edit" (click)="getVideo()">Choose video</ion-button>
-        </td>
-      </tr>
-      <tr class="row" style="place-items: center" *ngIf="videos.length>0">
-        <td class="col-6">
-        </td>
-        <td class="col-6">
-          <span class="image-count">
-            {{videos.length}} video(s) added
+        <tr style="background: rgba(0, 0, 0, 0.5);">
+          <span *ngFor="let image of images">
+            <img class="thumbnail" [src]='image'>
           </span>
-        </td>
-      </tr>
-    </div>
-    <div style="width: 100%; margin-top: 20px; text-align: center;">
-      <ion-button class="btnNavigate" type="Submit" [disabled]="!collitionForm.valid">Submit</ion-button>
-    </div>
-  </form>
+        </tr>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <tr class="row" style="place-items: center">
+          <td class="col-1"></td>
+          <td class="col-5">
+            <ion-label class="topics">Upload video</ion-label>
+          </td>
+          <td class="col-5">
+            <ion-button class="btn-edit" (click)="getVideo()">Choose video</ion-button>
+          </td>
+          <td class="col-1"></td>
+        </tr>
+        <tr class="row" style="place-items: center" *ngIf="videos.length>0">
+          <td class="col-6">
+          </td>
+          <td class="col-6">
+            <span class="image-count">
+              {{videos.length}} video(s) added
+            </span>
+          </td>
+        </tr>
+      </div>
+      <div style="width: 100%; margin-top: 20px; text-align: center;">
+        <ion-button class="btnNavigate" type="Submit" [disabled]="!collitionForm.valid">Submit</ion-button>
+      </div>
+    </form>
 </ion-content>
 <!-- <ion-footer no-border>
   <img class="kia-main-footer" src="../../assets/kia-footer.png" alt="kia-footer">

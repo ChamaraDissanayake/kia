@@ -12,15 +12,18 @@
 <ion-content class="background-image vertical-center" style="text-align: -webkit-center;" fullscreen="true">
   <!-- <div style="width: 100%; height: 3px; background: rgb(235, 0, 41);" slot="fixed"></div> -->
 
-  <div style="height: 100%;">
-    <div style="height: 15%; text-align: -webkit-center;">
-      <div class="showroomItem text-white">
-        <ion-label>{{showroom.shop_name}}</ion-label><br>
-        <ion-label>{{showroom.shop_address}}</ion-label><br>
-        <ion-label>{{showroom.tel_no}}</ion-label>
-      </div>
+  <div #container style="height: 100%;">
+    <!-- <div style="text-align: -webkit-center;"> -->
+    <div #topic class="text-white" style="text-align: -webkit-center;">
+      <ion-label>{{showroom.shop_name}}</ion-label><br>
+      <ion-label style="white-space: pre-line;">{{showroom.shop_address}}</ion-label><br>
+      <ion-label>{{showroom.tel_no}}</ion-label>
     </div>
-    <div #map id="map"></div>
+    <!-- </div> -->
+    <div #map id="map" [style.height]='myheight'></div>
+    <div class="fix-button">
+      <ion-button class="btnNavigate">Navigate</ion-button>
+    </div>
   </div>
 </ion-content>
 <!-- 

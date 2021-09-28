@@ -12,9 +12,9 @@
 <ion-content class="background-image vertical-center" fullscreen="true">
   <!-- <div style="width: 100%; height: 3px; background: rgb(235, 0, 41);" slot="fixed"></div> -->
 
-  <div style="text-align: -webkit-center; margin-top: 50px; margin-bottom: 20px;">
+  <div style="text-align: -webkit-center; margin-top: 15%; margin-bottom: 20px;">
     <label class="topics" style="margin-bottom: 10px;">Select service center</label>
-    <ion-item class="selector-wrapper" style="width: fit-content;">
+    <ion-item class="selector-wrapper">
       <ion-select placeholder="Service center" okText="Confirm" cancelText="Dismiss"
         (ionChange)="selectShowroom($event)">
         <ion-select-option *ngFor="let item of serviceCenters" value="{{item.shop_id}}">{{item.shop_name}}
@@ -25,19 +25,19 @@
 
     <div style="min-height: 40%;" *ngIf="showroomId!=''">
       <div style="text-align:center">
-        <label class="topics">Service center Name</label><br>
-        <label>{{showroomName}}</label>
+        <label class="topics">Service center name</label><br>
+        <label class="content">{{showroomName}}</label>
       </div>
       <div style="text-align:center; margin-top:10px;">
-        <label class="topics">Service center Address</label><br>
-        <label>{{showroomAddress}}</label>
+        <label class="topics">Service center address</label><br>
+        <label class="content" style="white-space: pre-line;">{{showroomAddress}}</label>
       </div>
-      <div style="text-align:center;  margin-top:10px;">
-        <label class="topics">Opening Hours</label><br>
-        <label>{{showRoomOpenHours}}</label>
+      <div style="text-align:center; margin-top:10px;">
+        <label class="topics">Opening hours</label><br>
+        <label class="content">{{showRoomOpenHours}}</label>
       </div>
-      <div style="text-align: -webkit-center; margin-bottom: 20px;" *ngIf="supervisors.length>0">
-        <label class="topics" style="margin-bottom: 10px;">Select supervisor</label>
+      <div style="text-align: -webkit-center; margin-bottom: 20px; margin-top:10px;" *ngIf="supervisors.length>0">
+        <label class="topics" style="margin-bottom: 10px;">Select technical advisor</label>
         <ion-item class="selector-wrapper" style="width: fit-content;">
           <ion-select placeholder="Supervisor" okText="Confirm" cancelText="Dismiss" (ionChange)="selectSupervisor($event)">
             <ion-select-option *ngFor="let item of supervisors" value="{{item.supervisor_id}},{{item.supervisor_name}}">{{item.supervisor_name}}
@@ -47,7 +47,7 @@
       </div>
     </div>
 
-  <div style="margin-top: 50px; text-align: center; width: 100%;">
+  <div style="margin-top: 34px; text-align: center; width: 100%;">
     <ion-button class="btnNavigate" [disabled]='!isValid' (click)="gotoCalendar()" style="margin-right: 40px;">Next
     </ion-button>
     <ion-button class="btnNavigate" [routerLink]="['/home']">Cancel</ion-button>

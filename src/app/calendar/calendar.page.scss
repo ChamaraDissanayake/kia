@@ -44,7 +44,7 @@
 
 :host ::ng-deep {
     .monthview-primary-with-event {
-      background-color: rgb(231, 190, 218);
+      background-color: gray;
     }
    
     // .monthview-primary-with-event.fullyBooked {
@@ -52,11 +52,11 @@
     // }
 
     .monthview-selected {
-        background-color: rgb(235, 0, 41) !important;
+        background-color: black !important;
     }
 
     .monthview-datetable td.monthview-primary-with-event {
-        background-color:  rgb(231, 190, 218);
+        background-color:  gray;
     }
 
     // .monthview-datetable[_ngcontent-ynx-c137] th[_ngcontent-ynx-c137] {

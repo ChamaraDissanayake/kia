@@ -12,40 +12,30 @@
 <ion-content class="background-image vertical-center" fullscreen="true">
   <!-- <div style="width: 100%; height: 3px; background: rgb(235, 0, 41);" slot="fixed"></div> -->
   
-  <div style="text-align: -webkit-center; margin-top: 50px; margin-bottom: 20px;">
-    <ion-item class="selector-wrapper" style="width: fit-content;">
+  <div style="text-align: -webkit-center; margin-top: 30%; margin-bottom: 20px;">
+    <ion-item class="selector-wrapper">
       <ion-select placeholder="Select showroom" okText="Confirm" cancelText="Dismiss" (ionChange)="selectShowroom($event)">
         <ion-select-option *ngFor="let item of showrooms" value="{{item.shop_id}}">{{item.shop_name}}</ion-select-option>
       </ion-select>
     </ion-item>
   </div>
 
-
-  <!-- <div style="text-align: -webkit-center; margin-top: 50px; margin-bottom: 20px;">
-    <div style="width: 40%; background: white; border-radius: 10px;">
-      <ion-item style="width: fit-content;">
-        <ion-select default="Select" okText="Confirm" cancelText="Dismiss" (ionChange)="selectShowroom($event)">
-          <ion-select-option value="Colombo">Colombo</ion-select-option>
-          <ion-select-option value="Kandy">Kandy</ion-select-option>
-          <ion-select-option value="Galle">Galle</ion-select-option>
-          <ion-select-option value="Jaffna">Jaffna</ion-select-option>
-        </ion-select>
-      </ion-item>
-    </div>
-  </div> -->
-
   <div class="text-white" style="min-height: 40%;">
     <div style="text-align:center">
       <label class="topics">Showroom Name</label><br>
-      <label>{{showroomName}}</label>
+      <label class="content">{{showroomName}}</label>
     </div>
-    <div style="text-align:center; margin-top:10px;">
+    <div style="text-align:center; margin:14px 0; min-height: 48px;">
       <label class="topics">Showroom Address</label><br>
-      <label>{{showroomAddress}}</label>
+      <!-- <label class="content" style="white-space: pre-line;">{{showroomAddress}}</label> -->
+      <div *ngFor="let item of showroomAddressSplitted; let i = index" style="height: 18px;">
+        <label class="content">{{item}}</label>
+        <label class="content" *ngIf="showroomAddressSplitted.length>i+1">,</label>
+      </div>
     </div>
-    <div style="text-align:center;  margin-top:10px;">
+    <div style="text-align:center;">
       <label class="topics">Opening Hours</label><br>
-      <label>{{showRoomOpenHours}}</label>
+      <label class="content">{{showRoomOpenHours}}</label>
     </div>
   </div>
 

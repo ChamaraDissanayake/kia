@@ -1,7 +1,4 @@
 .btn-edit{
-    --border-radius:6px;
-    --background:#3b1600;
-    text-transform: none;
     min-width: 110px;
 }
 
@@ -16,17 +13,16 @@ ion-label{
 }
 
 .received {
-    background: rgba(184, 202, 202, 0.80);
+    background: rgba(76, 76, 76, 0.80);
     width: fit-content;
     padding: 0 10px;
     border-radius: 0 10px 10px 10px;
     margin: 10px;
-    color: black;
-
+    color: white;
 }
 
 .sent {
-    background: rgba(0, 102, 255, 0.8);
+    background: rgba(26, 26, 26, 0.8);
     width: fit-content;
     float: right;
     padding: 0 10px;
@@ -38,4 +34,6 @@ ion-label{
 .message-container{
     width: 100%;
     background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    min-height: 35%;
 }

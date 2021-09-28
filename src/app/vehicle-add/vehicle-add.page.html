@@ -17,7 +17,7 @@
     <form [formGroup]="signup" (ngSubmit)="updateNumber(vehicle.value)">
       <div class="input-wrapper">
         <ion-item class="input-style">
-          <ion-input #vehicle style='text-transform: uppercase; text-align: center;' placeholder="Ex: AAA-1234" type="text" formControlName="vehicleNumber"></ion-input>
+          <ion-input #vehicle style='text-transform: uppercase; text-align: center; font-weight: bold;' placeholder="Ex: AAA-1234" type="text" formControlName="vehicleNumber"></ion-input>
         </ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validation_messages.vehicleNumber">
@@ -28,7 +28,7 @@
           </ng-container>
         </div>
       </div>
-      <ion-button type="submit" [disabled]="!signup.valid" class="btnNavigate" style="margin-right: 40px;">Update</ion-button>
+      <ion-button type="submit" [disabled]="!signup.valid" class="btnNavigate">Update</ion-button>
     </form>
   </div>
   <div *ngIf="kiaProviderService.vehicle_id==''" style="text-align: -webkit-center;">
@@ -36,7 +36,7 @@
     <form [formGroup]="signup" (ngSubmit)="addNumber(vehicleAdd.value)">
       <div class="input-wrapper">
         <ion-item class="input-style">
-          <ion-input #vehicleAdd style='text-transform: uppercase; text-align: center' placeholder="Ex: AAA-1234" type="text" formControlName="vehicleNumber"></ion-input>
+          <ion-input #vehicleAdd style='text-transform: uppercase; text-align: center; font-weight: bold;' placeholder="Ex: AAA-1234" type="text" formControlName="vehicleNumber"></ion-input>
         </ion-item>
         <div class="validation-errors">
           <ng-container *ngFor="let validation of validation_messages.vehicleNumber">
@@ -47,7 +47,7 @@
           </ng-container>
         </div>
       </div>
-      <ion-button type="submit" [disabled]="!signup.valid" class="btnNavigate" style="margin-right: 40px;">Add</ion-button>
+      <ion-button type="submit" [disabled]="!signup.valid" class="btnNavigate">Add</ion-button>
     </form>
   </div>
 

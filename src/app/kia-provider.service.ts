@@ -10,10 +10,10 @@ export class KiaProviderService {
   // fromLogin: boolean = true;
   from: string = '';
   isFirstLoadService: boolean = true;
-  areaOneExpanded: boolean = false;
-  areaTwoExpanded: boolean = false;
-  areaThreeExpanded: boolean = false;
-  areaFourExpanded: boolean = false;
+  // areaOneExpanded: boolean = false;
+  // areaTwoExpanded: boolean = false;
+  // areaThreeExpanded: boolean = false;
+  // areaFourExpanded: boolean = false;
   permissionLevel: number = 2;
 
   deviceId: string = '';
@@ -36,4 +36,5 @@ export class KiaProviderService {
   end_time: number = 0;
   is_inquiry: boolean = false;
   isDamageEstimatePending: boolean = true;
+  baseURL = 'http://52.66.188.137/api/';
 }
