@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import sliderAll from '../../assets/SliderAll.json';
-import sliderSUV from '../../assets/SliderSUV.json';
-import sliderCar from '../../assets/SliderCar.json';
-import sliderCommercial from '../../assets/SliderCommercial.json';
+// import sliderAll from '../../assets/SliderAll.json';
+// import sliderSUV from '../../assets/SliderSUV.json';
+// import sliderCar from '../../assets/SliderCar.json';
+// import sliderCommercial from '../../assets/SliderCommercial.json';
 import { KiaProviderService } from '../kia-provider.service';
 import { MenuController, Platform } from '@ionic/angular';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -13,27 +14,63 @@ import { MenuController, Platform } from '@ionic/angular';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  btnEnabled = false;
+  kiaSlider:any =[];
+  sliderAll:any=[];
+  sliderSUV:any=[];
+  sliderCar:any=[];
+  sliderCommercial:any=[];
   sliderChange: boolean = false;
   activeSlider: string = '';
-  videoPaused = true;
 
+  mainVideo: any =[];
+
+  videoPaused = true;
   @ViewChild('player')videoPlayer;
   @ViewChild('playImage')videoPlayButton;
+  @ViewChild('loader')loader
 
   constructor(
     private router: Router,
     public kiaProviderService: KiaProviderService,
     private menu: MenuController,
-    private platform: Platform) { }
+    private platform: Platform,
+    private http: HttpClient) { }
 
   ngOnInit() {
+    this.LoadData();
+    this.platform.ready().then(()=>{
+      if(this.kiaProviderService.firstLoad){
+        // this.videoPlayer.nativeElement.muted = true;
+        // this.playVideo();
+        this.kiaProviderService.firstLoad=false;
+      }
+    })
+    
+  }
+
+  LoadData(){
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+
+    },
+    url: any = this.kiaProviderService.baseURL + 'getShowCaseForSlider';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("slider all", data[0])
+      this.sliderAll = data[0];
+      this.sliderCar = data[1];
+      this.sliderSUV = data[2];
+      this.sliderCommercial = data[3];
+      this.mainVideo = data[4];
+      this.kiaSlider = this.sliderAll;
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+    }); 
   }
   
   ionViewDidEnter(){
-    this.platform.ready().then(()=>{
-      this.playVideo();
-    })
     this.menu.swipeGesture(true);
     this.resetValues();
   }
@@ -43,7 +80,6 @@ export class HomePage implements OnInit {
     this.videoPaused=true;
     this.menu.swipeGesture(false);
   }
-  kiaSlider = sliderAll;
 
   slideOpts = {
     initialSlide: 0,
@@ -56,39 +92,20 @@ export class HomePage implements OnInit {
     this.kiaProviderService.booking_type = 1;
     this.router.navigateByUrl("/showroom");
   }
-  gotoSelectedVehicle() {
+  gotoSelectedVehicle(showcaseID) {
+    console.log(showcaseID);
+    this.kiaProviderService.showcase_id = showcaseID;
     this.router.navigateByUrl("/selected-veicle");
   }
 
-  // clicked(num: any) {
-  //   console.log("Clicked: " + num);
-  // }
-
-  // gotoServices(num: string) {
-  //   switch (num) {
-  //     case "0":
-  //       this.kiaProviderService.areaOneExpanded = true;
-  //       break;
-  //     case "1":
-  //       this.kiaProviderService.areaTwoExpanded = true;
-  //       break;
-  //     case "2":
-  //       this.kiaProviderService.areaThreeExpanded = true;
-  //       break;
-  //     case "3":
-  //       this.kiaProviderService.areaFourExpanded = true;
-  //       break;
-
-  //     default:
-  //       this.kiaProviderService.areaOneExpanded = true;
-  //       break;
-  //   }
-  //   this.router.navigateByUrl("/services");
-  // }
 
   gotoRegisterdServices(num: number){
-    this.kiaProviderService.booking_type = num;
-    this.router.navigateByUrl("/service-center");  
+    if(this.kiaProviderService.permissionLevel==2){
+      this.kiaProviderService.booking_type = num;
+      this.router.navigateByUrl("/service-center");  
+    }else{
+      console.log("not verified user");
+    }
   }
 
   gotoShowroom(){
@@ -100,22 +117,22 @@ export class HomePage implements OnInit {
     this.sliderChange = !this.sliderChange;
     switch (option) {
       case "option1":
-        this.kiaSlider = sliderSUV;
+        this.kiaSlider = this.sliderSUV;
         this.activeSlider = 'suv';
         break;
 
       case "option2":
-        this.kiaSlider = sliderCar;
+        this.kiaSlider = this.sliderCar;
         this.activeSlider = 'car';
         break;
 
       case "option3":
-        this.kiaSlider = sliderCommercial;
+        this.kiaSlider = this.sliderCommercial;
         this.activeSlider = 'lorry';
         break;
 
       default:
-        this.kiaSlider = sliderAll;
+        this.kiaSlider = this.sliderAll;
         this.activeSlider = 'car';
     }
   }
@@ -124,6 +141,7 @@ export class HomePage implements OnInit {
     if(this.videoPaused){
       this.videoPlayer.nativeElement.play();
       this.videoPaused=!this.videoPaused;
+      // this.videoPlayer.nativeElement.muted = false;
     }else{
       this.videoPlayer.nativeElement.pause();
       this.videoPaused=!this.videoPaused;
@@ -132,18 +150,19 @@ export class HomePage implements OnInit {
 
   resetValues(){
     this.kiaProviderService.showroom_id = '';
-    this.kiaProviderService.vehicle_id = ''; 
+    this.kiaProviderService.vehicle_id = '';
+    this.kiaProviderService.vehicle_number = ''
     this.kiaProviderService.supervisor_id = '';
     this.kiaProviderService.supervisor_name = '';
-    this.kiaProviderService.customer_name = '';
-    this.kiaProviderService.customer_phone = '';
-    this.kiaProviderService.customer_email = '';
     this.kiaProviderService.booking_type = 1;
-    this.kiaProviderService.bookig_setting_id = '';
+    this.kiaProviderService.booking_id = 0;
+    this.kiaProviderService.booking_settings_id = '';
     this.kiaProviderService.date = '';
     this.kiaProviderService.time_slot = '';
     this.kiaProviderService.start_time = 0;
     this.kiaProviderService.end_time = 0;
-    this.kiaProviderService.is_inquiry = false;
+    this.kiaProviderService.is_inquiry = '0';
+    this.kiaProviderService.damage_estimate_id = 0;
+    this.kiaProviderService.showcase_id = 0;
   }
 }

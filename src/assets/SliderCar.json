@@ -1,14 +1,14 @@
 [
     {
-        "id": "1",
+        "showcase_id": "1",
         "src": "../../assets/kia-car-slider-1.jpeg"
     },
     {
-        "id": "2",
+        "showcase_id": "2",
         "src":"../../assets/kia-car-slider-2.png"
     },
     {
-        "id": "3",
+        "showcase_id": "3",
         "src": "../../assets/kia-car-slider-3.jpeg"
     }
 ]

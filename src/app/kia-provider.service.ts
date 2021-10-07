@@ -9,7 +9,7 @@ export class KiaProviderService {
 
   // fromLogin: boolean = true;
   from: string = '';
-  isFirstLoadService: boolean = true;
+  firstLoad: boolean = true;
   // areaOneExpanded: boolean = false;
   // areaTwoExpanded: boolean = false;
   // areaThreeExpanded: boolean = false;
@@ -17,24 +17,29 @@ export class KiaProviderService {
   permissionLevel: number = 2;
 
   deviceId: string = '';
-  user_id: string = '';
+  user_id: string = '0';
   user_name: string = '';
   user_phone: string = '';
   user_email: string = '';
-  showroom_id: string = '';
-  vehicle_id: string = '';
-  supervisor_id: string = '';
+  showroom_id: string = '0';
+  vehicle_id: string = '0';
+  vehicle_number: string = ''
+  supervisor_id: string = '0';
   supervisor_name: string = '';
-  customer_name: string = '';
-  customer_phone: string = '';
-  customer_email: string = '';
+  // customer_name: string = '';
+  // customer_phone: string = '';
+  // customer_email: string = '';
   booking_type: number = 1;
-  bookig_setting_id: string = '';
+  booking_id: number = 0;
+  booking_settings_id: string = '';
   date: string = '';
   time_slot: string = '';
   start_time: number = 0;
   end_time: number = 0;
-  is_inquiry: boolean = false;
+  is_inquiry: string = '0';
   isDamageEstimatePending: boolean = true;
   baseURL = 'http://52.66.188.137/api/';
+  damage_estimate_id = 0;
+
+  showcase_id = 0;
 }

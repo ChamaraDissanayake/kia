@@ -1,13 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx';
+import { File } from '@ionic-native/file/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
-import { File } from '@ionic-native/file/ngx';
-import sliderAll from '../../assets/SliderAll.json';
+import { FilePath } from '@ionic-native/file-path/ngx';
 
+// import sliderAll from '../../assets/SliderAll.json';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { KiaProviderService } from '../kia-provider.service';
 
 @Component({
   selector: 'app-damage-image-upload',
@@ -15,17 +18,28 @@ import sliderAll from '../../assets/SliderAll.json';
   styleUrls: ['./damage-image-upload.page.scss'],
 })
 export class DamageImageUploadPage implements OnInit {
-  imgURLs=sliderAll;
   public collitionForm : FormGroup;
-  images:any[] = [];
-  videos:any[] = [];
+  images:any = [];
+  // videos:any = [];
+  imageURLs:any = [];
+  videoURLs:any = [];
+  i = 0;
+  j = 0;
+  selectedVideo: string='';
+  videoFileUpload: FileTransferObject;
+  showLoader: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private imagePicker: ImagePicker,
+    public file: File,
+    private http: HttpClient,
     private camera: Camera,
-    private file: File) {
+    public kiaProviderService: KiaProviderService,
+    public filePath: FilePath,
+    public transfer: FileTransfer,
+    private zone: NgZone) {
     this.collitionForm = this.formBuilder.group({
       description:['', [Validators.required, Validators.pattern('[A-Za-z0-9 ]{9,}'), Validators.minLength(10)]],
     }); 
@@ -48,49 +62,192 @@ validation_messages = {
   }
 
   submitDetails(){
-    this.router.navigateByUrl('/damage-estimate');
-  }
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "user_id":this.kiaProviderService.user_id,
+      "description":this.collitionForm.get('description').value,
+      "imageList":this.imageURLs,
+      "videoList":this.videoURLs
+    },
+    url: any = this.kiaProviderService.baseURL + 'addDamageEstimate';
 
-  getImages(){
-    var options:ImagePickerOptions={
-      maximumImagesCount:10,
-      outputType:1,
-      width:100,
-      height:100,
-      allow_video:true
-    }
-    this.imagePicker.getPictures(options).then((results)=>{
-      for(var i = 0; i<results.length; i++){
-        // let filename = results[i].substring(results[i].lastIndexOf('/')+1);
-        // let path = results[i].substring(0,results[i].lastIndexOf('/')+1);
-        // console.log("filename: " + filename, " path: " + path);
-        // this.file.readAsDataURL(path,filename).then((base64string)=>{
-        //   this.images.push(base64string);
-        //   console.log("base64string: " + base64string);
-        // })
-        let base64OfImage = "data:image/png;base64,"+results[i];
-        this.images.push(base64OfImage);
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("profile data ", data)
+      if(data.message=='success'){
+        this.router.navigateByUrl("/damage-estimate");
+      }else{
+        alert("Something went wrong!");
       }
-    },(err)=>{
-      alert(JSON.stringify(err));
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+    }); 
+  }
+  
+
+  sendImages(){
+    const fileTransfer = this.transfer.create();
+    let options:FileUploadOptions={
+      fileKey:"image",
+      chunkedMode:false,
+      headers:{}
+    }
+    var serverurl = this.kiaProviderService.baseURL + "ImageUploadOneByOne";
+    fileTransfer.upload(this.images[this.i],serverurl,options).then((data)=>{
+      let imageurl = data.response.substring(2,data.response.length-2);
+      console.log(imageurl);
+      let imageurlFixed = imageurl.replace(/\\/g, '');
+      console.log("video url fixed", imageurlFixed)
+      this.imageURLs.push(imageurlFixed);
+      this.i++;
+      if(this.i<this.images.length){
+        this.sendImages();
+      }else{
+        console.log("send images:",this.imageURLs);
+        this.showLoader=false;
+        alert("Successfully uploaded");
+      }
     })
   }
 
-  getVideo(){
+
+  //     fileKey:"video",
+  //     chunkedMode:false,
+  //     mimeType: "video/mp4",
+  //     headers:{}
+  //   }
+  //   var serverurl = this.kiaProviderService.baseURL + "ImageUploadOneByOne";
+  //   fileTransfer.upload(this.videos[this.j],serverurl,options).then((data)=>{
+  //     console.log("video url:", data);
+  //     this.videoURLs.push(data.response);
+  //     this.j++;
+  //     if(this.j<this.videos.length){
+  //       this.sendVideos();
+  //     }else{
+  //       console.log("send videos:",this.videoURLs);
+  //       alert("successfully uploaded");
+  //     }
+  //   })
+  // }
+
+  getImages(){
+    this.showLoader=true;
+    var options:ImagePickerOptions={
+      maximumImagesCount:5,
+      outputType:1
+    }
+    this.imagePicker.getPictures(options).then((results)=>{
+      for(var interval = 0; interval<results.length; interval++){
+        let url = 'data:video/mp4;base64,'+results[interval]
+        this.images.push(url);
+      }
+
+      setTimeout(() => {
+        this.i=0;
+        this.sendImages();
+      }, 1000);
+      
+    },(err)=>{
+      this.showLoader=false;
+      alert(JSON.stringify(err));
+    })
+    console.log("images array", this.images, this.images[this.i]);
+  }
+
+  // getVideo(){
+  //   const options: CameraOptions = {
+  //     mediaType: this.camera.MediaType.VIDEO,
+  //     sourceType:0
+  //   }
+
+  //   this.camera.getPicture(options).then((data) => {
+  //     // imageData is either a base64 encoded string or a file URI
+  //     // If it's base64 (DATA_URL):
+  //     let base64Video = 'data:video/mp4;base64,' + data;
+  //     this.videos.push(base64Video);
+  //     setTimeout(() => {
+  //       console.log("video", this.videos)
+  //       this.j=0;
+  //       this.sendVideos();
+  //     }, 1000);
+  //    }, (err) => {
+  //     alert(JSON.stringify(err));
+  //    });
+  // }
+
+  selectVideo() {
+    this.showLoader=true;
     const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
       mediaType: this.camera.MediaType.VIDEO,
-      sourceType:0
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
     }
 
-    this.camera.getPicture(options).then((imageData) => {
-      // imageData is either a base64 encoded string or a file URI
-      // If it's base64 (DATA_URL):
-      let base64Video = 'data:video/mp4;base64,' + imageData;
-      this.videos.push(base64Video);
-     }, (err) => {
-      alert(JSON.stringify(err));
-     });
+    this.camera.getPicture(options).then( async (videoUrl) => {
+        if (videoUrl) {
+          
+          var filename = videoUrl.substr(videoUrl.lastIndexOf('/') + 1);
+          var dirpath = videoUrl.substr(0, videoUrl.lastIndexOf('/') + 1);
+
+          dirpath = dirpath.includes("file://") ? dirpath : "file://" + dirpath;
+          
+          try {
+            var dirUrl = await this.file.resolveDirectoryUrl(dirpath);
+            var retrievedFile = await this.file.getFile(dirUrl, filename, {});
+
+          } catch(err) {
+            alert("Error! Something went wrong.");
+          }
+          
+          retrievedFile.file( data => {
+            console.log(data);
+            this.selectedVideo = retrievedFile.nativeURL;
+
+            setTimeout(() => {
+              this.uploadVideo()
+            }, 1000);
+          });
+        }
+      },
+      (err) => {
+        console.log(err);
+      });
+  }
+
+  uploadVideo() {
+    var url = this.kiaProviderService.baseURL + "ImageUploadOneByOne";
+    
+    var filename = this.selectedVideo.substr(this.selectedVideo.lastIndexOf('/') + 1);
+      
+    var options: FileUploadOptions = {
+      fileName: filename,
+      fileKey: "video",
+      mimeType: "video/mp4"
+    }
+
+    this.videoFileUpload = this.transfer.create();
+
+    this.videoFileUpload.upload(this.selectedVideo, url, options)
+      .then((data)=>{
+        let videourl = data.response.substring(2,data.response.length-2);
+        let videourlFixed = videourl.replace(/\\/g, '');
+        this.videoURLs.push(videourlFixed);
+        this.showLoader=false;
+        console.log("show loader", this.showLoader, "video url fixed", videourlFixed)
+        this.refresh();
+        alert("Successfully uploaded!");
+      })
+      .catch((err)=>{
+        console.log(err)
+        this.showLoader=false;
+        this.refresh();
+        alert("Video upload failed");
+      });
+  }
+
+  refresh() {
+    this.zone.run(() => {
+      console.log('force update the screen');
+    });    
   }
 }

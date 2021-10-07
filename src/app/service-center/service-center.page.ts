@@ -12,13 +12,17 @@ import { KiaProviderService } from '../kia-provider.service';
   styleUrls: ['./service-center.page.scss'],
 })
 export class ServiceCenterPage implements OnInit {
-  serviceCenters = showroomslist; //Need service centers list
-  serviceCenterDetails = showroomdetails; //Need service center details
-  supervisors = showroomdetails.supervisors;
+  serviceCenters
+  //  = showroomslist; //Need service centers list
+  serviceCenterDetails;
+  //  = showroomdetails; //Need service center details
+  supervisors;
+  //  = showroomdetails.supervisors;
   showroomId: string = '';
   showroomName: string;
   showroomAddress: string;
   showRoomOpenHours: string;
+  showroomAddressSplitted;
   isValid: boolean = false;
 
   constructor(private router: Router,
@@ -27,11 +31,38 @@ export class ServiceCenterPage implements OnInit {
     ) { }
 
   ngOnInit() {
+    this.getShopList();
   }
 
+  // selectShowroom(event){
+  //   console.log(event.target.value);
+  //   this.sendShowroomId(event.target.value);
+  // }
+
+  
   selectShowroom(event){
-    console.log(event.target.value);
-    this.sendShowroomId(event.target.value);
+    this.kiaProviderService.showroom_id=event.target.value;
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "shop_id":this.kiaProviderService.showroom_id,
+      "booking_type":this.kiaProviderService.booking_type
+    },
+    url: any = this.kiaProviderService.baseURL + 'getDealerShopListDetails';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log(`Congratulations service centers data was `, data);
+      this.showroomId=data[0].shop_id;
+      this.showroomName=data[0].shop_name;
+      this.showroomAddress=data[0].shop_address;
+      this.showroomAddressSplitted = this.showroomAddress.split(",");  
+      this.showRoomOpenHours=data[0].shop_openTime.substring(0,5) + " to " + data[0].shop_closeTime.substring(0,5);
+      this.isValid = true;
+      this.supervisors = data[0].supervisors;
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+    }); 
   }
 
   selectSupervisor(event){
@@ -39,7 +70,7 @@ export class ServiceCenterPage implements OnInit {
     this.kiaProviderService.supervisor_id = event.target.value.substring(0,key.indexOf(','));
     this.kiaProviderService.supervisor_name = event.target.value.substring(key.indexOf(',')+1, key.length);
     this.isValid = true;
-    console.log(this.kiaProviderService.supervisor_id, this.kiaProviderService.supervisor_name);
+    console.log("supervisor_id",this.kiaProviderService.supervisor_id, this.kiaProviderService.supervisor_name);
   }
 
   gotoCalendar(){
@@ -60,5 +91,24 @@ export class ServiceCenterPage implements OnInit {
         this.isValid = true;
       }
     }, 1000);
+  }
+
+  getShopList(){
+    console.log(`booking type `, this.kiaProviderService.booking_type);
+
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "booking_type":this.kiaProviderService.booking_type
+    },
+    url: any = this.kiaProviderService.baseURL + 'getShowRoomList';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log(`Congratulations data was `, data);
+      this.serviceCenters = data;
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+    }); 
   }
 }

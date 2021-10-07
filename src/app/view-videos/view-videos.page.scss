@@ -1,0 +1,22 @@
+video{
+    max-width: 100%;
+    max-height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.image-on-video{
+    width: 80px;
+    top: 44%;
+    left: 40%;
+}
+
+.lbl-on-video{
+    position: absolute;
+    font-weight: bold;
+    color: white;
+}
+
+.btnHide{
+    visibility: hidden;
+}

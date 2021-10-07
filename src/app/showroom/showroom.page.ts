@@ -41,12 +41,13 @@ export class ShowRoomPage implements OnInit {
   getShowroomList(){
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {
+      "booking_type":this.kiaProviderService.booking_type
     },
     url: any = this.kiaProviderService.baseURL + 'getShowRoomList';
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
-      // console.log(`Congratulations data was `, data);
+      console.log(`Congratulations data was `, data);
       this.showrooms = data;
     },
     (error: any) => {
@@ -56,15 +57,18 @@ export class ShowRoomPage implements OnInit {
 
   selectShowroom(event){
     this.kiaProviderService.showroom_id=event.target.value;
+    console.log("test drive ",this.kiaProviderService.showroom_id, this.kiaProviderService.booking_type)
+
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {
-      "shop_id":this.kiaProviderService.showroom_id
+      "shop_id":this.kiaProviderService.showroom_id,
+      "booking_type":this.kiaProviderService.booking_type
     },
     url: any = this.kiaProviderService.baseURL + 'getDealerShopListDetails';
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
-      // console.log(`Congratulations data was `, data);
+      console.log(`Congratulations showroom data was `, data);
       this.showroomName=data[0].shop_name;
       this.showroomAddress=data[0].shop_address;
       this.showroomAddressSplitted = this.showroomAddress.split(",");  

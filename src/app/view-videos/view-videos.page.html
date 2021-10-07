@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/damage-estimate-view"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-image" fullscreen="true">
+  <div style="text-align: center; margin-bottom: 10px;">
+    <ion-card *ngFor="let item of videos; let i = index" style="margin: 5px 5px 0px 5px; background: black;" (click)="playVideo(i)">
+      <ion-card-content style="padding: unset;">
+        <video #player playinline preload="auto">
+          <source [src]="item" type="video/mp4" [id]="i">
+        </video>
+        <img #playImage [id]="i" class="lbl-on-video image-on-video" [ngClass]="{'btnHide': i == videoId && !videoPaused}" src="../../assets/kia-play-icon.png">
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

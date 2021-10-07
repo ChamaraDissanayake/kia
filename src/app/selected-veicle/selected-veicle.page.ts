@@ -1,8 +1,8 @@
-import { invalid } from '@angular/compiler/src/render3/view/util';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, QueryList, ViewChildren, ViewChild, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonSlides, Platform, ViewWillLeave } from '@ionic/angular';
-import data from './../../assets/feed.json';
+import { KiaProviderService } from '../kia-provider.service';
 import VRImageGreen from './../../assets/VRImageGreen.json'
 import VRImageWhite from './../../assets/VRImageWhite.json'
 
@@ -12,27 +12,28 @@ import VRImageWhite from './../../assets/VRImageWhite.json'
   styleUrls: ['./selected-veicle.page.scss'],
 })
 export class SelectedVeiclePage implements OnInit, ViewWillLeave{
-
   videoPaused: boolean = true;
-  videoId =100;
+  videoId =0;
   changeSlider: boolean = false;
-
+  vrImagesList:any = [];
+  vrImages:any = [];
+  //  = VRImageWhite;
+  colorCode: string = '';
+  colorName: string = '';
+  vehicleColor="Clear white";
+  feed: any = [];
+  images: any = [];
+  
+  @ViewChildren('player')videoPlayers: QueryList<any>;
+  @ViewChildren('playImage')videoPlayButton: QueryList<any>;
   @ViewChild('slides') slides: IonSlides;
-  slidePrev() {
-    this.slides.slidePrev();
-  }
-  slideNext() {
-    this.slides.slideNext();
-  }
 
-  // slideOpts = {
-  //   initialSlide: 1,
-  //   speed: 0,
-  //   loop:true,
-  //   effect:'fade',
-  //   noSwipingClass: 'swiper-no-swiping'
-  // };
 
+  constructor(
+    private router: Router,
+    private platform: Platform,
+    private http: HttpClient,
+    public kiaProviderService: KiaProviderService) {}
 
   slideOpts = {
     on: {
@@ -95,42 +96,67 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
     loop:true
   }
 
-  vrImages = VRImageWhite;
-  vehicleColor="Clear white"
-  
+  ngOnInit() {
+    this.LoadData();
+    // this.LoadVR();
+  }
 
-  feed = data;
-  @ViewChildren('player')videoPlayers: QueryList<any>;
-  @ViewChildren('playImage')videoPlayButton: QueryList<any>;
+  ionViewWillLeave() {
+    this.videoPlayers.forEach(player =>{
+      player.nativeElement.pause();
+      this.videoId = 0;
+    })
+  }
 
-  currentPlaying = null;
-  constructor(private router: Router, private platform: Platform) {}
+  slidePrev() {
+    this.slides.slidePrev();
+  }
 
-  // didScroll(){
-  //   if (this.currentPlaying && this.isElementInViewport(this.currentPlaying)){
-  //     return;
-  //   } else if(this.currentPlaying && !this.isElementInViewport(this.currentPlaying)){
-  //     this.currentPlaying.pause();
-  //     this.currentPlaying = null;
-  //   }
-  //   this.videoPlayers.forEach(player =>{
-  //     console.log('player: ', player);
+  slideNext() {
+    this.slides.slideNext();
+  }
 
-  //     if(this.currentPlaying){
-  //       return;
-  //     }
+  LoadData(){
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "showcase_id":this.kiaProviderService.showcase_id
+    },
+    url: any = this.kiaProviderService.baseURL + 'getShowCase';
 
-  //     const nativeElement = player.nativeElement;
-  //     const inView = this.isElementInViewport(nativeElement);
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("showcase data ", data)
+      this.feed = data[0];
+      this.images = data[1];
+      this.vrImagesList = data[3];
+      console.log(this.vrImagesList);
+      this.colorCode = this.vrImagesList[0].colorCode;
+      this.colorName = this.vrImagesList[0].colorName;
+      this.LoadVR(this.colorCode);
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+    }); 
+  }
 
-  //     if(inView){
-  //       this.currentPlaying = nativeElement;
-  //       // this.currentPlaying.muted = true;
-  //       console.log(this.currentPlaying);
-  //       this.currentPlaying.play();
-  //     }
-  //   })
-  // }
+  LoadVR(colorCode){
+    console.log("details", colorCode)
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "showcase_id":this.kiaProviderService.showcase_id,
+      "colorCode":colorCode
+    },
+    url: any = this.kiaProviderService.baseURL + 'getShowCaseByColor';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("vr data ", data)
+      this.vrImages = data;
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+    }); 
+  }
 
   playVideo(id){
     console.log("video id ",this.videoPlayButton.get(id).nativeElement.id);
@@ -141,50 +167,23 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
       this.videoPlayers.get(id).nativeElement.play();
       this.videoPaused=false;
       this.videoId = this.videoPlayButton.get(id).nativeElement.id;
-      // console.log(this.videoPlayButton.get(id).nativeElement.id);
     }else{
       this.videoPlayers.get(id).nativeElement.pause();
       this.videoPaused=true;
-      this.videoId = 100;
-      // console.log(this.videoPlayButton.get(id).nativeElement.id);
+      this.videoId = 0;
     }
   }
 
-  // playButton(id){
-  //   console.log("button id " ,this.videoPlayButton.get(id).nativeElement.id, id);
-  // }
-
-  // isElementInViewport(el){
-  //   const rect = el.getBoundingClientRect();
-  //   return(
-  //     rect.top >= 0 &&
-  //     rect.left >= 0 &&
-  //     rect.bottom <= (window.innerHeight*3/5 || document.documentElement.clientHeight) &&
-  //     rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-  //   );
-  // }
-
-  ngOnInit() {
-    // this.platform.ready().then(()=>{
-    //   this.didScroll();
-    // })
-  }
-
-  ionViewWillLeave() {
-    this.videoPlayers.forEach(player =>{
-      player.nativeElement.pause();
-      this.videoId = 100;
-    })
-  }
-
-  changeColor(color){
+  changeColor(button){
     this.changeSlider = !this.changeSlider;
-    if(color==0){
-      this.vrImages = VRImageWhite;
-      this.vehicleColor = "Clear white";
+    console.log("check color", this.colorCode, button.colorCode);
+    if(this.colorCode == button.colorCode){
+      console.log("same color", button.colorCode);
     }else{
-      this.vrImages = VRImageGreen;
-      this.vehicleColor = "Uraban green"
+      console.log("color changed", button.colorCode);
+      this.colorName = button.colorName;
+      this.colorCode = button.colorCode;
+      this.LoadVR(button.colorCode);
     }
   }
 }

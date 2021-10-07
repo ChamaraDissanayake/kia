@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, Platform } from '@ionic/angular';
@@ -17,56 +18,56 @@ export class MyProfilePage implements OnInit {
     private platform: Platform,
     public alertController: AlertController,
     private router: Router,
-    public kiaProviderService: KiaProviderService
+    public kiaProviderService: KiaProviderService,
+    private http: HttpClient
     ) { }
 
   ngOnInit() {
-
+    
   }
 
-  // async presentAlertPrompt() {
-  //   const alert = await this.alertController.create({
-  //     cssClass: 'my-custom-class',
-  //     subHeader: 'Chamara Dissanayake',
-  //     inputs: [
-  //       {
-  //         name: 'name1',
-  //         type: 'text',
-  //         placeholder: 'Placeholder 1'
-  //       },
-  //       {
-  //         name: 'name2',
-  //         type: 'tel',
-  //         placeholder: 'Placeholder 2'
-  //       },
-  //       {
-  //         name: 'name6',
-  //         type: 'number',
-  //         min: 10,
-  //         max: 10
-  //       }
-  //     ],
-  //     buttons: [
-  //       {
-  //         text: 'Update',
-  //         role: 'submit',
-  //         handler: () => {
-  //           console.log('Confirm update');
-  //         }
-  //       }
-  //     ]
-  //   });
-
-  //   await alert.present();
-  // }
+  ionViewDidEnter(){
+    this.getMyDetails();
+  }
 
   gotoEditProfile(){
     console.log('gotoEditProfile');
     this.router.navigateByUrl('/my-profile-edit');
   }
 
-  gotoAddVehicle(vehicle: string){
-    this.kiaProviderService.vehicle_id = vehicle;
+  gotoUpdateVehicle(vehicle){
+    this.kiaProviderService.vehicle_id = vehicle.vehicle_id;
+    this.kiaProviderService.vehicle_number = vehicle.vehicle_no;
     this.router.navigateByUrl('/vehicle-add');
   }
+
+  gotoAddVehicle(){
+    this.kiaProviderService.vehicle_id = '';
+    this.kiaProviderService.vehicle_number = '';
+    this.router.navigateByUrl('/vehicle-add');
+  }
+
+  
+  getMyDetails() {
+    console.log(this.kiaProviderService.user_id, "user id")
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "user_id":this.kiaProviderService.user_id
+    },
+    url: any = this.kiaProviderService.baseURL + 'myProfile';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("profile data ", data)
+      this.profile=data[0];
+      // this.myVehicles = data[0].vehicles;
+      this.kiaProviderService.user_name = data[0].name;
+      this.kiaProviderService.user_phone = data[0].phone_number;
+      this.kiaProviderService.user_email = data[0].email;
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+    }); 
+  }
+
 }

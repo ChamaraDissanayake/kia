@@ -10,23 +10,23 @@
 </ion-header>
 
 <ion-content class="background-image" fullscreen="true">
-  <div style="margin-top: 20px;">
-    <div style="margin: 10px;">
+  <div style="margin: 20px 10px;">
+    <!-- <div style="margin: 10px;"> -->
       <div *ngFor="let msg of messages">
         <tr class="row">
           <td class="col-10">
-            <ion-textarea auto-grow=true read-only=true class="received" *ngIf="msg.isAdmin" value="{{msg.message}}"></ion-textarea>
+            <ion-textarea auto-grow=true disabled class="received" *ngIf="msg.isAdmin" value="{{msg.message}}"></ion-textarea>
           </td>
           <td class="col-2"></td>
         </tr>
         <tr class="row">
           <td class="col-2"><td>
           <td class="col-10">
-            <ion-textarea auto-grow=true read-only=true class="sent" *ngIf="!msg.isAdmin" value="{{msg.message}}"></ion-textarea>
+            <ion-textarea auto-grow=true disabled class="sent" *ngIf="!msg.isAdmin" value="{{msg.message}}"></ion-textarea>
           </td>
         </tr>
       </div>
-    </div>
+    <!-- </div> -->
   </div>
   <div class="message-container">
     <div style="margin-top: 20px;">
@@ -35,7 +35,7 @@
           <ion-label class="topics">View images</ion-label>
         </td>
         <td class="col-6">
-          <ion-button class="btn-edit">View</ion-button>
+          <ion-button class="btn-edit" (click)="gotoViewImages()">View</ion-button>
         </td>
       </tr>
       <!-- <tr>
@@ -51,7 +51,7 @@
           <ion-label class="topics">View videos</ion-label>
         </td>
         <td class="col-6">
-          <ion-button class="btn-edit">View</ion-button>
+          <ion-button class="btn-edit" (click)="gotoViewVideos()">View</ion-button>
         </td>
       </tr>
       <!-- <tr>
@@ -67,7 +67,7 @@
           <ion-label>Download estimate</ion-label>
         </td>
         <td class="col-6">
-          <ion-button class="btn-edit">Download</ion-button>
+          <ion-button class="btn-edit" (click)="download('kia_brochure')">Download</ion-button>
         </td>
       </tr>
     </div>

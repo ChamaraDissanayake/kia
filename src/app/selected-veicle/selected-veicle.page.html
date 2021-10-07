@@ -27,15 +27,15 @@
   </ion-fab>
 
   <div style="padding: unset;">
-    <ion-card *ngFor="let item of feed" style="margin: unset;" (click)="playVideo(item.id)">
+    <ion-card *ngFor="let item of feed; let i = index" style="margin: unset;" (click)="playVideo(i)">
       <ion-card-content style="padding: unset;">
         <video #player playinline preload="auto" poster="../../assets/kia-video-thumbnail.jpeg">
-          <source [src]="item.src" type="video/mp4" [id]="item.id">
+          <source [src]="item.src" type="video/mp4" [id]="i">
         </video>
 
         <ion-label class="lbl-on-video">{{ item.title }}</ion-label>
-        <img #playImage [id]="item.id" class="lbl-on-video image-on-video"
-          [ngClass]="{'btnHide': item.id == videoId && !videoPaused}" src="../../assets/kia-play-icon.png">
+        <img #playImage [id]="i" class="lbl-on-video image-on-video"
+          [ngClass]="{'btnHide': i == videoId && !videoPaused}" src="../../assets/kia-play-icon.png">
       </ion-card-content>
     </ion-card>
   </div>
@@ -63,7 +63,7 @@
         <ion-slides #slides slidesPerView="1" [options]="slideOpts">
           <!-- <ion-slides #slides slidesPerView="1" [options]="slideOpts" class="swiper-no-swiping"> -->
           <ion-slide *ngFor="let img of vrImages">
-            <img [src]="img.src" alt="test">
+            <img [src]="img" alt="KIA" style="min-height: 100px;">
           </ion-slide>
         </ion-slides>
       </div>
@@ -71,7 +71,7 @@
         <ion-slides #slides slidesPerView="1" [options]="slideOpts">
           <!-- <ion-slides #slides slidesPerView="1" [options]="slideOpts" class="swiper-no-swiping"> -->
           <ion-slide *ngFor="let img of vrImages">
-            <img [src]="img.src" alt="test">
+            <img [src]="img" alt="KIA" style="min-height: 100px;">
           </ion-slide>
         </ion-slides>
       </div>
@@ -82,62 +82,30 @@
     <div style="text-align: center; padding-bottom: 10px;">
 
       <div>
-        <ion-label>{{vehicleColor}}</ion-label>
+        <ion-label>{{colorName}}</ion-label>
       </div>
-      <ion-button style="--background: rgb(243, 242, 239); width: 30px; height: 30px;" (click)="changeColor(0)">
-      </ion-button>
-      <ion-button style="--background: olive; width: 30px; height: 30px;" (click)="changeColor(1)"></ion-button>
+
+      <span *ngFor="let item of vrImagesList">
+        <!-- <ion-button class="custom-button" style="--background: rgb(243, 242, 239); width: 30px; height: 30px;" (click)="changeColor(0)"></ion-button>
+        <ion-button class="custom-button" style="--background: olive; width: 30px; height: 30px;" (click)="changeColor(1)"></ion-button> -->
+        <ion-button class="custom-button" [style.--background]="item.colorCode" (click)="changeColor(item)"></ion-button>
+      </span>
     </div>
   </div>
 
-  <div style="background: #0f0f0f;">
-    <tr>
-      <td>
-        <div>
-          <img src="../../assets/kia-exterior.png" alt="SHOWCASE IMAGES">
-          <ion-label class="lbl-on-image" style="left: 0;">Exterior</ion-label>
-        </div>
-      </td>
-      <td>
-        <div>
-          <img src="../../assets/kia-interior.png" alt="SHOWCASE IMAGES">
-          <ion-label class="lbl-on-image" style="left: 50%;">Interior</ion-label>
-        </div>
-      </td>
-    </tr>
+  <div>
+    <ion-grid>
+      <ion-row>
+        <ion-col style="padding: unset;" size="6" *ngFor="let item of images">
+          <div class="image-container" [style.background-image]="'url('+item.src+')'">
+            <!-- <img [src]="'url('+item.src+')'" alt="Kia"> -->
+            <ion-label class="lbl-on-image" style="left: 0;">{{item.title}}</ion-label>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
     <ion-button class="btn-brochure" style="text-transform: none; margin-top:15px">Download brochure</ion-button>
-
-    <!-- <div style="background: white;">
-      <div style="text-align: center;">
-        360VR
-      </div>
-      <div class="row vrContainer">
-        <div class="col-2">
-          <span (click)="slidePrev()">
-            <ion-icon name="arrow-back" style="color: red;"></ion-icon>
-          </span>
-        </div>
-        <div class="col-8">
-          <ion-slides #slides slidesPerView="1" [options]="slideOpts">
-            <ion-slide>
-              <img src="../../assets/kia_slide_1.jpg">
-            </ion-slide>
-            <ion-slide>
-              <img src="../../assets/kia_slide_2.jpg">
-            </ion-slide>
-            <ion-slide>
-              <img src="../../assets/kia_slide_3.jpg">
-            </ion-slide>
-          </ion-slides>
-        </div>
-        <div class="col-2">
-          <span (click)="slideNext()">
-            <ion-icon name="arrow-forward" style="color: red;"></ion-icon>
-          </span>
-        </div>
-      </div>
-    </div> -->
   </div>
 
 </ion-content>

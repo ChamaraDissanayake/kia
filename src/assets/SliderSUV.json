@@ -1,14 +1,14 @@
 [
     {
-        "id": "0",
+        "showcase_id": "0",
         "src":"../../assets/kia-suv-slider-1.jpg"
     },
     {
-        "id": "1",
+        "showcase_id": "1",
         "src": "../../assets/kia-suv-slider-2.jpg"
     },
     {
-        "id": "2",
+        "showcase_id": "2",
         "src":"../../assets/kia-suv-slider-3.jpg"
     }
 ]

@@ -27,12 +27,12 @@
   <ion-grid *ngFor="let item of estimateRequest" class="booking-container text-white">
     <ion-row>
       <ion-col size="8">
-        <ion-label>{{item.description}}</ion-label>
+        <textarea disabled class="custom-input" value="{{item.description}}"></textarea>
       </ion-col>
       <ion-col size="4">
-        <ion-button class="btn-damage" (click)="gotoView(false)" *ngIf="item.status==4">View</ion-button>
-        <ion-button class="btn-damage" (click)="gotoRespond()" *ngIf="item.status==2">Respond</ion-button>
-        <ion-button class="btn-damage" (click)="gotoView(true)" *ngIf="item.status==1 || item.status==3">Pending</ion-button>
+        <ion-button class="btn-damage" (click)="gotoView(item.damage_estimate_id)" *ngIf="item.estimate_status==4">View</ion-button>
+        <ion-button class="btn-damage" (click)="gotoRespond(item.damage_estimate_id)" *ngIf="item.estimate_status==2">Respond</ion-button>
+        <ion-button class="btn-damage" (click)="gotoPending(item.damage_estimate_id)" *ngIf="item.estimate_status==1 || item.estimate_status==3">Pending</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

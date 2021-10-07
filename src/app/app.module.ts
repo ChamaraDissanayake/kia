@@ -9,8 +9,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { Device } from '@ionic-native/device/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
-import { Camera } from '@ionic-native/camera/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
+import { FileTransfer } from '@ionic-native/file-transfer/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 
 @NgModule({
@@ -19,6 +23,7 @@ import { File } from '@ionic-native/file/ngx';
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    IonicStorageModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
@@ -29,6 +34,9 @@ import { File } from '@ionic-native/file/ngx';
     ImagePicker,
     Camera,
     File,
+    FilePath,
+    FileTransfer,
+    FileOpener,
     { 
       provide: RouteReuseStrategy, 
       useClass: IonicRouteStrategy

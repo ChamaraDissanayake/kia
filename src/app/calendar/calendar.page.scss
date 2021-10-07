@@ -81,3 +81,8 @@
 
     // border-radius: 15px;
 // }
+
+ion-select::part(text) {
+    white-space: normal !important;
+    transform: uppercase !important;
+}

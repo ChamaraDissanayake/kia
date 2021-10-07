@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Animation, AnimationController, MenuController, Platform } from '@ionic/angular';
+import { Storage } from '@ionic/storage-angular';
 import { KiaProviderService } from '../kia-provider.service'
 
 @Component({
@@ -18,7 +19,8 @@ export class LoginPage implements OnInit, AfterViewInit {
     private animationCtrl: AnimationController,
     public kiaProviderService: KiaProviderService,
     private menu: MenuController,
-    private platform: Platform
+    private platform: Platform,
+    private storage: Storage
     ) {}
 
   ngAfterViewInit() {
@@ -50,12 +52,15 @@ export class LoginPage implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    // console.log("ngOnInit");
-    // this.kiaProviderService.fromLogin = true;
     this.kiaProviderService.from = 'login';
   }
 
   ionViewDidEnter(){
     this.menu.swipeGesture(false);
+  }
+
+  gotoHome(){
+    this.router.navigateByUrl('/home');
+    this.storage.set("isNewUser", false);
   }
 }

@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -18,9 +19,10 @@ export class VehicleAddPage implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     public kiaProviderService: KiaProviderService,
+    private http: HttpClient,
     private platform: Platform) {
     this.signup = this.formBuilder.group({
-      vehicleNumber: [this.kiaProviderService.vehicle_id, [Validators.required, Validators.minLength(6), Validators.pattern('^[A-Za-z0-9]{2,}-[0-9]{4}$')]],
+      vehicleNumber: [this.kiaProviderService.vehicle_number, [Validators.required, Validators.minLength(6)]],
     });
   }
 
@@ -35,18 +37,40 @@ export class VehicleAddPage implements OnInit {
 
   validation_messages = {
     'vehicleNumber': [
-      { type: 'required', message: '* Vehicle number is required!' },
-      { type: 'pattern', message: '* Vehicle number pattern AAA-1234' }
+      { type: 'required', message: '* Vehicle number is required!' }
     ]
   };
 
-  addNumber(v){
-    console.log("add new vehicle",v.toUpperCase())
-    this.router.navigateByUrl('/my-profile');
+  addNumber(vehicleNum){
+    this.kiaProviderService.vehicle_id="";
+    this.kiaProviderService.vehicle_number=vehicleNum.toUpperCase();
+    this.AddVehicle();
   }
-  updateNumber(v){
-    console.log("update vehicle",v)
-    this.router.navigateByUrl('/my-profile');
+  updateNumber(vehicleNum){
+    this.kiaProviderService.vehicle_number=vehicleNum.toUpperCase();
+    this.AddVehicle();
+  }
 
+  AddVehicle() {
+    console.log(
+      this.kiaProviderService.user_id,
+      this.kiaProviderService.vehicle_id,
+      this.kiaProviderService.vehicle_number)
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "user_id":this.kiaProviderService.user_id,
+      "vehicle_id":this.kiaProviderService.vehicle_id,
+      "vehicle_number":this.kiaProviderService.vehicle_number
+    },
+    url: any = this.kiaProviderService.baseURL + 'addNewVehicle';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("profile data ", data);
+      this.router.navigateByUrl('/my-profile');
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+    }); 
   }
 }

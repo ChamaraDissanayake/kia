@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { CalendarComponent } from 'ionic2-calendar'
 import { KiaProviderService } from '../kia-provider.service';
 // import CalendarEvents from '../../assets/calendarEvents.json'
-import myProfile from '../../assets/myProfile.json'
+// import myProfile from '../../assets/myProfile.json'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Platform } from '@ionic/angular';
 
@@ -15,22 +15,25 @@ import { Platform } from '@ionic/angular';
 })
 export class CalendarPage implements OnInit {
 
-  profile = myProfile.my_vehicles;
+  myVehicles;
+  //  = myProfile.my_vehicles;
   eventSource = [];
   viewTitle: string;
   selectedDay: any;
   isSlotBooked: boolean = false;
   eventCount = 0;
-  // calendarEvents = CalendarEvents;
   calendarEvents;
   timeSlots
   isDisabled = true;
-  bookedSlots;
+  bookedSlots=[];
   firstView: boolean = true;
+  firstLoad: boolean = true;
   makeInquiry: boolean = true;
   vehicleSelected: boolean = true;
   stt:number = 0;
   ett:number = 0;
+  slotsAvailable:boolean = false;
+
   calendar = {
     mode: 'month',
     currentDate: new Date(),
@@ -54,18 +57,35 @@ export class CalendarPage implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    console.log("calendar", this.kiaProviderService.showroom_id, this.kiaProviderService.booking_type)
-    this.platform.ready().then(()=>{
-      this.fillCalendar();
-    })
-  
     this.selectedDay = new Date();
 
     if(this.kiaProviderService.booking_type==1){
       this.vehicleSelected = true;
     }else{
       this.vehicleSelected = false;
+      this.getMyVehicles();
     }
+  }
+  
+  getMyVehicles() {
+    console.log(this.kiaProviderService.user_id, "user id")
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "user_id":this.kiaProviderService.user_id
+    },
+    url: any = this.kiaProviderService.baseURL + 'myProfile';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("vehicle data ", data)
+      this.myVehicles = data[0].vehicles;
+      this.kiaProviderService.user_name = data[0].name;
+      this.kiaProviderService.user_phone = data[0].phone_number;
+      this.kiaProviderService.user_email = data[0].email;
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+    }); 
   }
 
   fillCalendar() {
@@ -78,16 +98,8 @@ export class CalendarPage implements OnInit {
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
-      console.log(`Congratulations calendar data was `, data);
+      console.log("calendar data ", data)
       this.calendarEvents = data;
-      let checked:boolean = true;
-      this.calendarEvents.forEach(calEvents =>{
-        if(checked){
-          checked=false;
-          this.timeSlots=calEvents.slots;
-        }
-      })
-      this.bookedSlots = this.timeSlots;
       this.LoadEvents();
     },
     (error: any) => {
@@ -96,7 +108,9 @@ export class CalendarPage implements OnInit {
   }
 
   ionViewDidEnter(){
-    this.fillCalendar();
+    this.platform.ready().then(()=>{
+      this.fillCalendar();
+    })
   }
 
   next() {
@@ -107,7 +121,6 @@ export class CalendarPage implements OnInit {
     this.myCal.slidePrev();
   }
 
-  // Selected date renge and hence title changed
   onViewTitleChanged(title) {
     this.viewTitle = title;
   }
@@ -119,7 +132,7 @@ export class CalendarPage implements OnInit {
 
   selectTimeSlot(event) {
     let key = event.target.value;
-
+    console.log(key, "key")
     let st = key.substring(0,key.indexOf(','));
     let et = key.substring(key.indexOf(',')+1,key.indexOf('-'));
 
@@ -131,11 +144,13 @@ export class CalendarPage implements OnInit {
     let etm = (et.substring(key.indexOf(':')+1, et.length)).toString();
     this.ett = parseInt(eth) + parseInt(etm)-330;
 
-    let stat = key.substring(key.indexOf('-')+1,key.indexOf('+'))
+    let stat = key.substring(key.indexOf('-')+1,key.indexOf('+'));
 
-    this.kiaProviderService.time_slot = key.substring(key.indexOf('+')+1,key.length)
+    this.kiaProviderService.time_slot = key.substring(key.indexOf('+')+1,key.indexOf('~'))
+
+    this.kiaProviderService.booking_settings_id = key.substring(key.indexOf('~')+1,key.length);
+
     
-    // console.log(this.kiaProviderService.time_slot)
     if(stat=="booked"){
       this.isSlotBooked = true;
     }else{
@@ -143,43 +158,76 @@ export class CalendarPage implements OnInit {
     }
     
     this.checkValidity();
-    // this.selectedSlot = event.target.value;
   }
 
   gotoNextPage() {
+    console.log("time_slot ", this.kiaProviderService.time_slot, this.kiaProviderService.booking_settings_id)
     if(this.isSlotBooked || !this.isAvailableDay){
-      this.kiaProviderService.is_inquiry = true;
+      this.kiaProviderService.is_inquiry = '1';
     }else{
-      this.kiaProviderService.is_inquiry = false;
+      this.kiaProviderService.is_inquiry = '0';
     }
-    this.kiaProviderService.date = this.selectedDay;
+    this.kiaProviderService.date = this.selectedDay.getFullYear()+"-"+this.selectedDay.getMonth()+"-"+this.selectedDay.getDate();
     this.kiaProviderService.start_time = this.stt;
     this.kiaProviderService.end_time = this.ett;
 
     if(this.kiaProviderService.booking_type==1){
       this.router.navigateByUrl("/test-drive-registration");
     }else{
-      this.router.navigateByUrl("/booking-confirmed");
+      this.sendServiceData();
     }
+  }
+
+  sendServiceData() {
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "deviceId":this.kiaProviderService.deviceId,
+      "user_id":this.kiaProviderService.user_id,
+      "vehicle_id":this.kiaProviderService.vehicle_id,
+      "showroom_id":this.kiaProviderService.showroom_id,
+      "supervisor_id":this.kiaProviderService.supervisor_id,
+      "booking_type":this.kiaProviderService.booking_type,
+      "booking_settings_id":this.kiaProviderService.booking_settings_id,
+      "date":this.kiaProviderService.date,
+      "time_slot":this.kiaProviderService.time_slot,
+      "start_time":this.kiaProviderService.start_time,
+      "end_time":this.kiaProviderService.end_time,
+      "is_inquiry":this.kiaProviderService.is_inquiry,
+      "phone_number":this.kiaProviderService.user_phone,
+      "supervisor_name":this.kiaProviderService.supervisor_name,
+      "customer_name":this.kiaProviderService.user_name,
+      "customer_email":this.kiaProviderService.user_email
+      },
+    url: any = this.kiaProviderService.baseURL + 'addBooking';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("submitted ",data)
+      this.router.navigateByUrl("/booking-confirmed");
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+    }); 
   }
 
   onCurrentDateChanged(event){
     this.isSlotBooked=false;
-    this.isAvailableDay=true;
+    // this.isAvailableDay=true;
     this.firstView = !this.firstView;
     this.stt = 0;
     this.ett = 0;
     
-    this.selectedDay = new Date(Date.UTC(event.getFullYear(), event.getMonth(), event.getDate(),0,0,0,0));
+    this.selectedDay = new Date(Date.UTC(event.getFullYear(), event.getMonth()+1, event.getDate(),0,0,0,0));
 
-    // var current = new Date(Date.UTC(new Date().getFullYear(),new Date().getMonth(), new Date().getDate(),0,0,0,0));
+    if(!this.firstLoad){
+      this.LoadBookings(event);
+    }
+    this.firstLoad=false;
+    this.checkValidity();
+    console.log(this.isSlotBooked, !this.isAvailableDay)
+  }
 
-    // if(((this.selectedDay.valueOf()-current.valueOf())/86400000)<4){
-    //   this.isRecentDay = true;
-    // } else {
-    //   this.isRecentDay = false;
-    // }
-
+  LoadBookings(event){
     this.calendarEvents.forEach(calEvents =>{
       calEvents.slots.forEach(slotList => {
         slotList.status='';
@@ -187,11 +235,13 @@ export class CalendarPage implements OnInit {
     })
 
     this.calendarEvents.forEach(calEvents =>{
-      if(calEvents.year==event.getFullYear() && calEvents.month==event.getMonth() && calEvents.day==event.getDate()){
+      if(calEvents.year==event.getFullYear() && calEvents.month==event.getMonth()+1 && calEvents.day==event.getDate()){
         if(!calEvents.isAvailable){
           this.isAvailableDay=false;
+          console.log("isAvailableDay",this.isAvailableDay)
         }else{
           this.isAvailableDay=true;
+          console.log("isAvailableDay",this.isAvailableDay)
         }
         calEvents.slots.forEach(slotList => {
           if(!slotList.isSlotAvailable){
@@ -201,25 +251,18 @@ export class CalendarPage implements OnInit {
           }
         });
         this.bookedSlots = calEvents.slots;
+        
+        if(this.bookedSlots.length==0){
+          this.slotsAvailable=false;
+        }else{
+          this.slotsAvailable=true;
+        }
+        console.log( "booked slots",this.bookedSlots.length)
       }
     })
-
-    // if(this.eventCount>0){
-    //   this.calendarEvents.forEach(calEvents =>{
-    //     if(calEvents.year==event.getFullYear() && calEvents.month==event.getMonth() && calEvents.day==event.getDate()){
-    //       this.bookedSlots[calEvents.slot-1]["status"]="booked";
-    //     }
-    //   })
-    // }
-    this.checkValidity();
-    console.log(this.isSlotBooked, !this.isAvailableDay)
   }
 
-  // onEventSelected(event){
-  //   console.log(event);
-  // }
   LoadEvents(){
-    // console.log(this.calendarEvents.length, this.calendarEvents)
     var events = [];
     var startTime;
     var endTime;
@@ -228,14 +271,14 @@ export class CalendarPage implements OnInit {
       if(!calEvents.isAvailable){
         startTime = new Date(Date.UTC(
           calEvents.year,
-          calEvents.month,
+          calEvents.month-1,
           calEvents.day,
           0,
           510));
   
         endTime = new Date(Date.UTC(
           calEvents.year,
-          calEvents.month,
+          calEvents.month-1,
           calEvents.day,
           0,
           840));
@@ -249,25 +292,10 @@ export class CalendarPage implements OnInit {
       }
 
     })
-    this.eventSource = events
+    this.eventSource = events;
+    this.LoadBookings(new Date());
   }
 
-  // getCustomClass(events) {
-  //   if(events.length > 0) {
-  //     return events[0].eventType;
-  //   }
-  //   return '';
-  // }
-  // clickOnEvent(isFull, numberOfEvents){
-  //   this.isSlotBooked = isFull;
-  //   this.eventCount= numberOfEvents;
-  // }
-
-  // refresh() {
-  //   this.zone.run(() => {
-  //     console.log('force update the screen');
-  //   });    
-  // }
   checkBoxChanged(isChecked){
     this.makeInquiry=isChecked;
     this.checkValidity();

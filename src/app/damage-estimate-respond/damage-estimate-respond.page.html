@@ -11,11 +11,11 @@
 
 <ion-content class="background-image" fullscreen="true">
     <div style="margin: 20px 10px;">
-      <div style="margin: 5px;">
+      <!-- <div style="margin: 5px;"> -->
         <div *ngFor="let msg of messages">
           <tr class="row">
             <td class="col-10">
-              <ion-textarea auto-grow=true read-only=true class="received" *ngIf="msg.isAdmin" value="{{msg.message}}">
+              <ion-textarea auto-grow=true disabled class="received" *ngIf="msg.isAdmin" value="{{msg.message}}">
               </ion-textarea>
             </td>
             <td class="col-2"></td>
@@ -24,12 +24,12 @@
             <td class="col-2">
             <td>
             <td class="col-10">
-              <ion-textarea auto-grow=true read-only=true class="sent" *ngIf="!msg.isAdmin" value="{{msg.message}}">
+              <ion-textarea auto-grow=true disabled class="sent" *ngIf="!msg.isAdmin" value="{{msg.message}}">
               </ion-textarea>
             </td>
           </tr>
         </div>
-      </div>
+      <!-- </div> -->
 
     </div>
 
@@ -50,8 +50,7 @@
       </div>
       <div style="margin-top: 20px;">
         <tr class="row" style="place-items: center">
-          <td class="col-1"></td>
-          <td class="col-5">
+          <td class="col-6">
             <ion-label class="topics">Upload image</ion-label>
           </td>
           <td class="col-5">
@@ -61,7 +60,7 @@
         </tr>
 
         <tr style="background: rgba(0, 0, 0, 0.5);">
-          <span *ngFor="let image of images">
+          <span *ngFor="let image of imageURLs">
             <img class="thumbnail" [src]='image'>
           </span>
         </tr>
@@ -69,24 +68,26 @@
 
       <div style="margin-top: 20px;">
         <tr class="row" style="place-items: center">
-          <td class="col-1"></td>
-          <td class="col-5">
+          <td class="col-6">
             <ion-label class="topics">Upload video</ion-label>
           </td>
           <td class="col-5">
-            <ion-button class="btn-edit" (click)="getVideo()">Choose video</ion-button>
+            <ion-button class="btn-edit" (click)="selectVideo()">Choose video</ion-button>
           </td>
           <td class="col-1"></td>
         </tr>
-        <tr class="row" style="place-items: center" *ngIf="videos.length>0">
+        <tr class="row" style="place-items: center" *ngIf="videoURLs.length>0">
           <td class="col-6">
           </td>
           <td class="col-6">
             <span class="image-count">
-              {{videos.length}} video(s) added
+              {{videoURLs.length}} video(s) added
             </span>
           </td>
         </tr>
+      </div>
+      <div style="text-align: center;">
+        <ion-spinner name="dots" *ngIf="showLoader"></ion-spinner>
       </div>
       <div style="width: 100%; margin-top: 20px; text-align: center;">
         <ion-button class="btnNavigate" type="Submit" [disabled]="!collitionForm.valid">Submit</ion-button>

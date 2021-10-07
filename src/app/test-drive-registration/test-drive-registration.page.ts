@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -14,7 +15,8 @@ export class TestDriveRegistrationPage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    public kiaProviderService: KiaProviderService) { 
+    public kiaProviderService: KiaProviderService,
+    private http: HttpClient) { 
     this.signup = this.formBuilder.group({
       name:['', [Validators.required, Validators.pattern('[A-Za-z ]{3,}')]],
       email:['', [Validators.required, Validators.pattern('[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})')]],
@@ -38,14 +40,39 @@ export class TestDriveRegistrationPage implements OnInit {
   };
 
   submitDetails(){
-    console.log(this.signup.value);
-    // this.kiaProviderService.fromLogin = false;
-    this.kiaProviderService.from = 'test-drive-registration';
-    this.kiaProviderService.customer_name = this.signup.get('name').value;
-    this.kiaProviderService.customer_phone = this.signup.get('mobile').value;
-    this.kiaProviderService.customer_email = this.signup.get('email').value;
-    console.log(this.kiaProviderService.customer_name, this.kiaProviderService.customer_phone, this.kiaProviderService.customer_email);
-    this.router.navigateByUrl("/otp");
+    this.kiaProviderService.from = 'test_drive';
+    console.log(this.kiaProviderService.user_id)
+
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "deviceId":this.kiaProviderService.deviceId,
+      "user_id":this.kiaProviderService.user_id,
+      "vehicle_id":"0",
+      "showroom_id":this.kiaProviderService.showroom_id,
+      "supervisor_id":"0",
+      "booking_type":this.kiaProviderService.booking_type,
+      "booking_settings_id":this.kiaProviderService.booking_settings_id,
+      "date":this.kiaProviderService.date,
+      "time_slot":this.kiaProviderService.time_slot,
+      "start_time":this.kiaProviderService.start_time,
+      "end_time":this.kiaProviderService.end_time,
+      "is_inquiry":this.kiaProviderService.is_inquiry,
+      "phone_number":this.signup.get('mobile').value,
+      "supervisor_name":"0",
+      "customer_name":this.signup.get('name').value,
+      "customer_email":this.signup.get('email').value
+      },
+    url: any = this.kiaProviderService.baseURL + 'addBooking';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("submitted ",data)
+      this.kiaProviderService.booking_id = data.booking_id;
+      this.router.navigateByUrl("/otp");
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+    }); 
   }
 
   ngOnInit() {

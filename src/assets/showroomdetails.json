@@ -1,10 +1,10 @@
 {
 	"shop_id":"1",
-    "shop_name":"KIA Service Center",
-    "shop_address":"47 Kirula Rd,Colombo 05,Sri Lanka",
+    "shop_name":"",
+    "shop_address":"",
     "shop_openTime":"09:00",
     "shop_closeTime":"17:00",
-    "tel_no":"071 131 9050",
+    "tel_no":"",
     "latitude":6.8928209,
     "longitude":79.8705022,
     "supervisors":[

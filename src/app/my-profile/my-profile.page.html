@@ -22,9 +22,9 @@
     <div style="padding-left: 20px;">
 
       <div class="topics">
-        <span>{{profile.my_name}}</span><br>
-        <span>{{profile.my_tel_no}}</span><br>
-        <span>{{profile.my_email}}</span>
+        <span>{{profile.name}}</span><br>
+        <span>{{profile.phone_number}}</span><br>
+        <span>{{profile.email}}</span>
       </div>
       
     </div>
@@ -33,7 +33,7 @@
       <ion-grid style="padding-left: 15px;">
         <ion-row>
           <ion-col><ion-label style="font-size: 20px; font-weight: bold;">My vehicles</ion-label></ion-col>
-          <ion-col style="text-align: end;"><ion-button (click)="gotoAddVehicle('')" class="btn-add btn-edit">+ Add</ion-button></ion-col>
+          <ion-col style="text-align: end;"><ion-button (click)="gotoAddVehicle()" class="btn-add btn-edit">+ Add</ion-button></ion-col>
         </ion-row>
       </ion-grid>
 
@@ -42,13 +42,13 @@
         <ion-button style="margin-left: 50%;" (click)="gotoAddVehicle('')" class="btn-edit">+ Add</ion-button>  
       </ion-item> -->
       <div style="padding-left: 20px;">
-        <div *ngFor="let item of profile.my_vehicles">
+        <div *ngFor="let item of profile.vehicles">
           <tr class="row">
-            <td class="col-4" style="width: 100px; font-size: 20px;">
-              <ion-label>{{item}}</ion-label>
+            <td class="col-5" style="width: 100px; font-size: 20px;">
+              <ion-label>{{item.vehicle_no}}</ion-label>
             </td>
-            <td class="col-8">
-              <ion-button (click)="gotoAddVehicle(item)" class="btn-edit vehicle">Edit</ion-button>
+            <td class="col-7">
+              <ion-button (click)="gotoUpdateVehicle(item)" class="btn-edit vehicle">Edit</ion-button>
             </td>
           </tr>
         </div>

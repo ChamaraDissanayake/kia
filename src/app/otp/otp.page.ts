@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { KiaProviderService } from '../kia-provider.service'
+import { KiaProviderService } from '../kia-provider.service';
+import { Storage } from '@ionic/storage-angular';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-otp',
@@ -13,7 +15,11 @@ export class OtpPage implements OnInit {
   @ViewChild('otp2') otp2;
   @ViewChild('otp3') otp3;
   @ViewChild('otp4') otp4;
-  constructor(private router: Router, public kiaProviderService: KiaProviderService) { }
+  constructor(
+    private router: Router,
+    public kiaProviderService: KiaProviderService,
+    private storage: Storage,
+    private http: HttpClient) { }
 
   ngOnInit() {
   }
@@ -53,10 +59,41 @@ export class OtpPage implements OnInit {
   }
 
   next(){
-    if(this.kiaProviderService.from=='login'){
-      this.router.navigateByUrl("/home");
-    }else{
-      this.router.navigateByUrl("/booking-confirmed");
-    }
+    console.log(
+      "otp ", this.otp1.value+this.otp2.value+this.otp3.value+this.otp4.value,
+      ", user_id", this.kiaProviderService.user_id,
+      ", otp_from ", this.kiaProviderService.from,
+      ", booking_id", this.kiaProviderService.booking_id
+      );
+
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "otp": this.otp1.value+this.otp2.value+this.otp3.value+this.otp4.value,
+      "user_id": this.kiaProviderService.user_id,
+      "otp_from": this.kiaProviderService.from,
+      "booking_id": this.kiaProviderService.booking_id
+    },
+    url: any = this.kiaProviderService.baseURL + 'otpVerify';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("profile data ", data)
+      if(data.code==2){
+        if(this.kiaProviderService.from=='login'){
+          this.storage.set("isNewUser", false);
+          this.router.navigateByUrl("/home");
+        }else if(this.kiaProviderService.from=='update'){
+          this.router.navigateByUrl("/my-profile");
+        }
+        else{
+          this.router.navigateByUrl("/booking-confirmed");
+        }
+      } else {
+        console.log("OTP verification failed");
+      }
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+    }); 
   }
 }

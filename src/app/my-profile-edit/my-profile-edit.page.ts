@@ -1,9 +1,10 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
-import myProfile from '../../assets/myProfile.json'
+// import myProfile from '../../assets/myProfile.json'
 
 @Component({
   selector: 'app-my-profile-edit',
@@ -15,21 +16,22 @@ export class MyProfileEditPage implements OnInit {
 
   @ViewChild('myName') myName;
 
-  profile = myProfile;
+  // profile = myProfile;
   constructor(    
     private formBuilder: FormBuilder,
     private router: Router,
     public kiaProviderService: KiaProviderService,
-    private platform: Platform) {
+    private platform: Platform,
+    private http: HttpClient) {
       this.signup = this.formBuilder.group({
-        email:[this.profile.my_email, [Validators.required, Validators.pattern('[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})')]],
-        mobile:[this.profile.my_tel_no, [Validators.required, Validators.pattern('[0]{1}[7]{1}[0-9]{8}'), Validators.minLength(10)]]
+        email:[this.kiaProviderService.user_email, [Validators.required, Validators.pattern('[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})')]],
+        mobile:[this.kiaProviderService.user_phone, [Validators.required, Validators.pattern('[0]{1}[7]{1}[0-9]{8}'), Validators.minLength(10)]]
       });
      }
 
   ngOnInit() {
     this.platform.ready().then(()=>{
-      this.myName.value = this.profile.my_name;
+      this.myName.value = this.kiaProviderService.user_name;
     });
   }
 
@@ -43,10 +45,43 @@ export class MyProfileEditPage implements OnInit {
       { type: 'pattern', message: '* Not a valid mobile number!' }
     ]
   };
-
-  updateDetails(){
+  
+  updateDetails() {
+    let phoneUpdated: boolean = true;
     console.log(this.signup.get('email').value, this.signup.get('mobile').value);
-    this.router.navigateByUrl('/my-profile');
+    if(this.kiaProviderService.user_phone == this.signup.get('mobile').value){
+      console.log("phone not updated");
+      phoneUpdated = false;
+    }else{
+      console.log("phone updated");
+      phoneUpdated = true;
+    }
+
+    console.log(this.kiaProviderService.user_id, "user id")
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "user_id":this.kiaProviderService.user_id,
+      "phone_number":this.signup.get('mobile').value,
+      "email":this.signup.get('email').value,
+      "phoneUpdated":phoneUpdated
+    },
+    url: any = this.kiaProviderService.baseURL + 'editProfile';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("profile data ", data)
+      this.kiaProviderService.user_email == this.signup.get('email').value;
+      if(phoneUpdated){
+        this.kiaProviderService.user_phone == this.signup.get('mobile').value
+        this.kiaProviderService.from = "update";
+        this.router.navigateByUrl('/otp');
+      }else{
+        this.router.navigateByUrl('/my-profile');
+      }
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+    }); 
   }
 
 }

@@ -1,7 +1,7 @@
 {
 	"my_id":"1",
-    "my_name":"Chamara Dissanayake",
-    "my_tel_no":"0714142387",
-    "my_email":"chamara@evoke.lk",
-    "my_vehicles":["AAA-2390", "AAB-1234", "AAC-9809"]
+    "name":"",
+    "phone_number":"",
+    "email":"",
+    "my_vehicles":[]
 }

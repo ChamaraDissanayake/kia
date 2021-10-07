@@ -27,8 +27,7 @@
     </div>
     <div style="margin-top: 20px;">
       <tr class="row" style="place-items: center">
-        <td class="col-1"></td>
-        <td class="col-5">
+        <td class="col-6">
           <ion-label class="topics">Upload image</ion-label>
         </td>
         <td class="col-5">
@@ -41,26 +40,33 @@
         <span *ngFor="let image of images">
           <img class="thumbnail" [src]='image'>
         </span>
+        <!-- <ion-grid>
+          <ion-row>
+            <ion-col style="padding: unset;" size="4" *ngFor="let image of images">
+              <div class="image-container" [style.background-image]="'url('+image+')'">
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid> -->
       </tr>
     </div>
   
     <div style="margin-top: 20px;">
       <tr class="row" style="place-items: center">
-        <td class="col-1"></td>
-        <td class="col-5">
+        <td class="col-6">
           <ion-label class="topics">Upload video</ion-label>
         </td>
         <td class="col-5">
-          <ion-button class="btn-edit" (click)="getVideo()">Choose video</ion-button>
+          <ion-button class="btn-edit" (click)="selectVideo()">Choose video</ion-button>
         </td>
         <td class="col-1"></td>
       </tr>
-      <tr class="row" style="place-items: center" *ngIf="videos.length>0">
+      <tr class="row" style="place-items: center" *ngIf="videoURLs.length>0">
         <td class="col-6">
         </td>
         <td class="col-6">
           <span class="video-count">
-            {{videos.length}} videos added
+            {{videoURLs.length}} videos added
           </span>
         </td>
       </tr>
@@ -69,6 +75,9 @@
           <img class="thumbnail" [src]='item.src'>
         </span>
       </tr> -->
+    </div>
+    <div style="text-align: center;">
+      <ion-spinner name="dots" *ngIf="showLoader"></ion-spinner>
     </div>
     <div style="width: 100%; margin-top: 20px; text-align: center;">
       <ion-button class="btnNavigate" type="Submit" [disabled]="!collitionForm.valid">Submit</ion-button>

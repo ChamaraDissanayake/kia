@@ -1,16 +1,14 @@
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, Router, RouterModule, Routes } from '@angular/router';
+import { Storage } from '@ionic/storage-angular';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
-  },
   // {
-  //   path: 'folder/:id',
-  //   loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
+  //   path: '',
+  //   redirectTo: 'home',
+  //   pathMatch: 'full'
   // },
+
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
@@ -98,7 +96,15 @@ const routes: Routes = [
   {
     path: 'damage-estimate-respond',
     loadChildren: () => import('./damage-estimate-respond/damage-estimate-respond.module').then( m => m.DamageEstimateRespondPageModule)
+  },  {
+    path: 'view-images',
+    loadChildren: () => import('./view-images/view-images.module').then( m => m.ViewImagesPageModule)
+  },
+  {
+    path: 'view-videos',
+    loadChildren: () => import('./view-videos/view-videos.module').then( m => m.ViewVideosPageModule)
   }
+
 ];
 
 @NgModule({
@@ -107,4 +113,23 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+  constructor(private router: Router,private storage: Storage){
+    this.storage.create();
+    this.storedData();
+  }
+
+  async storedData(){
+    let getStoredData = await this.storage.get("isNewUser");
+
+    if(getStoredData == null){
+      this.storage.set("isNewUser", true);
+      this.router.navigateByUrl("login");
+    }
+    else if(!getStoredData){
+      this.router.navigateByUrl("home");
+    }else{
+      this.router.navigateByUrl("login");
+    }
+  }
+}

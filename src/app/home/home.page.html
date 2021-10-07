@@ -137,10 +137,9 @@
   <div style="padding: unset;">
     <ion-card style="margin: unset;" (click)="playVideo()">
       <ion-card-content style="padding: unset;">
-        <video #player playinline preload="auto" poster="../../assets/kia-video-thumbnail.jpeg">
-          <source src="https://push-notify.s3.ap-southeast-1.amazonaws.com/kia/video_2.mp4" type="video/mp4">
+        <video *ngFor="let item of mainVideo" #player playinline preload="auto" poster="../../assets/kia-video-thumbnail.jpeg">
+          <source [src]="item" type="video/mp4">
         </video>
-
         <img #playImage class="lbl-on-video image-on-video"
           [ngClass]="{'btnHide': !videoPaused}" src="../../assets/kia-play-icon.png">
       </ion-card-content>
@@ -166,19 +165,24 @@
 
   
   <div>
-    <div style="width: 100%; position:absolute; z-index: 2; margin-top: 30px;">
-      <div style="text-align: right;">
-        <img style="width: 36%;" (click)="gotoSelectedVehicle()" src="../../assets/kia-explore-button.PNG" alt="footer">
-      </div>
-    </div>
-    <ion-slides pager="true" [options]="slideOpts" *ngIf="sliderChange" (click)="gotoSelectedVehicle()">
-      <ion-slide *ngFor="let item of kiaSlider">
+    <ion-slides pager="true" [options]="slideOpts" *ngIf="sliderChange">
+      <ion-slide *ngFor="let item of kiaSlider" (click)="gotoSelectedVehicle(item.showcase_id)">
+        <div style="width: 100%; position:absolute; z-index: 2; top:20px;">
+          <div style="text-align: right;">
+            <img style="width: 36%;" src="../../assets/kia-explore-button.PNG" alt="footer">
+          </div>
+        </div>
         <img [src]="item.src" style="background: white;" alt="KIA MOTORS">
       </ion-slide>
 
     </ion-slides>
-    <ion-slides pager="true" [options]="slideOpts" *ngIf="!sliderChange" (click)="gotoSelectedVehicle()">
-      <ion-slide *ngFor="let item of kiaSlider">
+    <ion-slides pager="true" [options]="slideOpts" *ngIf="!sliderChange">
+      <ion-slide *ngFor="let item of kiaSlider" (click)="gotoSelectedVehicle(item.showcase_id)">
+        <div style="width: 100%; position:absolute; z-index: 2; top:20px;">
+          <div style="text-align: right;">
+            <img style="width: 36%;" src="../../assets/kia-explore-button.PNG" alt="footer">
+          </div>
+        </div>
         <img [src]="item.src" style="background: white;" alt="KIA MOTORS">
       </ion-slide>
     </ion-slides>
@@ -227,22 +231,21 @@
     </ion-fab-list>
 
     <ion-fab-list class="fab-list-sv" side="start">
-      <ion-fab-button class="fab-sv" [disabled]='kiaProviderService.permissionLevel!=2' (click)='gotoRegisterdServices(2)' [ngClass]="kiaProviderService.permissionLevel==2 ? 'enabled' : 'disabled'">
+      <ion-fab-button class="fab-sv" (click)='gotoRegisterdServices(2)' [ngClass]="kiaProviderService.permissionLevel==2 ? 'enabled' : 'disabled'">
         <ion-label class="fab-label">Service</ion-label>
       </ion-fab-button>
     </ion-fab-list>
 
     <ion-fab-list class="fab-list-bs" side="end">
-      <ion-fab-button class="fab-bs" [disabled]='kiaProviderService.permissionLevel!=2' (click)='gotoRegisterdServices(3)' [ngClass]="kiaProviderService.permissionLevel==2 ? 'enabled' : 'disabled'">
+      <ion-fab-button class="fab-bs" (click)='gotoRegisterdServices(3)' [ngClass]="kiaProviderService.permissionLevel==2 ? 'enabled' : 'disabled'">
         <ion-label class="fab-label">Body<br>Shop</ion-label>
       </ion-fab-button>
     </ion-fab-list>
 
     <ion-fab-list class="fab-list-ws" side="end">
-      <ion-fab-button class="fab-ws" [disabled]='kiaProviderService.permissionLevel!=2' (click)='gotoRegisterdServices(4)' [ngClass]="kiaProviderService.permissionLevel==2 ? 'enabled' : 'disabled'">
+      <ion-fab-button class="fab-ws" (click)='gotoRegisterdServices(4)' [ngClass]="kiaProviderService.permissionLevel==2 ? 'enabled' : 'disabled'">
         <ion-label class="fab-label">Work<br>Shop</ion-label>
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>
-
 </ion-content>

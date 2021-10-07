@@ -69,22 +69,22 @@
     </div>
   </div>
 
-  <div style="width: 100%; text-align: center; margin-top: 10px;">
+  <div *ngIf="slotsAvailable" style="width: 100%; text-align: center; margin-top: 10px;">
     <ion-label class="topics">Select time slot</ion-label>
   </div>
 
-  <div style="text-align: -webkit-center;">
+  <div style="text-align: -webkit-center;" *ngIf="slotsAvailable">
     <ion-item class="selector-wrapper">
       <ion-select okText="Confirm" cancelText="Dismiss" (ionChange)="selectTimeSlot($event)" placeholder="Time slot" *ngIf="firstView">
-        <ion-select-option value="{{item.start}},{{item.end}}-{{item.status}}+{{item.slot}}" *ngFor="let item of bookedSlots" [ngClass]="{'bookedSlot': item.status == 'booked'}">{{item.start}}-{{item.end}}</ion-select-option>
+        <ion-select-option value="{{item.start}},{{item.end}}-{{item.status}}+{{item.slot}}~{{item.booking_settings_id}}" *ngFor="let item of bookedSlots" [ngClass]="{'bookedSlot': item.status == 'booked'}">{{item.start}}-{{item.end}}</ion-select-option>
       </ion-select>
       <ion-select okText="Confirm" cancelText="Dismiss" (ionChange)="selectTimeSlot($event)" placeholder="Time slot" *ngIf="!firstView">
-        <ion-select-option value="{{item.start}},{{item.end}}-{{item.status}}+{{item.slot}}" *ngFor="let item of bookedSlots" [ngClass]="{'bookedSlot': item.status == 'booked'}">{{item.start}}-{{item.end}}</ion-select-option>
+        <ion-select-option value="{{item.start}},{{item.end}}-{{item.status}}+{{item.slot}}~{{item.booking_settings_id}}" *ngFor="let item of bookedSlots" [ngClass]="{'bookedSlot': item.status == 'booked'}">{{item.start}}-{{item.end}}</ion-select-option>
       </ion-select>
     </ion-item>
   </div>
   <!-- <div style="text-align: center; margin: 20px;" *ngIf="isSlotBooked || !isAvailableDay || isRecentDay"> -->
-  <div style="text-align: center; margin: 20px;" *ngIf="isSlotBooked || !isAvailableDay || isRecentDay">
+  <div style="text-align: center; margin: 20px;" *ngIf="(isSlotBooked || !isAvailableDay) && slotsAvailable">
     <ion-checkbox #inquiry color="danger" size="larger" checked="true" (ionChange)="checkBoxChanged($event.detail.checked)"></ion-checkbox>
     <span>
       <ion-label label-for="inquiry"
@@ -102,7 +102,7 @@
     <div style="text-align: -webkit-center; margin-bottom: 20px;">
       <ion-item class="selector-wrapper">
         <ion-select okText="Confirm" cancelText="Dismiss" (ionChange)="selectVehicle($event.target.value)" placeholder="Vehicle">
-          <ion-select-option value="{{item}}" *ngFor="let item of profile" [ngClass]="{'bookedSlot': item.status == 'booked'}">{{item}}</ion-select-option>
+          <ion-select-option value="{{item.vehicle_id}}" *ngFor="let item of myVehicles" [ngClass]="{'bookedSlot': item.status == 'booked'}">{{item.vehicle_no}}</ion-select-option>
         </ion-select>
       </ion-item>
     </div>

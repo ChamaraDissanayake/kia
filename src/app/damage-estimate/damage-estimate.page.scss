@@ -27,3 +27,11 @@
     text-transform: none;
     min-width: 92px;
 }
+
+.custom-input{
+    // color: black;
+    background: transparent;
+    border:none;
+    width:-webkit-fill-available;
+    overflow: hidden;
+}

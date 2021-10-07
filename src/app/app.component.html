@@ -1,57 +1,29 @@
-<!-- <ion-app>
-  <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay">
-      <ion-content>
-        <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi@ionicframework.com</ion-note>
-
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-              <ion-label>{{ p.title }}</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-        </ion-list>
-
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
-
-          <ion-item *ngFor="let label of labels" lines="none">
-            <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-            <ion-label>{{ label }}</ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-content>
-    </ion-menu>
-    <ion-router-outlet id="main-content"></ion-router-outlet>
-  </ion-split-pane>
-</ion-app> -->
-
-<!-- swipeGesture='false' -->
 <ion-app>
   <ion-menu menuId="main-menu" content-id='main'>
     <ion-header>
       <ion-toolbar style="--background: black; border-bottom: 3px solid white;">
         <ion-menu-toggle>
-          <div (click)="gotoLogin()" *ngIf='kiaProviderService.permissionLevel==0'>
-            <img src="../../assets/Kia White Logo (no BG).png" style="width: 26%; margin-left: 20px;" alt="KIA MOTORS">
-            <ion-title class="text-white" style="float: right;">Sign In / Sign Up</ion-title>
-          </div>
-          <div (click)="gotoMyProfile()" *ngIf='kiaProviderService.permissionLevel!=0'>
-            <img src="../../assets/Kia White Logo (no BG).png" style="width: 26%; margin-left: 20px;" alt="KIA MOTORS">
-            <ion-title class="text-white" style="float: right;">My profile</ion-title>
-          </div>
+          <img src="../../assets/Kia White Logo (no BG).png" style="width: 26%; margin-left: 20px;" alt="KIA MOTORS">
         </ion-menu-toggle>
       </ion-toolbar>
     </ion-header>
     <ion-content class="gradientBackground">
       <ion-list style="background:transparent;">
         <ion-menu-toggle>
-          <ion-item (click)="gotoSelectedVehicle()">
+          <ion-item (click)="gotoHome()">
             <ion-icon style="color: white;" name="home-outline" slot="start"></ion-icon>
-            <ion-label class="text-white">Showcase</ion-label>
+            <ion-label class="text-white">Home</ion-label>
           </ion-item>
+          
+          <ion-item (click)="gotoLogin()" *ngIf='kiaProviderService.permissionLevel==0'>
+            <ion-icon style="color: white;" name="log-in-outline" slot="start"></ion-icon>
+            <ion-label class="text-white">Sign In / Sign Up</ion-label>
+          </ion-item>
+          <ion-item (click)="gotoMyProfile()" *ngIf='kiaProviderService.permissionLevel!=0'>
+            <ion-icon style="color: white;" name="person-outline" slot="start"></ion-icon>
+            <ion-label class="text-white">My profile</ion-label>
+          </ion-item>
+
           <ion-item (click)="goToShowroom()">
             <ion-icon style="color: white;" name="car-outline" slot="start"></ion-icon>
             <ion-label class="text-white">Test drive</ion-label>
@@ -82,7 +54,7 @@
           </ion-item>
           <ion-item [disabled]='kiaProviderService.permissionLevel!=2'>
             <ion-icon style="color: white;" name="card-outline" slot="start"></ion-icon>
-            <ion-label class="text-white">Account balances</ion-label>
+            <ion-label class="text-white">Online payment</ion-label>
           </ion-item>
           <ion-item (click)="gotoShowroomList()">
             <ion-icon style="color: white;" name="locate" slot="start"></ion-icon>
