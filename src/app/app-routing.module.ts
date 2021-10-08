@@ -3,11 +3,11 @@ import { PreloadAllModules, Router, RouterModule, Routes } from '@angular/router
 import { Storage } from '@ionic/storage-angular';
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: 'home',
-  //   pathMatch: 'full'
-  // },
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
 
   {
     path: 'login',
@@ -96,14 +96,23 @@ const routes: Routes = [
   {
     path: 'damage-estimate-respond',
     loadChildren: () => import('./damage-estimate-respond/damage-estimate-respond.module').then( m => m.DamageEstimateRespondPageModule)
-  },  {
+  },
+  {
     path: 'view-images',
     loadChildren: () => import('./view-images/view-images.module').then( m => m.ViewImagesPageModule)
   },
   {
     path: 'view-videos',
     loadChildren: () => import('./view-videos/view-videos.module').then( m => m.ViewVideosPageModule)
+  },
+  {
+    path: 'online-payment',
+    loadChildren: () => import('./online-payment/online-payment.module').then( m => m.OnlinePaymentPageModule)
+  },  {
+    path: 'online-payment-select',
+    loadChildren: () => import('./online-payment-select/online-payment-select.module').then( m => m.OnlinePaymentSelectPageModule)
   }
+
 
 ];
 
@@ -116,7 +125,7 @@ const routes: Routes = [
 export class AppRoutingModule {
   constructor(private router: Router,private storage: Storage){
     this.storage.create();
-    this.storedData();
+    // this.storedData();
   }
 
   async storedData(){

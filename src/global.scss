@@ -114,6 +114,18 @@
     border-bottom: 1px solid white;
 }
 
+.alert-title.sc-ion-alert-md {
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.alert-message.sc-ion-alert-md {
+    max-height: 240px;
+    font-size: 16px;
+    color: white;
+}
+
 [aria-checked=true].sc-ion-alert-md .alert-radio-label.sc-ion-alert-md {
     // color: var(--ion-color-step-850, rgb(235, 0, 41));
     color: white;

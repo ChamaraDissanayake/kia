@@ -11,6 +11,7 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 // import sliderAll from '../../assets/SliderAll.json';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { KiaProviderService } from '../kia-provider.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-damage-image-upload',
@@ -39,7 +40,8 @@ export class DamageImageUploadPage implements OnInit {
     public kiaProviderService: KiaProviderService,
     public filePath: FilePath,
     public transfer: FileTransfer,
-    private zone: NgZone) {
+    private zone: NgZone,
+    private alertController: AlertController) {
     this.collitionForm = this.formBuilder.group({
       description:['', [Validators.required, Validators.pattern('[A-Za-z0-9 ]{9,}'), Validators.minLength(10)]],
     }); 
@@ -244,6 +246,38 @@ validation_messages = {
         alert("Video upload failed");
       });
   }
+
+  // deleteImage(i){
+  //   console.log(i)
+  //   this.imageURLs.splice(i, 1);
+  // }
+
+  async deleteImage(i) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Are you sure want to delete this image?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Yes',
+          handler: () => {
+            console.log('Confirm Okay');
+            this.imageURLs.splice(i, 1);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
 
   refresh() {
     this.zone.run(() => {

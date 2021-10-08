@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/online-payment"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-image" style="text-align: -webkit-center;" fullscreen="true">
+  <div *ngFor="let item of bills" class="billItem text-white">
+    <ion-label>Invoice number: {{item.refinv}}</ion-label><br>
+    <ion-label>Balance amount: {{item.bAmt}}</ion-label><br>
+  </div>
+
+  <div style="text-align: center; margin: 40px 0;">
+    <ion-button class="btnNavigate" [routerLink]="['/online-payment-select']">Pay</ion-button>
+  </div>
+</ion-content>

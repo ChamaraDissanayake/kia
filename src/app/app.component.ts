@@ -112,6 +112,12 @@ export class AppComponent{
     }, 500);
   }
 
+  gotoOnlinePayment(){
+    setTimeout(() => {
+      this.router.navigateByUrl("/online-payment");
+    }, 500);
+  }
+
   sendDeviceID(deviceID:string) {
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {

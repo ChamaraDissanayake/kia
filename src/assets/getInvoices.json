@@ -1,0 +1,29 @@
+[
+    {
+        "refno": "WS/2007/0008",
+        "vehino": "CBK 7492",
+        "refinv": "JB/2006/1104",
+        "txndate": "2020-07-01",
+        "bAmt": 5940,
+        "totbal": 5940,
+	    "dbId": "CAR"
+    },
+    {
+        "refno": "WS/2007/0010",
+        "vehino": "CBK 1691",
+        "refinv": "JB/2006/1094",
+        "txndate": "2020-07-01",
+        "bAmt": 3780,
+        "totbal": 3780,
+	    "dbId": "CAR"
+    },
+    {
+        "refno": "WS/2007/0006",
+        "vehino": "CBL 0585",
+        "refinv": "JB/2006/1101",
+        "txndate": "2020-07-01",
+        "bAmt": 5940,
+        "totbal": 5940,
+	    "dbId": "AUT"
+    }
+]

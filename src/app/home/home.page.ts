@@ -57,7 +57,6 @@ export class HomePage implements OnInit {
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
-      console.log("slider all", data[0])
       this.sliderAll = data[0];
       this.sliderCar = data[1];
       this.sliderSUV = data[2];

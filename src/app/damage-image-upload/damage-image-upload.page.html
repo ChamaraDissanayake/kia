@@ -37,8 +37,9 @@
       </tr>
 
       <tr style="background: rgba(0, 0, 0, 0.5);">
-        <span *ngFor="let image of images">
-          <img class="thumbnail" [src]='image'>
+        <span *ngFor="let image of imageURLs; let i = index">
+          <!-- <ion-icon name="trash-bin-outline" style="position: absolute;  margin: 10px;"></ion-icon> -->
+          <img class="thumbnail" [src]='image' (click)="deleteImage(i)">
         </span>
         <!-- <ion-grid>
           <ion-row>
