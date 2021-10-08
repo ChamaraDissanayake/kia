@@ -10,13 +10,9 @@
 </ion-header>
 
 <ion-content class="background-image" style="text-align: -webkit-center;" fullscreen="true">
-  <!-- <div *ngFor="let item of bills" class="billItem text-white">
-    <ion-label>Invoice: {{item.refinv}}</ion-label><br>
-    <ion-label>Balance: {{item.bAmt}}</ion-label><br>
-  </div> -->
-  <ion-list *ngFor="let item of bills;" class="billItem text-white">
+  <ion-list *ngFor="let item of bills; let i = index" class="billItem text-white">
     <ion-item class="no-background">
-      <ion-checkbox slot="start" color="danger" value="{{item.refinv}},{{item.bAmt}}" (ionChange)="selectInvoce($event.detail)"></ion-checkbox>
+      <ion-checkbox slot="start" color="danger" value="{{item.refinv}},{{item.bAmt}}+{{i}}" (ionChange)="selectInvoce($event.detail)"></ion-checkbox>
       <ion-label>Invoice: {{item.refinv}}</ion-label>
     </ion-item>
     <ion-label>Balance: Rs. {{item.bAmt}}</ion-label>
@@ -26,6 +22,6 @@
     <h1>Total: Rs. {{total}}</h1>
   </div>
   <div style="text-align: center; margin: 40px 0;">
-    <ion-button class="btnNavigate" [routerLink]="['/online-payment-select']">Pay</ion-button>
+    <ion-button class="btnNavigate" (click)="pay()">Pay</ion-button>
   </div>
 </ion-content>
