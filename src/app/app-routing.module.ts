@@ -3,11 +3,11 @@ import { PreloadAllModules, Router, RouterModule, Routes } from '@angular/router
 import { Storage } from '@ionic/storage-angular';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
+  // {
+  //   path: '',
+  //   redirectTo: 'home',
+  //   pathMatch: 'full'
+  // },
 
   {
     path: 'login',
@@ -108,7 +108,8 @@ const routes: Routes = [
   {
     path: 'online-payment',
     loadChildren: () => import('./online-payment/online-payment.module').then( m => m.OnlinePaymentPageModule)
-  },  {
+  },
+  {
     path: 'online-payment-select',
     loadChildren: () => import('./online-payment-select/online-payment-select.module').then( m => m.OnlinePaymentSelectPageModule)
   }
@@ -125,7 +126,7 @@ const routes: Routes = [
 export class AppRoutingModule {
   constructor(private router: Router,private storage: Storage){
     this.storage.create();
-    // this.storedData();
+    this.storedData();
   }
 
   async storedData(){

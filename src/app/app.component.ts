@@ -128,10 +128,10 @@ export class AppComponent{
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
-      // this.kiaProviderService.user_id = data.user_id
-      // this.kiaProviderService.permissionLevel=data.register_status;
-      this.kiaProviderService.user_id = "13";
-      this.kiaProviderService.permissionLevel=2;
+      this.kiaProviderService.user_id = data.user_id
+      this.kiaProviderService.permissionLevel=data.register_status;
+      // this.kiaProviderService.user_id = "13";
+      // this.kiaProviderService.permissionLevel=2;
       console.log(this.kiaProviderService.user_id, this.kiaProviderService.permissionLevel);
     },
     (error: any) => {

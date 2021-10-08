@@ -10,7 +10,7 @@ import payList from '../../assets/getInvoices.json';
   styleUrls: ['./online-payment-select.page.scss'],
 })
 export class OnlinePaymentSelectPage implements OnInit {
-
+  total: number = 0;
   bills: any = [];
   constructor(
     private router: Router,
@@ -22,9 +22,15 @@ export class OnlinePaymentSelectPage implements OnInit {
   }
 
   selectInvoce(event){
-    console.log(event.target)
-    // let refNo = event.substring(0,event.indexOf(","));
-    // let amount = event.substring(event.indexOf(",")+1, event.length);
-    // console.log(refNo,amount)
+    console.log(event)
+    let isChecked = event.checked;
+    let refNo = event.value.substring(0,event.value.indexOf(","));
+    let amount: number = event.value.substring(event.value.indexOf(",")+1, event.value.length);
+    if(isChecked){
+      this.total = Number(this.total) + Number(amount);
+    }else{
+      this.total = Number(this.total) - Number(amount);
+    }
+    console.log(this.total)
   }
 }

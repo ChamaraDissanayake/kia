@@ -31,10 +31,10 @@
   <div class="message-container">
     <div style="margin-top: 20px;">
       <tr class="row" style="place-items: center">
-        <td class="col-6">
-          <ion-label class="topics">View images</ion-label>
+        <td style="padding-right: unset;" class="col-7">
+          <ion-label style="padding: unset;" class="topics">View images</ion-label>
         </td>
-        <td class="col-6">
+        <td class="col-5">
           <ion-button class="btn-edit" (click)="gotoViewImages()">View</ion-button>
         </td>
       </tr>
@@ -47,10 +47,10 @@
   
     <div style="margin-top: 20px;">
       <tr class="row" style="place-items: center">
-        <td class="col-6">
-          <ion-label class="topics">View videos</ion-label>
+        <td style="padding-right: unset;" class="col-7">
+          <ion-label style="padding: unset;" class="topics">View videos</ion-label>
         </td>
-        <td class="col-6">
+        <td class="col-5">
           <ion-button class="btn-edit" (click)="gotoViewVideos()">View</ion-button>
         </td>
       </tr>
@@ -63,10 +63,10 @@
 
     <div style="margin-top: 20px;" *ngIf="!kiaProviderService.isDamageEstimatePending">
       <tr class="row" style="place-items: center">
-        <td class="col-6">
-          <ion-label>Download estimate</ion-label>
+        <td style="padding-right: unset;" class="col-7">
+          <ion-label style="padding: unset;" class="topics">Download estimate</ion-label>
         </td>
-        <td class="col-6">
+        <td class="col-5">
           <ion-button class="btn-edit" (click)="download('kia_brochure')">Download</ion-button>
         </td>
       </tr>
