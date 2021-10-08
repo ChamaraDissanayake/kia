@@ -21,4 +21,10 @@ export class OnlinePaymentSelectPage implements OnInit {
     this.bills = payList;
   }
 
+  selectInvoce(event){
+    console.log(event.target)
+    // let refNo = event.substring(0,event.indexOf(","));
+    // let amount = event.substring(event.indexOf(",")+1, event.length);
+    // console.log(refNo,amount)
+  }
 }
