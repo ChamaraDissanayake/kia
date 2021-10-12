@@ -10,6 +10,7 @@ import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-nati
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { KiaProviderService } from '../kia-provider.service';
+import { AlertController } from '@ionic/angular';
 
 
 @Component({
@@ -42,6 +43,7 @@ export class DamageEstimateRespondPage implements OnInit {
     public kiaProviderService: KiaProviderService,
     public filePath: FilePath,
     public transfer: FileTransfer,
+    private alertController: AlertController,
     private zone: NgZone) {
     this.collitionForm = this.formBuilder.group({
       description:['', [Validators.required, Validators.pattern('[A-Za-z0-9 ]{9,}'), Validators.minLength(10)]],
@@ -84,6 +86,7 @@ validation_messages = {
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.Retry1();
     }); 
   }
 
@@ -116,6 +119,7 @@ validation_messages = {
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.Retry2();
     }); 
   }
   
@@ -238,6 +242,38 @@ validation_messages = {
         this.refresh();
         alert("Video upload failed");
       });
+  }
+
+  async Retry1() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.getDetails();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async Retry2() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.submitDetails();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 
   refresh() {

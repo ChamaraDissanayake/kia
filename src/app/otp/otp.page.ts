@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { KiaProviderService } from '../kia-provider.service';
 import { Storage } from '@ionic/storage-angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-otp',
@@ -15,9 +16,12 @@ export class OtpPage implements OnInit {
   @ViewChild('otp2') otp2;
   @ViewChild('otp3') otp3;
   @ViewChild('otp4') otp4;
+  isIncorrectOtp: boolean = false;
+
   constructor(
     private router: Router,
     public kiaProviderService: KiaProviderService,
+    private alertController: AlertController,
     private storage: Storage,
     private http: HttpClient) { }
 
@@ -40,6 +44,7 @@ export class OtpPage implements OnInit {
   isValid: boolean = false
 
   otpController(event, next, prev) {
+    this.isIncorrectOtp=false;
 
     if (event.target.value.length < 1 && prev) {
       prev.setFocus();
@@ -89,11 +94,29 @@ export class OtpPage implements OnInit {
           this.router.navigateByUrl("/booking-confirmed");
         }
       } else {
+        this.isIncorrectOtp=true;
         console.log("OTP verification failed");
       }
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.Retry();
     }); 
+  }
+
+  async Retry() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.next();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

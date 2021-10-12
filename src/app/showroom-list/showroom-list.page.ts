@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
 // import showroomslist from './../../assets/showroom-list.json';
 
@@ -16,6 +17,7 @@ export class ShowroomListPage implements OnInit {
   constructor(
     private router: Router,
     public kiaProviderService: KiaProviderService,
+    private alertController: AlertController,
     private http: HttpClient) { }
 
   ngOnInit() {
@@ -40,6 +42,23 @@ export class ShowroomListPage implements OnInit {
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.Retry();
     }); 
+  }
+
+  async Retry() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.getShowroomList();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, QueryList, ViewChildren, ViewChild, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonSlides, Platform, ViewWillLeave } from '@ionic/angular';
+import { AlertController, IonSlides, Platform, ViewWillLeave } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
 import VRImageGreen from './../../assets/VRImageGreen.json'
 import VRImageWhite from './../../assets/VRImageWhite.json'
@@ -33,6 +33,7 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
     private router: Router,
     private platform: Platform,
     private http: HttpClient,
+    private alertController: AlertController,
     public kiaProviderService: KiaProviderService) {}
 
   slideOpts = {
@@ -136,6 +137,7 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.Retry1();
     }); 
   }
 
@@ -155,6 +157,7 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.Retry2();
     }); 
   }
 
@@ -183,7 +186,39 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
       console.log("color changed", button.colorCode);
       this.colorName = button.colorName;
       this.colorCode = button.colorCode;
-      this.LoadVR(button.colorCode);
+      this.LoadVR(this.colorCode);
     }
+  }
+
+  async Retry1() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.LoadData();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async Retry2() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.LoadVR(this.colorCode);
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

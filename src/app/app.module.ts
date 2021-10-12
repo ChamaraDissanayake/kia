@@ -15,6 +15,8 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { Network } from '@ionic-native/network/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 
 @NgModule({
@@ -31,12 +33,14 @@ import { IonicStorageModule } from '@ionic/storage-angular';
   ],
   providers: [
     Device,
+    Network,
     ImagePicker,
     Camera,
     File,
     FilePath,
     FileTransfer,
     FileOpener,
+    InAppBrowser,
     { 
       provide: RouteReuseStrategy, 
       useClass: IonicRouteStrategy

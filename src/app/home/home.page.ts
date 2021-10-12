@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 // import sliderCar from '../../assets/SliderCar.json';
 // import sliderCommercial from '../../assets/SliderCommercial.json';
 import { KiaProviderService } from '../kia-provider.service';
-import { MenuController, Platform } from '@ionic/angular';
+import { AlertController, MenuController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
@@ -33,22 +33,25 @@ export class HomePage implements OnInit {
     private router: Router,
     public kiaProviderService: KiaProviderService,
     private menu: MenuController,
-    private platform: Platform,
-    private http: HttpClient) { }
+    // private platform: Platform,
+    private http: HttpClient,
+    private alertController: AlertController
+  ) { }
 
   ngOnInit() {
     this.LoadData();
-    this.platform.ready().then(()=>{
-      if(this.kiaProviderService.firstLoad){
-        // this.videoPlayer.nativeElement.muted = true;
-        // this.playVideo();
-        this.kiaProviderService.firstLoad=false;
-      }
-    })
+    // this.platform.ready().then(()=>{
+    //   if(this.kiaProviderService.firstLoad){
+    //     this.videoPlayer.nativeElement.muted = true;
+    //     this.playVideo();
+    //     this.kiaProviderService.firstLoad=false;
+    //   }
+    // })
     
   }
 
   LoadData(){
+    console.log(this.kiaProviderService.connectSubscription, "connectSubscription")
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {
 
@@ -66,6 +69,7 @@ export class HomePage implements OnInit {
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.Retry()
     }); 
   }
   
@@ -163,5 +167,21 @@ export class HomePage implements OnInit {
     this.kiaProviderService.is_inquiry = '0';
     this.kiaProviderService.damage_estimate_id = 0;
     this.kiaProviderService.showcase_id = 0;
+  }
+
+  async Retry() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.LoadData();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

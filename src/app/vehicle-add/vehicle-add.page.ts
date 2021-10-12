@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Platform } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
 
 @Component({
@@ -19,6 +19,7 @@ export class VehicleAddPage implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     public kiaProviderService: KiaProviderService,
+    private alertController: AlertController,
     private http: HttpClient,
     private platform: Platform) {
     this.signup = this.formBuilder.group({
@@ -71,6 +72,23 @@ export class VehicleAddPage implements OnInit {
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.Retry();
     }); 
+  }
+
+  async Retry() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.AddVehicle();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

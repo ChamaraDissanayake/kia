@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
 
 // import data from './../../assets/feed.json';
@@ -24,6 +24,7 @@ export class ViewVideosPage implements OnInit {
   constructor(
     private http: HttpClient,
     public kiaProviderService: KiaProviderService,
+    private alertController: AlertController,
     private platform: Platform
   ) { }
 
@@ -64,7 +65,23 @@ export class ViewVideosPage implements OnInit {
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.Retry();
     }); 
   }
 
+  async Retry() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.getDetails();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
 }

@@ -5,7 +5,7 @@ import { KiaProviderService } from '../kia-provider.service';
 // import CalendarEvents from '../../assets/calendarEvents.json'
 // import myProfile from '../../assets/myProfile.json'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Platform } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 
 
 @Component({
@@ -34,8 +34,7 @@ export class CalendarPage implements OnInit {
   ett:number = 0;
   slotsAvailable:boolean = false;
 
-  calendar = {
-    mode: 'month',
+  public calendar = {
     currentDate: new Date(),
     startingDayMonth: 1
   };
@@ -54,7 +53,8 @@ export class CalendarPage implements OnInit {
     public kiaProviderService: KiaProviderService,
     private http: HttpClient,
     private platform: Platform,
-    private router: Router) { }
+    private router: Router,
+    private alertController: AlertController) { }
 
   ngOnInit() {
     this.selectedDay = new Date();
@@ -85,6 +85,7 @@ export class CalendarPage implements OnInit {
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.Retry1();
     }); 
   }
 
@@ -104,6 +105,7 @@ export class CalendarPage implements OnInit {
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.Retry2();
     }); 
   }
 
@@ -124,7 +126,8 @@ export class CalendarPage implements OnInit {
   onViewTitleChanged(title) {
     this.viewTitle = title;
   }
-  selectVehicle(vehicleId){
+  selectVehicle(event){
+    let vehicleId = event.target.value;
     this.vehicleSelected = true;
     this.kiaProviderService.vehicle_id=vehicleId;
     this.checkValidity();
@@ -207,6 +210,7 @@ export class CalendarPage implements OnInit {
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.Retry3();
     }); 
   }
 
@@ -296,7 +300,8 @@ export class CalendarPage implements OnInit {
     this.LoadBookings(new Date());
   }
 
-  checkBoxChanged(isChecked){
+  checkBoxChanged(event){
+    let isChecked = event.detail.checked
     this.makeInquiry=isChecked;
     this.checkValidity();
   }
@@ -315,5 +320,53 @@ export class CalendarPage implements OnInit {
     }else{
       this.isDisabled = true;
     }
+  }
+
+  async Retry1() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.getMyVehicles(); 
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async Retry2() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.fillCalendar();            
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async Retry3() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.sendServiceData();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

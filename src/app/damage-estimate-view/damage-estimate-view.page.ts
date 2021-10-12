@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { File } from '@ionic-native/file/ngx';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-damage-estimate-view',
@@ -24,7 +25,8 @@ export class DamageEstimateViewPage implements OnInit {
     private router: Router,
     public file: File,
     public transfer: FileTransfer,
-    private fileOpener: FileOpener
+    private fileOpener: FileOpener,
+    private alertController: AlertController
   ) { }
 
   ngOnInit() {
@@ -50,6 +52,7 @@ export class DamageEstimateViewPage implements OnInit {
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.Retry();
     }); 
   }
 
@@ -96,6 +99,22 @@ export class DamageEstimateViewPage implements OnInit {
     // { ext: 'gif', MType: 'image/gif' },
     { ext: 'pdf', MType: 'application/pdf' }
   ]
+
+  async Retry() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.getDetails();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
 }
 
 

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, Platform } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import myProfile from '../../assets/myProfile.json'
 import { KiaProviderService } from '../kia-provider.service';
 
@@ -15,7 +15,7 @@ export class MyProfilePage implements OnInit {
 
   profile = myProfile;
   constructor(    
-    private platform: Platform,
+    // private platform: Platform,
     public alertController: AlertController,
     private router: Router,
     public kiaProviderService: KiaProviderService,
@@ -67,7 +67,23 @@ export class MyProfilePage implements OnInit {
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.Retry();
     }); 
   }
 
+  async Retry() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.getMyDetails();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Platform } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 // import showroomslist from './../../assets/showroom.json';
 // import showroomdetails from './../../assets/showroomdetails.json';
@@ -22,10 +22,12 @@ export class ShowRoomPage implements OnInit {
   showroomAddressSplitted;
   showRoomOpenHours: string;
   isValid: boolean = false;
+  tempEvent: any;
 
   constructor(private router: Router,
     // private platform: Platform,
     public kiaProviderService: KiaProviderService,
+    private alertController: AlertController,
     public http: HttpClient,
     ) { }
 
@@ -52,10 +54,12 @@ export class ShowRoomPage implements OnInit {
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.Retry1();
     }); 
   }
 
   selectShowroom(event){
+    this.tempEvent = event;
     this.kiaProviderService.showroom_id=event.target.value;
     console.log("test drive ",this.kiaProviderService.showroom_id, this.kiaProviderService.booking_type)
 
@@ -74,14 +78,47 @@ export class ShowRoomPage implements OnInit {
       this.showroomAddressSplitted = this.showroomAddress.split(",");  
       this.showRoomOpenHours=data[0].shop_openTime.substring(0,5) + " to " + data[0].shop_closeTime.substring(0,5);
       this.isValid = true;
+      this.tempEvent=null;
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.Retry2();
     }); 
   }
 
-
   gotoCalendar(){
     this.router.navigateByUrl("/calendar");
+  }
+
+  async Retry1() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.getShowroomList();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async Retry2() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.selectShowroom(this.tempEvent);
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

@@ -35,6 +35,7 @@
             </ion-input>
           </ion-col>
         </ion-row>
+        <ion-label color="danger" *ngIf = "isIncorrectOtp">Otp not mached!</ion-label>
       </div>
       <div style="margin-top: 20px; text-align: center; width: 100%;">
         <ion-button class="btnNavigate" style="margin-right: 40px;" [disabled]='!isValid' (click)="next()">Confirm</ion-button>

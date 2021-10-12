@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Platform } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 import { Device } from '@ionic-native/device/ngx';
 import { KiaProviderService } from './kia-provider.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-// import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-root',
@@ -12,48 +11,21 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent{
-  public appPages = [
-    // { title: 'SignIn/Register', url: 'login', icon: 'mail' },
-    // { title: 'Showcase', url: '/folder/Models', icon: 'paper-plane' },
-    // { title: 'TestDrive', url: '/phone-verify', icon: 'heart' },
-    // { title: 'Showroom', url: '/showroom', icon: 'archive' },
-    // { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
-    // { title: 'Spam', url: '/folder/Spam', icon: 'warning' },
-  ];
-  // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+
   constructor(
     private router: Router,
     private platform: Platform,
     public kiaProviderService: KiaProviderService,
     public http: HttpClient,
     private device: Device,
-    // private storage: Storage
+    private alertController: AlertController
     ) {
     this.platform.ready().then(()=>{
-      // this.storage.create();
-      // this.storedData();
       let deviceID = this.device.uuid;
       this.sendDeviceID(deviceID);    
       kiaProviderService.deviceId = deviceID;
-      
-    //   router.navigateByUrl("login");
-      // setTimeout(() => {
-      //   console.log("splash hide now")
-      // }, 10000);
-
     })
-    
   }
-
-  // async storedData(){
-  //   let getStoredData = await this.storage.get("isNewUser");
-  //   console.log('is new user' + getStoredData);
-  //   if(!getStoredData){
-  //     this.router.navigateByUrl("home");
-  //   }else{
-  //     this.router.navigateByUrl("login");
-  //   }
-  // }
   
   gotoLogin(){
     setTimeout(() => {
@@ -136,6 +108,23 @@ export class AppComponent{
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.Retry();
     });      
+  }
+
+  async Retry() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.sendDeviceID(this.kiaProviderService.deviceId);
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

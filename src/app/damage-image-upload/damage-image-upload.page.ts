@@ -84,6 +84,7 @@ validation_messages = {
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.Retry();
     }); 
   }
   
@@ -278,6 +279,21 @@ validation_messages = {
     await alert.present();
   }
 
+  async Retry() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.submitDetails();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
 
   refresh() {
     this.zone.run(() => {

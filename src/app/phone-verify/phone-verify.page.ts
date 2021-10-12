@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
 
 @Component({
@@ -16,6 +17,7 @@ export class PhoneVerifyPage implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     public kiaProviderService: KiaProviderService,
+    private alertController: AlertController,
     private http: HttpClient) { 
     this.signup = this.formBuilder.group({
       name:['', [Validators.required, Validators.pattern('[A-Za-z0-9 ]{2,}')]],
@@ -73,8 +75,24 @@ export class PhoneVerifyPage implements OnInit {
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.Retry();
     });  
-
     this.router.navigateByUrl("/otp");
+  }
+
+  async Retry() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.submitDetails();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }
