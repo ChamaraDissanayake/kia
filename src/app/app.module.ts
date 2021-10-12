@@ -17,6 +17,7 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { Network } from '@ionic-native/network/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
     FileTransfer,
     FileOpener,
     InAppBrowser,
+    CallNumber,
     { 
       provide: RouteReuseStrategy, 
       useClass: IonicRouteStrategy

@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-image" fullscreen="true">
+  <h1 style="text-align: center;">My part requests</h1>
+
+  <ion-grid *ngFor="let item of estimateRequest" class="booking-container text-white">
+    <ion-row>
+      <ion-col size="8">
+        <textarea disabled class="custom-input" value="{{item.description}}"></textarea>
+      </ion-col>
+      <ion-col size="4">
+        <ion-button class="btn-damage" (click)="gotoView(item.damage_estimate_id)" *ngIf="item.status==1">View</ion-button>
+        <ion-button class="btn-damage" (click)="gotoRespond(item.damage_estimate_id)" *ngIf="item.status==2">Pendins</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div style="text-align: center; margin: 40px 0;">
+    <ion-button class="btnNavigate" [routerLink]="['/request-part']">Request part</ion-button>
+  </div>
+</ion-content>

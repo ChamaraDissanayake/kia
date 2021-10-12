@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/my-profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-image" fullscreen="true">
+  <!-- <div style="width: 100%; height: 3px; background: rgb(235, 0, 41);" slot="fixed"></div> -->
+
+  <div style="text-align: -webkit-center;">
+    <h2 style="margin-top: 50%;">Contact us:</h2>
+    <h4 style="margin: 5% 0 10% 0;">{{phoneNo}}</h4>
+    <ion-button class="btnNavigate" (click)="call()">Call now</ion-button>
+  </div>
+</ion-content>

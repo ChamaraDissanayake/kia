@@ -142,7 +142,7 @@ validation_messages = {
     }
     this.imagePicker.getPictures(options).then((results)=>{
       for(var interval = 0; interval<results.length; interval++){
-        let url = 'data:video/mp4;base64,'+results[interval]
+        let url = 'data:image/jpeg;base64,'+results[interval]
         this.images.push(url);
       }
 

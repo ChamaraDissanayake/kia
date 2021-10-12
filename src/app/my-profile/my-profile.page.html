@@ -29,30 +29,31 @@
       
     </div>
     <div style="margin-top: 30px; padding-top: 30px; border-top: 1px solid white;">
-
-      <ion-grid style="padding-left: 15px;">
-        <ion-row>
-          <ion-col><ion-label style="font-size: 20px; font-weight: bold;">My vehicles</ion-label></ion-col>
-          <ion-col style="text-align: end;"><ion-button (click)="gotoAddVehicle()" class="btn-add btn-edit">+ Add</ion-button></ion-col>
-        </ion-row>
-      </ion-grid>
-
+      <div style="text-align: center;">
+        <ion-button (click)="gotoAddVehicle()" style="height: 44px;" class="btn-add btn-edit">+ Add</ion-button>
+      </div>
+      <div style="text-align: center; margin: 30px 0 18px 0;">
+        <ion-label style="font-size: 20px; font-weight: bold;">My vehicles</ion-label>
+      </div>
+      
       <!-- <ion-item style="--background: transparent; padding-left: 5px;">
         <h4 style="font-weight: bold; margin: unset; color: white;">My vehicles</h4>
         <ion-button style="margin-left: 50%;" (click)="gotoAddVehicle('')" class="btn-edit">+ Add</ion-button>  
       </ion-item> -->
-      <div style="padding-left: 20px;">
-        <div *ngFor="let item of profile.vehicles">
-          <tr class="row">
+      <!-- <div style="padding-left: 20px;"> -->
+        <div >
+          <tr class="row" style="height: 40px;" *ngFor="let item of profile.vehicles">
+            <td class="col-2"></td>
             <td class="col-5" style="width: 100px; font-size: 20px;">
               <ion-label>{{item.vehicle_no}}</ion-label>
             </td>
-            <td class="col-7">
+            <td class="col-3" style="text-align: end;">
               <ion-button (click)="gotoUpdateVehicle(item)" class="btn-edit vehicle">Edit</ion-button>
             </td>
+            <td class="col-2"></td>
           </tr>
         </div>
-      </div>
+      <!-- </div> -->
     </div>
   </div>
   

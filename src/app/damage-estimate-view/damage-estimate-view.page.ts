@@ -5,7 +5,7 @@ import { KiaProviderService } from '../kia-provider.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { File } from '@ionic-native/file/ngx';
-import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { AlertController } from '@ionic/angular';
 
@@ -66,13 +66,19 @@ export class DamageEstimateViewPage implements OnInit {
 
  download(name) {
     const fileTransfer = this.transfer.create();
-    const url = this.damageEstimatePdf;
-    console.log("pdf url", url)
-    fileTransfer.download(url, this.file.documentsDirectory + name).then((entry) => {
+    const pdfUrl = this.damageEstimatePdf;
+    let options:FileUploadOptions={
+      fileKey:"estimate",
+      mimeType:"application/pdf",
+      chunkedMode:false,
+      headers:{}
+    }
+    console.log("pdf url", pdfUrl)
+    fileTransfer.download(pdfUrl, this.file.dataDirectory + name, true, options).then((entry) => {
       console.log("entry",entry)
-      this.fileOpener.open(entry.toURL(), this.getMimeByExt(name))
-        .then(() => console.log('File is opened'))
-        .catch(e => console.log('Error opening file', e));
+      // this.fileOpener.open(entry.toURL(), this.getMimeByExt(name))
+      //   .then(() => console.log('File is opened'))
+      //   .catch(e => console.log('Error opening file', e));
     }, (error) => {
       console.log(error);
     });

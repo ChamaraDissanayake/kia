@@ -46,7 +46,7 @@ export class AppComponent{
     }, 500);
   }
 
-  getoServices(num: any){
+  gotoServices(num: any){
     this.kiaProviderService.booking_type = num;
     setTimeout(() => {
       this.router.navigateByUrl("/service-center");
@@ -58,6 +58,12 @@ export class AppComponent{
   //     this.router.navigateByUrl("/selected-veicle");
   //   }, 500);
   // }
+
+  gotoRequestPart(){
+    setTimeout(() => {
+      this.router.navigateByUrl("/my-part-requests");
+    }, 500);
+  }
 
   gotoHome(){
     setTimeout(() => {
@@ -77,7 +83,13 @@ export class AppComponent{
     }, 500);
   }
 
-  getoDamageEstimate(){
+  gotoCallUs(){
+    setTimeout(() => {
+      this.router.navigateByUrl("/call-us");
+    }, 500);
+  }
+
+  gotoDamageEstimate(){
     setTimeout(() => {
       this.kiaProviderService.booking_type = 6;
       this.router.navigateByUrl("/damage-estimate");
@@ -100,7 +112,7 @@ export class AppComponent{
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
-      this.kiaProviderService.user_id = data.user_id
+      this.kiaProviderService.user_id = data.user_id;
       this.kiaProviderService.permissionLevel=data.register_status;
       // this.kiaProviderService.user_id = "13";
       // this.kiaProviderService.permissionLevel=2;

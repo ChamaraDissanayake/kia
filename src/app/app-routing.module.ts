@@ -112,7 +112,25 @@ const routes: Routes = [
   {
     path: 'online-payment-select',
     loadChildren: () => import('./online-payment-select/online-payment-select.module').then( m => m.OnlinePaymentSelectPageModule)
+  },
+  {
+    path: 'call-us',
+    loadChildren: () => import('./call-us/call-us.module').then( m => m.CallUsPageModule)
+  },
+  {
+    path: 'request-part-view',
+    loadChildren: () => import('./request-part-view/request-part-view.module').then( m => m.RequestPartViewPageModule)
+  },
+  {
+    path: 'my-part-requests',
+    loadChildren: () => import('./my-part-requests/my-part-requests.module').then( m => m.MyPartRequestsPageModule)
+  },
+  {
+    path: 'request-part',
+    loadChildren: () => import('./request-part/request-part.module').then( m => m.RequestPartPageModule)
   }
+
+
 
 
 ];

@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/damage-estimate"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-image" fullscreen="true">
+  <form [formGroup]="partRequestForm" (ngSubmit)="submitDetails()" style="margin: 20px;">
+    <div>
+      <ion-label class="topics">Description</ion-label>
+      <ion-item style="border-radius: 24px; padding: 5px;">
+        <ion-textarea style="min-height: 86px;" auto-grow=true placeholder="Write a note" formControlName="description"></ion-textarea>
+      </ion-item>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.description">
+          <div class="error-message"
+            *ngIf="partRequestForm.get('description').hasError(validation.type) && (partRequestForm.get('description').dirty || partRequestForm.get('description').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div style="margin-top: 20px;">
+      <tr class="row" style="place-items: center">
+        <td class="col-6">
+          <ion-label class="topics">Upload image</ion-label>
+        </td>
+        <td class="col-5">
+          <ion-button class="btn-edit" (click)="selectImage()">Choose image</ion-button>
+        </td>
+        <td class="col-1"></td>
+      </tr>
+
+      <tr style="background: rgba(0, 0, 0, 0.5);">
+        <img class="thumbnail" [src]='finalImageURL' (click)="deleteImage()">
+      </tr>
+    </div>
+  
+    <div style="text-align: center;">
+      <ion-spinner name="dots" *ngIf="showLoader"></ion-spinner>
+    </div>
+    <div style="width: 100%; margin-top: 20px; text-align: center;">
+      <ion-button class="btnNavigate" type="Submit" [disabled]="!partRequestForm.valid">Submit</ion-button>
+    </div>
+  </form>
+</ion-content>

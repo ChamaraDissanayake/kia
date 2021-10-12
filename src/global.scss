@@ -42,7 +42,6 @@
 
 .swiper-pagination-bullet {
     background: linear-gradient(to right,#ba8750 0%, #9e6432 100%) !important;
-    
 }
 
 // .swiper-container-horizontal>.swiper-pagination-bullets {
@@ -184,7 +183,8 @@
 
 
 .btnNavigate{
-    --background: linear-gradient(to right,#ba8750 0%, #9e6432 100%);
+    // --background: linear-gradient(to right,#ba8750 0%, #9e6432 100%);
+    --background: black;
     --border-radius: 10px;
     width: 142px;
     height: 54px;
@@ -227,5 +227,5 @@ ion-content.background-image{
 .btn-edit{
     --border-radius:6px;
     text-transform: none;
-    --background:linear-gradient(to right,#1d1d1d 10%, #505050 45%, #505050 55%,  #1d1d1d 90%);
+    --background:black;
 }
