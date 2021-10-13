@@ -24,7 +24,6 @@ export class RequestPartViewPage implements OnInit {
 
   ngOnInit() {
     this.getRequestDetails();
-    this.imageURL = 'https://cdn.kia.lk/kia-uploads/rio/rio_uraban_green_070.jpg';
   }
 
   getRequestDetails() {

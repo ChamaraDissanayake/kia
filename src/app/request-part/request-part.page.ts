@@ -60,7 +60,8 @@ export class RequestPartPage implements OnInit {
       this.sendImage();
     },
     (err) => {
-      console.log(err);
+      console.log("select image:", err);
+      this.showLoader=false;
     });
   }
 

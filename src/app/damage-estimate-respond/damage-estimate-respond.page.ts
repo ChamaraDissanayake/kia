@@ -158,15 +158,19 @@ validation_messages = {
       height:100
     }
     this.imagePicker.getPictures(options).then((results)=>{
-      for(var interval = 0; interval<results.length; interval++){
-        let url = 'data:video/mp4;base64,'+results[interval]
-        this.images.push(url);
+      if(results.length){
+        for(var interval = 0; interval<results.length; interval++){
+          let url = 'data:image/jpeg;base64,'+results[interval]
+          this.images.push(url);
+        }
+  
+        setTimeout(() => {
+          this.i=0;
+          this.sendImages();
+        }, 1000);
+      }else{
+        this.showLoader=false;
       }
-
-      setTimeout(() => {
-        this.i=0;
-        this.sendImages();
-      }, 1000);
       
     },(err)=>{
       this.showLoader=false;
@@ -209,7 +213,8 @@ validation_messages = {
         }
       },
       (err) => {
-        console.log(err);
+        console.log("Video select",err);
+        this.showLoader = false;
       });
   }
 
