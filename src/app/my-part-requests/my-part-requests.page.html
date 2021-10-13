@@ -18,8 +18,8 @@
         <textarea disabled class="custom-input" value="{{item.description}}"></textarea>
       </ion-col>
       <ion-col size="4">
-        <ion-button class="btn-damage" (click)="gotoView(item.damage_estimate_id)" *ngIf="item.status==1">View</ion-button>
-        <ion-button class="btn-damage" (click)="gotoRespond(item.damage_estimate_id)" *ngIf="item.status==2">Pendins</ion-button>
+        <ion-button class="btn-damage" (click)="gotoView(item.request_part_id)" *ngIf="item.status">View</ion-button>
+        <ion-button class="btn-damage" (click)="gotoPending(item.request_part_id)" *ngIf="!item.status">Pending</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

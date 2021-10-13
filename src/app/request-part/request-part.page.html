@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
     <ion-buttons slot="start">
-      <ion-back-button style="color: white;" defaultHref="/damage-estimate"></ion-back-button>
+      <ion-back-button style="color: white;" defaultHref="/my-part-requests"></ion-back-button>
     </ion-buttons>
     <ion-title>
       <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
@@ -40,12 +40,30 @@
         <img class="thumbnail" [src]='finalImageURL' (click)="deleteImage()">
       </tr>
     </div>
+
+    <div>
+      <tr class="row" style="place-items: center">
+        <td class="col-6">
+          <ion-label class="topics">Vehicle model</ion-label>
+        </td>
+        <td class="col-5">
+          <ion-item class="selector-wrapper custom-select">
+            <ion-select placeholder="Select model" okText="Confirm" cancelText="Dismiss"
+              (ionChange)="selectModel($event)">
+              <ion-select-option *ngFor="let item of vehicleModels" value="{{item.vehicle_model_id}}">{{item.model_name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </td>
+        <td class="col-1"></td>
+      </tr>
+    </div>
   
     <div style="text-align: center;">
       <ion-spinner name="dots" *ngIf="showLoader"></ion-spinner>
     </div>
     <div style="width: 100%; margin-top: 20px; text-align: center;">
-      <ion-button class="btnNavigate" type="Submit" [disabled]="!partRequestForm.valid">Submit</ion-button>
+      <ion-button class="btnNavigate" type="Submit" [disabled]="!partRequestForm.valid">Request</ion-button>
     </div>
   </form>
 </ion-content>

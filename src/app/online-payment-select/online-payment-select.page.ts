@@ -50,6 +50,7 @@ export class OnlinePaymentSelectPage implements OnInit {
     this.indexes.forEach(element => {
       this.payList.push(this.bills[element]);
     });
+    
     console.log(this.payList)
     setTimeout(() => {
       this.sendData();
@@ -57,7 +58,6 @@ export class OnlinePaymentSelectPage implements OnInit {
   }
 
   sendData(){
-    console.log(this.kiaProviderService.connectSubscription, "connectSubscription")
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {
       "user_id": this.kiaProviderService.user_id,

@@ -1,6 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
-import { Network } from '@ionic-native/network/ngx';
-import { Platform } from '@ionic/angular';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -39,23 +37,6 @@ export class KiaProviderService {
   isDamageEstimatePending: boolean = true;
   baseURL = 'http://52.66.188.137/api/';
   damage_estimate_id = 0;
-
   showcase_id = 0;
-
-  connectSubscription = this.network.onConnect().subscribe(() => {
-    console.log('network connected!');
-    setTimeout(() => {
-      if (this.network.type === 'wifi') {
-        console.log('we got a wifi connection, woohoo!');
-      }
-    }, 3000);
-  });
-
-  disconnectSubscription = this.network.onDisconnect().subscribe(() => {
-    console.log('network was disconnected');
-  });
-  
-  constructor(
-    private network: Network,
-    private platform: Platform) { }
+  request_part_id = 0;
 }

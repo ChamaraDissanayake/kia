@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -17,18 +17,18 @@ export class RequestPartPage implements OnInit {
   public partRequestForm : FormGroup;
   image:string = '';
   finalImageURL:string = '';
-
-  showLoader: boolean = false;
+  vehicleModels:any = [];
+  showLoader:boolean = false;
+  vehicle_model:string = '';
   
   constructor(
     private formBuilder: FormBuilder,
-    // private router: Router,
+    private router: Router,
     private camera: Camera,
-    // public file: File,
-    // private http: HttpClient,
     public kiaProviderService: KiaProviderService,
     public transfer: FileTransfer,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private http: HttpClient
     ) {
     this.partRequestForm = this.formBuilder.group({
       description:['', [Validators.required, Validators.pattern('[A-Za-z0-9 ]{9,}'), Validators.minLength(10)]],
@@ -36,7 +36,7 @@ export class RequestPartPage implements OnInit {
   }
 
   ngOnInit() {
-
+    this.getVehicleModels();
   }
 
   validation_messages = {
@@ -71,6 +71,7 @@ export class RequestPartPage implements OnInit {
       chunkedMode:false,
       headers:{}
     }
+
     var serverurl = this.kiaProviderService.baseURL + "ImageUploadOneByOne";
     fileTransfer.upload(this.image,serverurl,options).then((data)=>{
       let imageurl = data.response.substring(2,data.response.length-2);
@@ -83,8 +84,29 @@ export class RequestPartPage implements OnInit {
     })
   }
 
+  selectModel(ev){
+    this.vehicle_model = ev.target.value;
+  }
+
   submitDetails(){
-    console.log("SUBMIT")
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "user_id":this.kiaProviderService.user_id,
+      "description":this.partRequestForm.get('description').value,
+      "image":this.finalImageURL,
+      "vehicle_model_id":this.vehicle_model
+    },
+    url: any = this.kiaProviderService.baseURL + 'add-request-part';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("Request part success", data);
+      this.router.navigateByUrl("/my-part-requests");
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+      this.Retry2();
+    });
   }
   
   async deleteImage() {
@@ -105,6 +127,56 @@ export class RequestPartPage implements OnInit {
           handler: () => {
             console.log('Confirm Okay');
             this.finalImageURL='';
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  getVehicleModels() {
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+    },
+    url: any = this.kiaProviderService.baseURL + 'get-vehicle-model';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("vehicle models data ", data);
+      this.vehicleModels=data;
+      console.log("vehicle models array ", this.vehicleModels);
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+      this.Retry1();
+    }); 
+  }
+
+  async Retry1() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.getVehicleModels();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async Retry2() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.submitDetails();
           }
         }
       ]

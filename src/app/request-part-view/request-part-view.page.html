@@ -1,9 +1,76 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>request-part-view</ion-title>
+  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/my-part-requests"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="background-image" fullscreen="true">
+  <div style="margin: 20px 0px 5px 10px;">
+    <ion-label class="topics">Description</ion-label>
+  </div>
+  
+  <ion-item style="border-radius: 24px; padding: 5px;">
+    <ion-textarea disabled auto-grow=true placeholder="Part description" value="{{description}}"></ion-textarea>
+  </ion-item>
+  <div style="margin: 20px 0px 5px 10px;">
+    <ion-label class="topics">Image</ion-label>
+  </div>
+  <div style="padding: 5px;">
+    <img class="thumbnail" [src]='imageURL'>
+  </div>
+  <ion-grid style="margin-top: 20px;" *ngIf="isView">
+    <ion-row>
+      <ion-col size='1'></ion-col>
+      <ion-col size='5'>
+        <ion-label>Part number</ion-label>
+      </ion-col>
+      <ion-col class="customCol" size='5'>
+        <ion-label>{{partNo}}</ion-label>
+      </ion-col>
+      <ion-col size='1'></ion-col>
+    </ion-row>
 
+    <ion-row>
+      <ion-col size='1'></ion-col>
+      <ion-col size='5'>
+        <ion-label>Part name</ion-label>
+      </ion-col>
+      <ion-col class="customCol" size='5'>
+        <ion-label>{{partName}}</ion-label>
+      </ion-col>
+      <ion-col size='1'></ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="isAvailable">
+      <ion-col size='1'></ion-col>
+      <ion-col size='5'>
+        <ion-label>Price</ion-label>
+      </ion-col>
+      <ion-col class="customCol" size='5'>
+        <ion-label>Rs. {{price}}.00</ion-label>
+      </ion-col>
+      <ion-col size='1'></ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size='1'></ion-col>
+      <ion-col size='5'>
+        <ion-label>Availability</ion-label>
+      </ion-col>
+      <ion-col class="customCol" size='5'>
+        <ion-label *ngIf="isAvailable">Available</ion-label>
+        <ion-label *ngIf="!isAvailable">Not available</ion-label>
+      </ion-col>
+      <ion-col size='1'></ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div style="width: 100%; margin: 20px 0; text-align: center;">
+    <ion-button class="btnNavigate" [routerLink]="['/my-part-requests']">Close</ion-button>
+  </div>
 </ion-content>
