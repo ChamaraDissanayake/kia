@@ -3,11 +3,11 @@ import { PreloadAllModules, Router, RouterModule, Routes } from '@angular/router
 import { Storage } from '@ionic/storage-angular';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
+  // {
+  //   path: '',
+  //   redirectTo: 'home',
+  //   pathMatch: 'full'
+  // },
 
   {
     path: 'login',

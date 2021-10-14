@@ -65,12 +65,21 @@ export class HomePage implements OnInit {
       this.sliderCommercial = data[3];
       this.mainVideo = data[4];
       this.kiaSlider = this.sliderAll;
+      // this.presentToast();
     },
     (error: any) => {
       console.log('Something went wrong!', error);
       this.Retry()
     }); 
   }
+
+  // async presentToast() {
+  //   const toast = await this.toastController.create({
+  //     message: 'Your settings have been saved.',
+  //     duration: 2000
+  //   });
+  //   toast.present();
+  // }
   
   ionViewDidEnter(){
     this.menu.swipeGesture(true);
