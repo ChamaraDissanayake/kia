@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/accessories"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-image" fullscreen="true">
+  <div style="padding: 5px;">
+    <div>
+      <img class="thumbnail" [src]='image'>
+    </div>
+    <div style="margin: 20px 0px 5px 10px;">
+      <ion-label class="topics">Name: {{name}}</ion-label>
+    </div>
+    <div style="margin: 20px 0px 5px 10px;">
+      <ion-label class="topics">Description</ion-label>
+    </div>
+    <ion-item style="border-radius: 24px; padding: 5px;">
+      <ion-textarea disabled auto-grow=true placeholder="Accessory description" value="{{description}}"></ion-textarea>
+    </ion-item>
+    <div style="margin: 20px 0px 5px 10px;">
+      <ion-label class="topics" *ngIf="isAvailable">Availability: Available</ion-label>
+      <ion-label class="topics" *ngIf="!isAvailable">Availability: Out of stock</ion-label>
+    </div>
+    <div style="margin: 20px 0px 5px 10px;" *ngIf="isAvailable">
+      <ion-label class="topics">Price: {{price}}</ion-label>
+    </div>
+  </div>
+
+
+  <div style="width: 100%; margin: 20px 0; text-align: center;" *ngIf="isAvailable">
+    <ion-button class="btnNavigate" (click)="requestAccessory()">Request</ion-button>
+  </div>
+  <div style="width: 100%; margin: 20px 0; text-align: center;" *ngIf="!isAvailable">
+    <ion-button class="btnNavigate" [routerLink]="['/accessories']">Back</ion-button>
+  </div>
+</ion-content>

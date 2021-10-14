@@ -39,4 +39,5 @@ export class KiaProviderService {
   damage_estimate_id = 0;
   showcase_id = 0;
   request_part_id = 0;
+  accessory_id = 0;
 }

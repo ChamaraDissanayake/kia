@@ -176,6 +176,7 @@ export class HomePage implements OnInit {
     this.kiaProviderService.damage_estimate_id = 0;
     this.kiaProviderService.showcase_id = 0;
     this.kiaProviderService.request_part_id = 0;
+    this.kiaProviderService.accessory_id = 0;
   }
 
   async Retry() {

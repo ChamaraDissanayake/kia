@@ -3,11 +3,11 @@ import { PreloadAllModules, Router, RouterModule, Routes } from '@angular/router
 import { Storage } from '@ionic/storage-angular';
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: 'home',
-  //   pathMatch: 'full'
-  // },
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
 
   {
     path: 'login',
@@ -128,11 +128,19 @@ const routes: Routes = [
   {
     path: 'request-part',
     loadChildren: () => import('./request-part/request-part.module').then( m => m.RequestPartPageModule)
+  },
+  {
+    path: 'accessories',
+    loadChildren: () => import('./accessories/accessories.module').then( m => m.AccessoriesPageModule)
+  },
+  {
+    path: 'accessories-view',
+    loadChildren: () => import('./accessories-view/accessories-view.module').then( m => m.AccessoriesViewPageModule)
+  },
+  {
+    path: 'accessories-orders',
+    loadChildren: () => import('./accessories-orders/accessories-orders.module').then( m => m.AccessoriesOrdersPageModule)
   }
-
-
-
-
 ];
 
 @NgModule({
@@ -144,7 +152,7 @@ const routes: Routes = [
 export class AppRoutingModule {
   constructor(private router: Router,private storage: Storage){
     this.storage.create();
-    this.storedData();
+    // this.storedData();
   }
 
   async storedData(){

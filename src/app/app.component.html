@@ -52,6 +52,10 @@
             <ion-icon style="color: white;" name="cart-outline" slot="start"></ion-icon>
             <ion-label class="text-white">Request part</ion-label>
           </ion-item>
+          <ion-item (click)="gotoAccessories()" [disabled]='kiaProviderService.permissionLevel!=2'>
+            <ion-icon style="color: white;" name="build-outline" slot="start"></ion-icon>
+            <ion-label class="text-white">Accessories</ion-label>
+          </ion-item>
           <ion-item (click)="gotoCallUs()" [disabled]='kiaProviderService.permissionLevel!=2'>
             <!-- <ion-icon style="color: white;" name="build-outline" slot="start"></ion-icon> -->
             <img class="menu-image" src="../assets/sidemenu-icons/Roadside assistance.png" alt="KIA">
