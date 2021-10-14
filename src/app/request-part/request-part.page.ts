@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
 
 @Component({
@@ -28,7 +28,8 @@ export class RequestPartPage implements OnInit {
     public kiaProviderService: KiaProviderService,
     public transfer: FileTransfer,
     private alertController: AlertController,
-    private http: HttpClient
+    private http: HttpClient,
+    private toastController: ToastController
     ) {
     this.partRequestForm = this.formBuilder.group({
       description:['', [Validators.required, Validators.pattern('[A-Za-z0-9 ]{9,}'), Validators.minLength(10)]],
@@ -81,7 +82,8 @@ export class RequestPartPage implements OnInit {
       console.log("image url fixed", imageurlFixed)
       this.finalImageURL = imageurlFixed;
       this.showLoader=false;
-      alert("Successfully uploaded");
+      // alert("Successfully uploaded");
+      this.presentToast();
     })
   }
 
@@ -183,5 +185,14 @@ export class RequestPartPage implements OnInit {
       ]
     });
     await alert.present();
+  }
+
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Successfully uploaded!',
+      duration: 3000,
+      color: 'success'
+    });
+    toast.present();
   }
 }

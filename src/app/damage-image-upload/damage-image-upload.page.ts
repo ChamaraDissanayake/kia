@@ -11,7 +11,7 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 // import sliderAll from '../../assets/SliderAll.json';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { KiaProviderService } from '../kia-provider.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-damage-image-upload',
@@ -41,7 +41,8 @@ export class DamageImageUploadPage implements OnInit {
     public filePath: FilePath,
     public transfer: FileTransfer,
     private zone: NgZone,
-    private alertController: AlertController) {
+    private alertController: AlertController,
+    private toastController: ToastController) {
     this.collitionForm = this.formBuilder.group({
       description:['', [Validators.required, Validators.pattern('[A-Za-z0-9 ]{9,}'), Validators.minLength(10)]],
     }); 
@@ -109,7 +110,8 @@ validation_messages = {
       }else{
         console.log("send images:",this.imageURLs);
         this.showLoader=false;
-        alert("Successfully uploaded");
+        // alert("Successfully uploaded");
+        this.presentToast();
       }
     })
   }
@@ -242,7 +244,8 @@ validation_messages = {
         this.showLoader=false;
         console.log("show loader", this.showLoader, "video url fixed", videourlFixed)
         this.refresh();
-        alert("Successfully uploaded!");
+        // alert("Successfully uploaded!");
+        this.presentToast();
       })
       .catch((err)=>{
         console.log(err)
@@ -297,6 +300,15 @@ validation_messages = {
       ]
     });
     await alert.present();
+  }
+
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Successfully uploaded!',
+      duration: 3000,
+      color: 'success'
+    });
+    toast.present();
   }
 
   refresh() {
