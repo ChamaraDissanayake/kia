@@ -9,6 +9,8 @@ import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { AlertController } from '@ionic/angular';
 
+declare var require: any
+const FileSaver = require('file-saver');
 @Component({
   selector: 'app-damage-estimate-view',
   templateUrl: './damage-estimate-view.page.html',
@@ -25,9 +27,15 @@ export class DamageEstimateViewPage implements OnInit {
     private router: Router,
     public file: File,
     public transfer: FileTransfer,
-    private fileOpener: FileOpener,
+    // private fileOpener: FileOpener,
     private alertController: AlertController
   ) { }
+
+  downloadPdf() {
+    const pdfUrl = this.damageEstimatePdf;
+    const pdfName = 'kia';
+    FileSaver.saveAs(pdfUrl, pdfName);
+  }
 
   ngOnInit() {
     console.log(this.kiaProviderService.isDamageEstimatePending);
@@ -64,25 +72,25 @@ export class DamageEstimateViewPage implements OnInit {
     this.router.navigateByUrl("/view-videos");
   }
 
- download(name) {
-    const fileTransfer = this.transfer.create();
-    const pdfUrl = this.damageEstimatePdf;
-    let options:FileUploadOptions={
-      fileKey:"estimate",
-      mimeType:"application/pdf",
-      chunkedMode:false,
-      headers:{}
-    }
-    console.log("pdf url", pdfUrl)
-    fileTransfer.download(pdfUrl, this.file.dataDirectory + name, true, options).then((entry) => {
-      console.log("entry",entry)
-      this.fileOpener.open(entry.toURL(), this.getMimeByExt(name))
-        .then(() => console.log('File is opened'))
-        .catch(e => console.log('Error opening file', e));
-    }, (error) => {
-      console.log(error);
-    });
-  }
+//  download(name) {
+//     const fileTransfer = this.transfer.create();
+//     const pdfUrl = this.damageEstimatePdf;
+//     let options:FileUploadOptions={
+//       fileKey:"estimate",
+//       mimeType:"application/pdf",
+//       chunkedMode:false,
+//       headers:{}
+//     }
+//     console.log("pdf url", pdfUrl)
+//     fileTransfer.download(pdfUrl, this.file.dataDirectory + name, true, options).then((entry) => {
+//       console.log("entry",entry)
+//       this.fileOpener.open(entry.toURL(), this.getMimeByExt(name))
+//         .then(() => console.log('File is opened'))
+//         .catch(e => console.log('Error opening file', e));
+//     }, (error) => {
+//       console.log(error);
+//     });
+//   }
 
   getMimeByExt(name: any) {
     var extention = name.split('.').pop();
