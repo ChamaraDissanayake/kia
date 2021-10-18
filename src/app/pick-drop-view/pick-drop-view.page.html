@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-image" fullscreen="true">
+  <h1 style="text-align: center;">Pick and drop</h1>
+
+  <div class="my-orders">
+    <div style="margin: 10px 0px 10px 10px;">
+      <ion-label class="topics">Status: {{pd_status}}</ion-label>
+    </div>
+    <div style="margin: 10px 0px 10px 10px;">
+      <ion-label class="topics">Driver name: {{pd_driver_name}}</ion-label>
+    </div>
+    <div style="margin: 10px 0px 10px 10px;">
+      <ion-label class="topics">Driver NIC: {{pd_driver_nic}}</ion-label>
+    </div>
+    <div style="margin: 10px 0px 10px 10px;">
+      <ion-label class="topics">Contact number: {{pd_driver_phone}}</ion-label>
+    </div>
+  </div>
+</ion-content>

@@ -20,7 +20,7 @@ export class PhoneVerifyPage implements OnInit {
     private alertController: AlertController,
     private http: HttpClient) { 
     this.signup = this.formBuilder.group({
-      name:['', [Validators.required, Validators.pattern('[A-Za-z0-9 ]{2,}')]],
+      name:['', [Validators.required, Validators.pattern('[A-Za-z ]{2,}')]],
       // email: ['', Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')],
       email:['', [Validators.required, Validators.pattern('[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})')]],
       vehicleNumber: ['', [Validators.required, Validators.minLength(6)]],

@@ -3,11 +3,11 @@ import { PreloadAllModules, Router, RouterModule, Routes } from '@angular/router
 import { Storage } from '@ionic/storage-angular';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
+  // {
+  //   path: '',
+  //   redirectTo: 'home',
+  //   pathMatch: 'full'
+  // },
 
   {
     path: 'login',
@@ -140,7 +140,25 @@ const routes: Routes = [
   {
     path: 'accessories-orders',
     loadChildren: () => import('./accessories-orders/accessories-orders.module').then( m => m.AccessoriesOrdersPageModule)
+  },
+  {
+    path: 'pick-and-drop',
+    loadChildren: () => import('./pick-and-drop/pick-and-drop.module').then( m => m.PickAndDropPageModule)
+  },
+  {
+    path: 'pick-and-drop-book',
+    loadChildren: () => import('./pick-and-drop-book/pick-and-drop-book.module').then( m => m.PickAndDropBookPageModule)
+  },
+  {
+    path: 'pick-and-drop-bookings',
+    loadChildren: () => import('./pick-and-drop-bookings/pick-and-drop-bookings.module').then( m => m.PickAndDropBookingsPageModule)
+  },
+  {
+    path: 'pick-drop-view',
+    loadChildren: () => import('./pick-drop-view/pick-drop-view.module').then( m => m.PickDropViewPageModule)
   }
+
+
 ];
 
 @NgModule({
@@ -152,7 +170,7 @@ const routes: Routes = [
 export class AppRoutingModule {
   constructor(private router: Router,private storage: Storage){
     this.storage.create();
-    // this.storedData();
+    this.storedData();
   }
 
   async storedData(){

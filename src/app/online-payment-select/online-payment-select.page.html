@@ -12,10 +12,10 @@
 <ion-content class="background-image" style="text-align: -webkit-center;" fullscreen="true">
   <ion-list *ngFor="let item of bills; let i = index" class="billItem text-white">
     <ion-item class="no-background">
-      <ion-checkbox slot="start" color="danger" value="{{item.refinv}},{{item.bAmt}}+{{i}}" (ionChange)="selectInvoce($event)"></ion-checkbox>
-      <ion-label>Invoice: {{item.refinv}}</ion-label>
+      <ion-checkbox slot="start" color="danger" value="{{item.refInv}},{{item.bamt}}+{{i}}" (ionChange)="selectInvoce($event)"></ion-checkbox>
+      <ion-label>Invoice: {{item.refInv}}</ion-label>
     </ion-item>
-    <ion-label>Balance: Rs. {{item.bAmt}}</ion-label>
+    <ion-label>Balance: Rs. {{item.bamt}}</ion-label>
   </ion-list>
 
   <div>

@@ -25,7 +25,11 @@ export class OnlinePaymentSelectPage implements OnInit {
     private inAppBrowser: InAppBrowser) { }
 
   ngOnInit() {
-    this.bills = payList;
+    // this.bills = payList;
+  }
+
+  ionViewDidEnter(){
+    this.getBillList()
   }
 
   selectInvoce(ev){
@@ -51,13 +55,13 @@ export class OnlinePaymentSelectPage implements OnInit {
       this.payList.push(this.bills[element]);
     });
     
-    console.log(this.payList)
     setTimeout(() => {
       this.sendData();
     }, 1000);
   }
 
   sendData(){
+    console.log("pay list",this.payList)
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {
       "user_id": this.kiaProviderService.user_id,
@@ -87,6 +91,40 @@ export class OnlinePaymentSelectPage implements OnInit {
           text: 'Try again',
           handler: () => {
             this.sendData();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  getBillList() {
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "user_id":this.kiaProviderService.user_id
+    },
+    url: any = this.kiaProviderService.baseURL + 'getInvoices';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("Bills", data);
+      this.bills = data;
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+      this.Retry1();
+    }); 
+  }
+
+  async Retry1() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.getBillList();
           }
         }
       ]

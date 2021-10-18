@@ -1,0 +1,100 @@
+<ion-header>
+  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/pick-and-drop"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-image" fullscreen="true">
+
+  <form [formGroup]="pickdrop" (ngSubmit)="bookPick()">
+  <div style="text-align: center;">
+    <h1 style="text-align: center;">Pick and drop</h1>
+  </div>
+  <div *ngFor="let item of bookingData">
+    <ion-grid>
+      <ion-row>
+        <ion-col size = '5'>
+          <ion-label>Service type:</ion-label>
+        </ion-col>
+        <ion-col class="customCol" size = '7'>
+          <ion-label *ngIf="item.booking_type==2">Service</ion-label>
+          <ion-label *ngIf="item.booking_type==3">Body shop</ion-label>
+          <ion-label *ngIf="item.booking_type==4">Workshop</ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size = '5'>
+          <ion-label>Date:</ion-label>
+        </ion-col>
+        <ion-col class="customCol" size = '7'>
+          <ion-label>{{item.date}}</ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-label>Time:</ion-label>
+        </ion-col>
+        <ion-col class="customCol" size = '7'>
+          <ion-label>{{item.start}} - {{item.end}}</ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size = '5'>
+          <ion-label>Address:</ion-label>
+        </ion-col>
+        <ion-col class="customCol" size = '7'>
+          <ion-input placeholder="Enter your address here" type="text" formControlName="address"></ion-input>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validation_messages.address">
+              <div class="error-message"
+                *ngIf="pickdrop.get('address').hasError(validation.type) && (pickdrop.get('address').dirty || pickdrop.get('address').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size = '5'>
+          <ion-label>Contact name:</ion-label>
+        </ion-col>
+        <ion-col class="customCol" size = '7'>
+          <ion-input placeholder="Enter your name here" type="text" formControlName="name"></ion-input>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validation_messages.name">
+              <div class="error-message"
+                *ngIf="pickdrop.get('name').hasError(validation.type) && (pickdrop.get('name').dirty || pickdrop.get('name').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size = '5'>
+          <ion-label>Contact number:</ion-label>
+        </ion-col>
+        <ion-col class="customCol" size = '7'>
+          <ion-input type="tel" maxlength="10" minlength="10" placeholder="07X XX XX XXX" formControlName="mobile"></ion-input>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validation_messages.mobile">
+              <div class="error-message"
+                *ngIf="pickdrop.get('mobile').hasError(validation.type) && (pickdrop.get('mobile').dirty || pickdrop.get('mobile').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div style="margin-top: 50px; text-align: center;">
+    <ion-button type="submit" [disabled]="!pickdrop.valid" class="btnNavigate">Book</ion-button>
+  </div>
+  </form>
+</ion-content>

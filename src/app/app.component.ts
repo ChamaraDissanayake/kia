@@ -11,6 +11,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent{
+  pickAndDropSub: boolean = false;
 
   constructor(
     private router: Router,
@@ -25,6 +26,10 @@ export class AppComponent{
       this.sendDeviceID(deviceID);    
       kiaProviderService.deviceId = deviceID;
     })
+  }
+
+  menuClosed(){
+    this.pickAndDropSub = false;
   }
   
   gotoLogin(){
@@ -108,6 +113,22 @@ export class AppComponent{
     }, 500);
   }
 
+  openSubPick(){
+    this.pickAndDropSub = !this.pickAndDropSub;
+  }
+
+  gotoPickAndDropBookings(){
+    setTimeout(() => {
+      this.router.navigateByUrl("/pick-and-drop-bookings");
+    }, 500);
+  }
+
+  gotoPickAndDrop(){
+    setTimeout(() => {
+      this.router.navigateByUrl("/pick-and-drop");
+    }, 500);
+  }
+
   sendDeviceID(deviceID:string) {
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {
@@ -118,10 +139,10 @@ export class AppComponent{
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
-      // this.kiaProviderService.user_id = data.user_id;
-      // this.kiaProviderService.permissionLevel=data.register_status;
-      this.kiaProviderService.user_id = "13";
-      this.kiaProviderService.permissionLevel=2;
+      this.kiaProviderService.user_id = data.user_id;
+      this.kiaProviderService.permissionLevel=data.register_status;
+      // this.kiaProviderService.user_id = "13";
+      // this.kiaProviderService.permissionLevel=2;
       console.log(this.kiaProviderService.user_id, this.kiaProviderService.permissionLevel);
     },
     (error: any) => {

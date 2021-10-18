@@ -1,42 +1,41 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { KiaProviderService } from '../kia-provider.service';
-import payList from '../../assets/getInvoices.json';
 import { AlertController } from '@ionic/angular';
+import { KiaProviderService } from '../kia-provider.service';
 
 @Component({
-  selector: 'app-online-payment',
-  templateUrl: './online-payment.page.html',
-  styleUrls: ['./online-payment.page.scss'],
+  selector: 'app-pick-and-drop',
+  templateUrl: './pick-and-drop.page.html',
+  styleUrls: ['./pick-and-drop.page.scss'],
 })
-export class OnlinePaymentPage implements OnInit {
-  bills: any = [];
+export class PickAndDropPage implements OnInit {
+  bookings:any = [];
   constructor(
     private router: Router,
     public kiaProviderService: KiaProviderService,
     private http: HttpClient,
-    private alertController: AlertController) { }
+    private alertController: AlertController
+  ) { }
 
   ngOnInit() {
-    // this.bills = payList;
   }
 
   ionViewDidEnter(){
-    this.getBillList();
+    this.getMyBookings();
   }
 
-  getBillList() {
+  getMyBookings() {
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {
       "user_id":this.kiaProviderService.user_id
     },
-    url: any = this.kiaProviderService.baseURL + 'getInvoices';
+    url: any = this.kiaProviderService.baseURL + 'myBookingForPickAndDrop';
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
-      console.log("Bills", data);
-      this.bills = data;
+      console.log("my bookings ", data);
+      this.bookings = data;
     },
     (error: any) => {
       console.log('Something went wrong!', error);
@@ -52,11 +51,17 @@ export class OnlinePaymentPage implements OnInit {
       buttons: [{
           text: 'Try again',
           handler: () => {
-            this.getBillList();
+            this.getMyBookings();
           }
         }
       ]
     });
     await alert.present();
+  }
+
+  bookPickAndDrop(id){
+    console.log("pick & drop id",id)
+    this.kiaProviderService.booking_id = id;
+    this.router.navigateByUrl("/pick-and-drop-book");
   }
 }

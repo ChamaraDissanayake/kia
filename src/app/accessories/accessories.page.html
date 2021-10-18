@@ -22,9 +22,9 @@
   <div [ngSwitch]="accessoriesSwitch">
     <div *ngSwitchCase="'orders'">
       <div class="my-orders" *ngFor="let item of myOrders">
-        <!-- <div>
+        <div>
           <img class="thumbnail" [src]='item.image'>
-        </div> -->
+        </div>
         <div style="margin: 10px 0px 10px 10px;">
           <ion-label class="topics">Name: {{item.name}}</ion-label>
         </div>
@@ -39,8 +39,7 @@
     </div>
 
 
-    <div *ngSwitchCase="'accessories'">
-      <div style="text-align: -webkit-center;">
+    <div *ngSwitchCase="'accessories'" style="text-align: -webkit-center;">
         <h2>Select vehicle modal</h2>
         <ion-item class="selector-wrapper">
           <ion-select placeholder="Select model" okText="Confirm" cancelText="Dismiss"
@@ -61,10 +60,7 @@
             </ion-col>
           </ion-row>
         </ion-grid>
-      </div>
-
     </div>
   </div>
 
-  
 </ion-content>
