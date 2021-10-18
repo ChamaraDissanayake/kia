@@ -36,5 +36,9 @@
     </ion-row>
   </ion-grid>
 
+  <h2 *ngIf="bookings.length==0" style="text-align: center; margin-top: 20%;">No current bookings</h2>
+  <div style="width: 100%; margin: 20px 0; text-align: center;">
+    <ion-button class="btnNavigate" [routerLink]="['/home']">Back</ion-button>
+  </div>
 
 </ion-content>

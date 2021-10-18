@@ -11,7 +11,7 @@ import { KiaProviderService } from '../kia-provider.service';
   styleUrls: ['./my-part-requests.page.scss'],
 })
 export class MyPartRequestsPage implements OnInit {
-  estimateRequest:any;
+  estimateRequest:any=[];
   constructor(
     private router: Router,
     private http: HttpClient,

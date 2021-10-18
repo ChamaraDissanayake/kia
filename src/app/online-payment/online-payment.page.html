@@ -20,7 +20,11 @@
     <ion-label>Vehicle type: {{item.dbId}}</ion-label><br>
   </div>
 
-  <div style="text-align: center; margin: 40px 0;">
+  <h2 *ngIf="bills.length==0" style="text-align: center; margin-top: 20%;">Nothing to pay</h2>
+  <div *ngIf="bills.length==0" style="width: 100%; margin: 20px 0; text-align: center;">
+    <ion-button class="btnNavigate" [routerLink]="['/home']">Back</ion-button>
+  </div>
+  <div *ngIf="bills.length!=0" style="text-align: center; margin: 40px 0;">
     <ion-button class="btnNavigate" [routerLink]="['/online-payment-select']">Pay</ion-button>
   </div>
 </ion-content>

@@ -24,7 +24,11 @@
     </ion-row>
   </ion-grid>
 
-  <div style="text-align: center; margin: 40px 0;">
+  <h2 *ngIf="estimateRequest.length==0" style="text-align: center; margin-top: 20%;">No part requests</h2>
+  <div *ngIf="estimateRequest.length==0" style="width: 100%; margin: 20px 0; text-align: center;">
+    <ion-button class="btnNavigate" [routerLink]="['/home']">Back</ion-button>
+  </div>
+  <div *ngIf="estimateRequest.length!=0" style="text-align: center; margin: 40px 0;">
     <ion-button class="btnNavigate" [routerLink]="['/request-part']">Request part</ion-button>
   </div>
 </ion-content>

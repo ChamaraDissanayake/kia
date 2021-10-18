@@ -11,6 +11,7 @@ import { KiaProviderService } from '../kia-provider.service';
 })
 export class PickAndDropPage implements OnInit {
   bookings:any = [];
+  pricing:any = [];
   constructor(
     private router: Router,
     public kiaProviderService: KiaProviderService,
@@ -36,14 +37,15 @@ export class PickAndDropPage implements OnInit {
     .subscribe((data: any) => {
       console.log("my bookings ", data);
       this.bookings = data;
+      this.getPricing();
     },
     (error: any) => {
       console.log('Something went wrong!', error);
-      this.Retry();
+      this.Retry1();
     }); 
   }
 
-  async Retry() {
+  async Retry1() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Alert!',
@@ -52,6 +54,40 @@ export class PickAndDropPage implements OnInit {
           text: 'Try again',
           handler: () => {
             this.getMyBookings();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  getPricing() {
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      
+    },
+    url: any = this.kiaProviderService.baseURL + 'PickAndDropPrice';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("my pricing ", data);
+      this.pricing = data;
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+      this.Retry2();
+    }); 
+  }
+
+  async Retry2() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.getPricing();
           }
         }
       ]

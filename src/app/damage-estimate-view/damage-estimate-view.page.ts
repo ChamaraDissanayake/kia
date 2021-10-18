@@ -76,9 +76,9 @@ export class DamageEstimateViewPage implements OnInit {
     console.log("pdf url", pdfUrl)
     fileTransfer.download(pdfUrl, this.file.dataDirectory + name, true, options).then((entry) => {
       console.log("entry",entry)
-      // this.fileOpener.open(entry.toURL(), this.getMimeByExt(name))
-      //   .then(() => console.log('File is opened'))
-      //   .catch(e => console.log('Error opening file', e));
+      this.fileOpener.open(entry.toURL(), this.getMimeByExt(name))
+        .then(() => console.log('File is opened'))
+        .catch(e => console.log('Error opening file', e));
     }, (error) => {
       console.log(error);
     });

@@ -30,7 +30,10 @@
       <ion-label class="topics" *ngIf="item.supervisor_name">Agent: {{item.supervisor_name}}</ion-label>
     </div>
   </div>
-  
+  <h2 *ngIf="allBookings.length==0" style="text-align: center; margin-top: 20%;">No bookings yet</h2>
+  <div style="width: 100%; margin: 20px 0; text-align: center;">
+    <ion-button class="btnNavigate" [routerLink]="['/home']">Back</ion-button>
+  </div>
 </ion-content>
 <!-- <ion-footer no-border>
   <img class="kia-main-footer" src="../../assets/kia-footer.png" alt="kia-footer">

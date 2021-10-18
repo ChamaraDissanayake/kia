@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
-import myAllBookings from './../../assets/allBookings.json';
+// import myAllBookings from './../../assets/allBookings.json';
 
 @Component({
   selector: 'app-my-bookings',
@@ -10,7 +10,7 @@ import myAllBookings from './../../assets/allBookings.json';
   styleUrls: ['./my-bookings.page.scss'],
 })
 export class MyBookingsPage implements OnInit {
-  allBookings: any;
+  allBookings: any=[];
   //  = myAllBookings;
   constructor(
     public kiaProviderService: KiaProviderService,
