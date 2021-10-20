@@ -129,10 +129,10 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
-      console.log("showcase data ", data)
+      console.log("showcase data ", data);
       this.feed = data[0];
       this.images = data[1];
-      this.pdf = data[2];
+      this.pdf = data[2].substring(1,data.response.length-1);
       this.vrImagesList = data[3];
       console.log(this.vrImagesList);
       this.colorCode = this.vrImagesList[0].colorCode;
