@@ -3,9 +3,11 @@ import { Component, OnInit, QueryList, ViewChildren, ViewChild, OnDestroy } from
 import { Router } from '@angular/router';
 import { AlertController, IonSlides, Platform, ViewWillLeave } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
-import VRImageGreen from './../../assets/VRImageGreen.json'
-import VRImageWhite from './../../assets/VRImageWhite.json'
+// import VRImageGreen from './../../assets/VRImageGreen.json'
+// import VRImageWhite from './../../assets/VRImageWhite.json'
 
+declare var require: any
+const FileSaver = require('file-saver');
 @Component({
   selector: 'app-selected-veicle',
   templateUrl: './selected-veicle.page.html',
@@ -23,6 +25,7 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
   vehicleColor="Clear white";
   feed: any = [];
   images: any = [];
+  pdf: string = '';
   
   @ViewChildren('player')videoPlayers: QueryList<any>;
   @ViewChildren('playImage')videoPlayButton: QueryList<any>;
@@ -129,6 +132,7 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
       console.log("showcase data ", data)
       this.feed = data[0];
       this.images = data[1];
+      this.pdf = data[2];
       this.vrImagesList = data[3];
       console.log(this.vrImagesList);
       this.colorCode = this.vrImagesList[0].colorCode;
@@ -220,5 +224,11 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
       ]
     });
     await alert.present();
+  }
+
+  downloadPdf() {
+    const pdfUrl = this.pdf;
+    const pdfName = 'kia';
+    FileSaver.saveAs(pdfUrl, pdfName);
   }
 }
