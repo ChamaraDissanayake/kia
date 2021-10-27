@@ -12,6 +12,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class AppComponent{
   pickAndDropSub: boolean = false;
+  accidentSub: boolean = false;
 
   constructor(
     private router: Router,
@@ -30,6 +31,7 @@ export class AppComponent{
 
   menuClosed(){
     this.pickAndDropSub = false;
+    this.accidentSub = false;
   }
   
   gotoLogin(){
@@ -115,6 +117,10 @@ export class AppComponent{
 
   openSubPick(){
     this.pickAndDropSub = !this.pickAndDropSub;
+  }
+
+  openAccidentSub(){
+    this.accidentSub = !this.accidentSub;
   }
 
   gotoPickAndDropBookings(){

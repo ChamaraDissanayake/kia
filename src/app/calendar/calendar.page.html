@@ -76,30 +76,36 @@
     </div>
   </div>
 
-  <div *ngIf="slotsAvailable" style="width: 100%; text-align: center; margin-top: 10px;">
-    <ion-label class="topics">Select time slot</ion-label>
+  <div *ngIf="kiaProviderService.booking_type!=1">
+    <div *ngIf="slotsAvailable" style="width: 100%; text-align: center; margin-top: 10px;">
+      <ion-label class="topics">Select time slot</ion-label>
+    </div>
+  
+    <div style="text-align: -webkit-center;" *ngIf="slotsAvailable">
+      <ion-item class="selector-wrapper">
+        <ion-select okText="Confirm" cancelText="Dismiss" (ionChange)="selectTimeSlot($event)" placeholder="Time slot" *ngIf="firstView">
+          <ion-select-option value="{{item.start}},{{item.end}}-{{item.status}}+{{item.slot}}~{{item.booking_settings_id}}" *ngFor="let item of bookedSlots" [ngClass]="{'bookedSlot': item.status == 'booked'}">{{item.start}}-{{item.end}}</ion-select-option>
+        </ion-select>
+        <ion-select okText="Confirm" cancelText="Dismiss" (ionChange)="selectTimeSlot($event)" placeholder="Time slot" *ngIf="!firstView">
+          <ion-select-option value="{{item.start}},{{item.end}}-{{item.status}}+{{item.slot}}~{{item.booking_settings_id}}" *ngFor="let item of bookedSlots" [ngClass]="{'bookedSlot': item.status == 'booked'}">{{item.start}}-{{item.end}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+  </div>
+  
+  <!-- <div style="text-align: center; margin: 20px;" *ngIf="isSlotBooked || !isAvailableDay || isRecentDay"> -->
+  <div *ngIf="kiaProviderService.booking_type!=1">
+    <div style="text-align: center; margin: 20px;" *ngIf="(isSlotBooked || !isAvailableDay) && slotsAvailable">
+      <ion-checkbox #inquiry color="danger" size="larger" checked="true" (ionChange)="checkBoxChanged($event)"></ion-checkbox>
+      <span>
+        <ion-label label-for="inquiry"
+          style="font-size: 16px; padding-left: 10px; vertical-align: bottom;">
+          Make an inquiry
+        </ion-label>
+      </span>
+    </div>
   </div>
 
-  <div style="text-align: -webkit-center;" *ngIf="slotsAvailable">
-    <ion-item class="selector-wrapper">
-      <ion-select okText="Confirm" cancelText="Dismiss" (ionChange)="selectTimeSlot($event)" placeholder="Time slot" *ngIf="firstView">
-        <ion-select-option value="{{item.start}},{{item.end}}-{{item.status}}+{{item.slot}}~{{item.booking_settings_id}}" *ngFor="let item of bookedSlots" [ngClass]="{'bookedSlot': item.status == 'booked'}">{{item.start}}-{{item.end}}</ion-select-option>
-      </ion-select>
-      <ion-select okText="Confirm" cancelText="Dismiss" (ionChange)="selectTimeSlot($event)" placeholder="Time slot" *ngIf="!firstView">
-        <ion-select-option value="{{item.start}},{{item.end}}-{{item.status}}+{{item.slot}}~{{item.booking_settings_id}}" *ngFor="let item of bookedSlots" [ngClass]="{'bookedSlot': item.status == 'booked'}">{{item.start}}-{{item.end}}</ion-select-option>
-      </ion-select>
-    </ion-item>
-  </div>
-  <!-- <div style="text-align: center; margin: 20px;" *ngIf="isSlotBooked || !isAvailableDay || isRecentDay"> -->
-  <div style="text-align: center; margin: 20px;" *ngIf="(isSlotBooked || !isAvailableDay) && slotsAvailable">
-    <ion-checkbox #inquiry color="danger" size="larger" checked="true" (ionChange)="checkBoxChanged($event)"></ion-checkbox>
-    <span>
-      <ion-label label-for="inquiry"
-        style="font-size: 16px; padding-left: 10px; vertical-align: bottom;">
-        Make an inquiry
-      </ion-label>
-    </span>
-  </div>
 
   <div *ngIf="kiaProviderService.booking_type!=1">
     <div style="width: 100%; text-align: center; margin-top: 10px;">

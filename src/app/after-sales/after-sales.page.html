@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true" class="background-image">
+  <div style="margin: 100px 0; text-align: center;">
+    <div>
+      <!-- <ion-button class="btnNavigate" (click)="goToShowroom()">Test drive</ion-button> -->
+      <ion-button class="btnNavigate" (click)="gotoServices(2)">Service & maintenance</ion-button>
+      <ion-button class="btnNavigate" (click)="gotoServices(4)">Mechanical repairs</ion-button>
+      <ion-button class="btnNavigate" (click)="gotoServices(3)">Book accident repair</ion-button>
+      <ion-button class="btnNavigate" (click)="gotoDamageEstimate()">Get a damage estimate</ion-button>
+      <ion-button class="btnNavigate" (click)="gotoServices(5)">Book accident repair</ion-button>
+      <ion-button class="btnNavigate" (click)="gotoRequestPart()">Request part</ion-button>
+      <ion-button class="btnNavigate" (click)="gotoAccessories()">Accessories</ion-button>
+      <ion-button class="btnNavigate" (click)="gotoCallUs()">24/7 Roadside assistance</ion-button>
+      <!-- <ion-button class="btnNavigate" (click)="goToMyBookings()">My bookings</ion-button> -->
+      <ion-button class="btnNavigate" (click)="gotoPickAndDropBookings()">Pick & drop bookings</ion-button>
+      <ion-button class="btnNavigate" (click)="gotoPickAndDrop()">Book a pick & drop</ion-button>
+      <ion-button class="btnNavigate" (click)="gotoOnlinePayment()">Online payment</ion-button>
+      <ion-button class="btnNavigate" (click)="gotoShowroomList()">Find us</ion-button>
+    </div>
+  </div>
+
+</ion-content>

@@ -15,7 +15,7 @@
 
   <div *ngFor="let item of allBookings" class="booking-container">
     <div>
-      <ion-label class="topics" *ngIf="item.booking_type==1">Type: Test Drive</ion-label>
+      <ion-label class="topics" *ngIf="item.booking_type==1">Type: Test drive</ion-label>
       <ion-label class="topics" *ngIf="item.booking_type==2">Type: Service</ion-label>
       <ion-label class="topics" *ngIf="item.booking_type==3">Type: Body shop</ion-label>
       <ion-label class="topics" *ngIf="item.booking_type==4">Type: Workshop</ion-label>
@@ -23,11 +23,24 @@
     <div>    
       <ion-label class="topics">Date: {{item.date}}</ion-label>
     </div>
-    <div>
+    <div *ngIf="item.booking_type!=1">
       <ion-label class="topics">Time: {{item.start}}-{{item.end}}</ion-label>
     </div>
-    <div>
-      <ion-label class="topics" *ngIf="item.supervisor_name">Agent: {{item.supervisor_name}}</ion-label>
+    <div *ngIf="item.supervisor_name">
+      <ion-label class="topics">Agent: {{item.supervisor_name}}</ion-label>
+    </div>
+
+    <div *ngIf="item.change_status==1">
+      <ion-label class="topics">Status: Pending</ion-label>
+    </div>
+    <div *ngIf="item.change_status==2">
+      <ion-label class="topics">Status: Accepted</ion-label>
+    </div>
+    <div *ngIf="item.change_status==3">
+      <ion-button (click)="showModal(item.booking_id)" class="btn-edit btn-add">Rate</ion-button>
+    </div>
+    <div *ngIf="item.change_status==4">
+      <ion-label class="topics">Status: Completed & rated</ion-label>
     </div>
   </div>
   <h2 *ngIf="allBookings.length==0" style="text-align: center; margin-top: 20%;">No bookings yet</h2>

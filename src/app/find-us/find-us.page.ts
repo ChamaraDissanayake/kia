@@ -67,7 +67,8 @@ export class FindUsPage implements OnInit {
   selectedShowroom(){
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {
-      "shop_id":this.kiaProviderService.showroom_id
+      "shop_id":this.kiaProviderService.showroom_id,
+      "booking_type":0
     },
     url: any = this.kiaProviderService.baseURL + 'getDealerShopListDetails';
 

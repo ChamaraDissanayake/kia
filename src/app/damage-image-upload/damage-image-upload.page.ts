@@ -19,16 +19,19 @@ import { AlertController, ToastController } from '@ionic/angular';
   styleUrls: ['./damage-image-upload.page.scss'],
 })
 export class DamageImageUploadPage implements OnInit {
-  public collitionForm : FormGroup;
-  images:any = [];
+  public collitionForm: FormGroup;
+  images: any = [];
   // videos:any = [];
-  imageURLs:any = [];
-  videoURLs:any = [];
+  imageURLs: any = [];
+  videoURLs: any = [];
+  insurance: any = [];
+  insuranceId: string = '';
   i = 0;
   j = 0;
-  selectedVideo: string='';
+  selectedVideo: string = '';
   videoFileUpload: FileTransferObject;
   showLoader: boolean = false;
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,72 +47,126 @@ export class DamageImageUploadPage implements OnInit {
     private alertController: AlertController,
     private toastController: ToastController) {
     this.collitionForm = this.formBuilder.group({
-      description:['', [Validators.required, Validators.pattern('[A-Za-z0-9 ]{9,}'), Validators.minLength(10)]],
-    }); 
+      description: ['', [Validators.required, Validators.pattern('[A-Za-z0-9 ]{9,}'), Validators.minLength(10)]],
+    });
   }
-validation_messages = {
-  'description': [
-    { type: 'required', message: '* Description required!' },
-    { type: 'pattern', message: '* Description too short!' }
-  ]
-};
+  validation_messages = {
+    'description': [
+      { type: 'required', message: '* Description required!' },
+      { type: 'pattern', message: '* Description too short!' }
+    ]
+  };
 
   ngOnInit() {
-    this.imagePicker.hasReadPermission().then((val)=>{
-      if(val == false){
+    this.imagePicker.hasReadPermission().then((val) => {
+      if (val == false) {
         this.imagePicker.requestReadPermission();
       }
-    },(err)=>{
+    }, (err) => {
       this.imagePicker.requestReadPermission();
     })
+
+    this.getInsurances();
   }
 
-  submitDetails(){
+  getInsurances(){
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {
-      "user_id":this.kiaProviderService.user_id,
-      "description":this.collitionForm.get('description').value,
-      "imageList":this.imageURLs,
-      "videoList":this.videoURLs
     },
-    url: any = this.kiaProviderService.baseURL + 'addDamageEstimate';
+    url: any = this.kiaProviderService.baseURL + 'getInsurance';
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
-      console.log("profile data ", data)
-      if(data.message=='success'){
-        this.router.navigateByUrl("/damage-estimate");
-      }else{
-        alert("Something went wrong!");
-      }
+      console.log("insurance data ", data)
+      this.insurance = data;
     },
     (error: any) => {
       console.log('Something went wrong!', error);
-      this.Retry();
+      this.Retry1();
     }); 
   }
-  
 
-  sendImages(){
+  async Retry1() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.getInsurances();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  submitDetails() {
+    console.log(this.insuranceId)
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+      options: any = {
+        "user_id": this.kiaProviderService.user_id,
+        "description": this.collitionForm.get('description').value,
+        "imageList": this.imageURLs,
+        "videoList": this.videoURLs,
+        "insurance_id": this.insuranceId
+      },
+      url: any = this.kiaProviderService.baseURL + 'addDamageEstimate';
+
+    this.http.post(url, JSON.stringify(options), headers)
+      .subscribe((data: any) => {
+        console.log("profile data ", data)
+        if (data.message == 'success') {
+          this.router.navigateByUrl("/damage-estimate");
+        } else {
+          alert("Something went wrong!");
+        }
+      },
+        (error: any) => {
+          console.log('Something went wrong!', error);
+          this.Retry2();
+        });
+  }
+
+  async Retry2() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+        text: 'Try again',
+        handler: () => {
+          this.submitDetails();
+        }
+      }
+      ]
+    });
+    await alert.present();
+  }
+
+
+  sendImages() {
     const fileTransfer = this.transfer.create();
-    let options:FileUploadOptions={
-      fileKey:"image",
-      chunkedMode:false,
-      headers:{}
+    let options: FileUploadOptions = {
+      fileKey: "image",
+      chunkedMode: false,
+      headers: {}
     }
     var serverurl = this.kiaProviderService.baseURL + "ImageUploadOneByOne";
-    fileTransfer.upload(this.images[this.i],serverurl,options).then((data)=>{
-      let imageurl = data.response.substring(2,data.response.length-2);
+    fileTransfer.upload(this.images[this.i], serverurl, options).then((data) => {
+      let imageurl = data.response.substring(2, data.response.length - 2);
       console.log(imageurl);
       let imageurlFixed = imageurl.replace(/\\/g, '');
       console.log("video url fixed", imageurlFixed)
       this.imageURLs.push(imageurlFixed);
       this.i++;
-      if(this.i<this.images.length){
+      if (this.i < this.images.length) {
         this.sendImages();
-      }else{
-        console.log("send images:",this.imageURLs);
-        this.showLoader=false;
+      } else {
+        console.log("send images:", this.imageURLs);
+        this.showLoader = false;
+        this.images=[];
         // alert("Successfully uploaded");
         this.presentToast();
       }
@@ -136,28 +193,28 @@ validation_messages = {
   //   })
   // }
 
-  getImages(){
-    this.showLoader=true;
-    var options:ImagePickerOptions={
-      maximumImagesCount:5,
-      outputType:1
+  getImages() {
+    this.showLoader = true;
+    var options: ImagePickerOptions = {
+      maximumImagesCount: 5,
+      outputType: 1
     }
-    this.imagePicker.getPictures(options).then((results)=>{
-      if(results.length){
-        for(var interval = 0; interval<results.length; interval++){
-          let url = 'data:image/jpeg;base64,'+results[interval]
+    this.imagePicker.getPictures(options).then((results) => {
+      if (results.length) {
+        for (var interval = 0; interval < results.length; interval++) {
+          let url = 'data:image/jpeg;base64,' + results[interval]
           this.images.push(url);
         }
-  
+
         setTimeout(() => {
-          this.i=0;
+          this.i = 0;
           this.sendImages();
         }, 1000);
-      }else{
-        this.showLoader=false;
+      } else {
+        this.showLoader = false;
       }
-    },(err)=>{
-      this.showLoader=false;
+    }, (err) => {
+      this.showLoader = false;
       alert(JSON.stringify(err));
     })
     console.log("images array", this.images, this.images[this.i]);
@@ -185,49 +242,49 @@ validation_messages = {
   // }
 
   selectVideo() {
-    this.showLoader=true;
+    this.showLoader = true;
     const options: CameraOptions = {
       mediaType: this.camera.MediaType.VIDEO,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
     }
 
-    this.camera.getPicture(options).then( async (videoUrl) => {
-        if (videoUrl) {
-          
-          var filename = videoUrl.substr(videoUrl.lastIndexOf('/') + 1);
-          var dirpath = videoUrl.substr(0, videoUrl.lastIndexOf('/') + 1);
+    this.camera.getPicture(options).then(async (videoUrl) => {
+      if (videoUrl) {
 
-          dirpath = dirpath.includes("file://") ? dirpath : "file://" + dirpath;
-          
-          try {
-            var dirUrl = await this.file.resolveDirectoryUrl(dirpath);
-            var retrievedFile = await this.file.getFile(dirUrl, filename, {});
+        var filename = videoUrl.substr(videoUrl.lastIndexOf('/') + 1);
+        var dirpath = videoUrl.substr(0, videoUrl.lastIndexOf('/') + 1);
 
-          } catch(err) {
-            alert("Error! Something went wrong.");
-          }
-          
-          retrievedFile.file( data => {
-            console.log(data);
-            this.selectedVideo = retrievedFile.nativeURL;
+        dirpath = dirpath.includes("file://") ? dirpath : "file://" + dirpath;
 
-            setTimeout(() => {
-              this.uploadVideo()
-            }, 1000);
-          });
+        try {
+          var dirUrl = await this.file.resolveDirectoryUrl(dirpath);
+          var retrievedFile = await this.file.getFile(dirUrl, filename, {});
+
+        } catch (err) {
+          alert("Error! Something went wrong.");
         }
-      },
+
+        retrievedFile.file(data => {
+          console.log(data);
+          this.selectedVideo = retrievedFile.nativeURL;
+
+          setTimeout(() => {
+            this.uploadVideo()
+          }, 1000);
+        });
+      }
+    },
       (err) => {
-        console.log("Video upload",err);
-        this.showLoader=false;
+        console.log("Video upload", err);
+        this.showLoader = false;
       });
   }
 
   uploadVideo() {
     var url = this.kiaProviderService.baseURL + "ImageUploadOneByOne";
-    
+
     var filename = this.selectedVideo.substr(this.selectedVideo.lastIndexOf('/') + 1);
-      
+
     var options: FileUploadOptions = {
       fileName: filename,
       fileKey: "video",
@@ -237,19 +294,19 @@ validation_messages = {
     this.videoFileUpload = this.transfer.create();
 
     this.videoFileUpload.upload(this.selectedVideo, url, options)
-      .then((data)=>{
-        let videourl = data.response.substring(2,data.response.length-2);
+      .then((data) => {
+        let videourl = data.response.substring(2, data.response.length - 2);
         let videourlFixed = videourl.replace(/\\/g, '');
         this.videoURLs.push(videourlFixed);
-        this.showLoader=false;
+        this.showLoader = false;
         console.log("show loader", this.showLoader, "video url fixed", videourlFixed)
         this.refresh();
         // alert("Successfully uploaded!");
         this.presentToast();
       })
-      .catch((err)=>{
+      .catch((err) => {
         console.log(err)
-        this.showLoader=false;
+        this.showLoader = false;
         this.refresh();
         alert("Video upload failed");
       });
@@ -259,6 +316,11 @@ validation_messages = {
   //   console.log(i)
   //   this.imageURLs.splice(i, 1);
   // }
+
+  selectInsurance(event){
+    console.log(event.target.value);
+    this.insuranceId = event.target.value;
+  }
 
   async deleteImage(i) {
     const alert = await this.alertController.create({
@@ -286,22 +348,6 @@ validation_messages = {
     await alert.present();
   }
 
-  async Retry() {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Alert!',
-      message: 'Check your connection and try again!',
-      buttons: [{
-          text: 'Try again',
-          handler: () => {
-            this.submitDetails();
-          }
-        }
-      ]
-    });
-    await alert.present();
-  }
-
   async presentToast() {
     const toast = await this.toastController.create({
       message: 'Successfully uploaded!',
@@ -314,6 +360,6 @@ validation_messages = {
   refresh() {
     this.zone.run(() => {
       console.log('force update the screen');
-    });    
+    });
   }
 }

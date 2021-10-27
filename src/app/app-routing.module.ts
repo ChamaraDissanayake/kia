@@ -156,6 +156,18 @@ const routes: Routes = [
   {
     path: 'pick-drop-view',
     loadChildren: () => import('./pick-drop-view/pick-drop-view.module').then( m => m.PickDropViewPageModule)
+  },
+  {
+    path: 'booking-accessory-confirmed',
+    loadChildren: () => import('./booking-accessory-confirmed/booking-accessory-confirmed.module').then( m => m.BookingAccessoryConfirmedPageModule)
+  },
+  {
+    path: 'after-sales',
+    loadChildren: () => import('./after-sales/after-sales.module').then( m => m.AfterSalesPageModule)
+  },
+  {
+    path: 'star-rating',
+    loadChildren: () => import('./star-rating/star-rating.module').then( m => m.StarRatingPageModule)
   }
 
 

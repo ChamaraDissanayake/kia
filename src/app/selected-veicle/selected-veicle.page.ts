@@ -25,7 +25,7 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
   vehicleColor="Clear white";
   feed: any = [];
   images: any = [];
-  pdf: string = '';
+  pdf: any = [];
   
   @ViewChildren('player')videoPlayers: QueryList<any>;
   @ViewChildren('playImage')videoPlayButton: QueryList<any>;
@@ -132,7 +132,7 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
       console.log("showcase data ", data);
       this.feed = data[0];
       this.images = data[1];
-      this.pdf = data[2].substring(1,data.response.length-1);
+      this.pdf = data[2];
       this.vrImagesList = data[3];
       console.log(this.vrImagesList);
       this.colorCode = this.vrImagesList[0].colorCode;
@@ -227,7 +227,7 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
   }
 
   downloadPdf() {
-    const pdfUrl = this.pdf;
+    const pdfUrl = this.pdf[0];
     const pdfName = 'kia';
     FileSaver.saveAs(pdfUrl, pdfName);
   }

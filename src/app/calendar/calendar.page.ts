@@ -22,7 +22,7 @@ export class CalendarPage implements OnInit {
   selectedDay: any;
   isSlotBooked: boolean = false;
   eventCount = 0;
-  calendarEvents;
+  calendarEvents:any=[];
   timeSlots
   isDisabled = true;
   bookedSlots=[];
@@ -65,6 +65,28 @@ export class CalendarPage implements OnInit {
       this.vehicleSelected = false;
       this.getMyVehicles();
     }
+  }
+
+  ionViewDidEnter(){
+    this.platform.ready().then(()=>{
+      if(this.kiaProviderService.booking_type!=1){
+        this.fillCalendar();
+      }else{
+        this.fillTestDrive();
+      }
+    })
+  }
+
+  next() {
+    this.myCal.slideNext();
+  }
+
+  back() {
+    this.myCal.slidePrev();
+  }
+
+  onViewTitleChanged(title) {
+    this.viewTitle = title;
   }
   
   getMyVehicles() {
@@ -109,23 +131,25 @@ export class CalendarPage implements OnInit {
     }); 
   }
 
-  ionViewDidEnter(){
-    this.platform.ready().then(()=>{
-      this.fillCalendar();
-    })
+  fillTestDrive() {
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "shop_id":this.kiaProviderService.showroom_id,
+    },
+    url: any = this.kiaProviderService.baseURL + 'getDateForTestDrive';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("test drive data ", data)
+      this.calendarEvents = data;
+      this.LoadEvents();
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+      this.Retry4();
+    }); 
   }
 
-  next() {
-    this.myCal.slideNext();
-  }
-
-  back() {
-    this.myCal.slidePrev();
-  }
-
-  onViewTitleChanged(title) {
-    this.viewTitle = title;
-  }
   selectVehicle(event){
     let vehicleId = event.target.value;
     this.vehicleSelected = true;
@@ -215,6 +239,19 @@ export class CalendarPage implements OnInit {
   }
 
   onCurrentDateChanged(event){
+    if(this.kiaProviderService.booking_type==1){
+      this.calendarEvents.forEach(calEvents =>{
+        if(calEvents.year==event.getFullYear() && calEvents.month==event.getMonth()+1 && calEvents.day==event.getDate()){
+          if(!calEvents.isAvailable){
+            this.isAvailableDay=false;
+            console.log("isAvailableDay",this.isAvailableDay)
+          }else{
+            this.isAvailableDay=true;
+            console.log("isAvailableDay",this.isAvailableDay)
+          }
+        }
+      })
+    }
     this.isSlotBooked=false;
     // this.isAvailableDay=true;
     this.firstView = !this.firstView;
@@ -223,7 +260,7 @@ export class CalendarPage implements OnInit {
     
     this.selectedDay = new Date(Date.UTC(event.getFullYear(), event.getMonth()+1, event.getDate(),0,0,0,0));
 
-    if(!this.firstLoad){
+    if(!this.firstLoad && this.kiaProviderService.booking_type!=1){
       this.LoadBookings(event);
     }
     this.firstLoad=false;
@@ -297,7 +334,9 @@ export class CalendarPage implements OnInit {
 
     })
     this.eventSource = events;
-    this.LoadBookings(new Date());
+    if(this.kiaProviderService.booking_type!=1){
+      this.LoadBookings(new Date());
+    }
   }
 
   checkBoxChanged(event){
@@ -317,7 +356,10 @@ export class CalendarPage implements OnInit {
       }else{
         this.isDisabled = true;
       }
-    }else{
+    } else if(this.kiaProviderService.booking_type==1 && this.isAvailableDay){
+      this.isDisabled = false;
+    }
+    else{
       this.isDisabled = true;
     }
   }
@@ -363,6 +405,22 @@ export class CalendarPage implements OnInit {
           text: 'Try again',
           handler: () => {
             this.sendServiceData();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async Retry4() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.fillTestDrive();            
           }
         }
       ]

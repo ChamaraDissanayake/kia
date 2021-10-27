@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
 // import myAllBookings from './../../assets/allBookings.json';
+import { ModalController } from '@ionic/angular';
+import { StarRatingPage } from '../star-rating/star-rating.page';
 
 @Component({
   selector: 'app-my-bookings',
@@ -11,12 +13,23 @@ import { KiaProviderService } from '../kia-provider.service';
 })
 export class MyBookingsPage implements OnInit {
   allBookings: any=[];
+  rating: number = 0;
   //  = myAllBookings;
   constructor(
     public kiaProviderService: KiaProviderService,
     private alertController: AlertController,
-    private http: HttpClient) { }
+    private http: HttpClient,
+    private modalController: ModalController) { }
 
+  async showModal(id){
+    this.kiaProviderService.booking_id = id;
+    const modal = await this.modalController.create({
+      component: StarRatingPage,
+      cssClass: 'star-modal',
+      backdropDismiss: false
+    })
+    await modal.present();
+  }
   ngOnInit() {
   }
 
@@ -57,4 +70,42 @@ export class MyBookingsPage implements OnInit {
     });
     await alert.present();
   }
+
+  addRating(rate){
+    this.rating = rate;
+    console.log(this.rating);
+  }
+
+  // async rate(){
+  //   const alert = await this.alertController.create({
+  //     header: 'Rate us',
+  //     cssClass: 'alertstar',
+  //     backdropDismiss:false,
+  //     buttons: [{
+  //       text: 'Submit',
+  //       handler: () => {
+  //         this.submitRating();
+  //       }
+  //     }
+  //   ],
+  //     inputs: [
+  //       {
+  //         type: 'checkbox',
+  //         value: '1',
+  //         handler: () => {
+  //           console.log('Radio 1 selected');
+  //         },
+  //         checked: true
+  //       },
+  //       {
+  //         type: 'checkbox',
+  //         value: '1',
+  //         handler: () => {
+  //           console.log('Radio 1 selected');
+  //         },
+  //         checked: true
+  //       }]
+  // });
+  // await alert.present();
+  // }
 }

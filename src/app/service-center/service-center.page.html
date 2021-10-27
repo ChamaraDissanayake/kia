@@ -40,9 +40,9 @@
       <label class="content">{{showRoomOpenHours}}</label>
     </div>
     <div style="text-align: -webkit-center; margin-bottom: 20px; margin-top:10px;" *ngIf="supervisors.length>0">
-      <label class="topics" style="margin-bottom: 10px;">Select technical advisor</label>
+      <label class="topics" style="margin-bottom: 10px;">Select service advisor</label>
       <ion-item class="selector-wrapper" style="width: fit-content;">
-        <ion-select placeholder="Supervisor" okText="Confirm" cancelText="Dismiss"
+        <ion-select placeholder="Name" okText="Confirm" cancelText="Dismiss"
           (ionChange)="selectSupervisor($event)">
           <ion-select-option *ngFor="let item of supervisors" value="{{item.supervisor_id}},{{item.supervisor_name}}">
             {{item.supervisor_name}}
@@ -57,6 +57,35 @@
     </ion-button>
     <ion-button class="btnNavigate" [routerLink]="['/home']">Cancel</ion-button>
   </div>
+
+  <ion-grid class="booking-container" *ngFor="let itemlist of pricing">
+    <ion-row>
+      <div style="width: -webkit-fill-available;">
+        <ion-label>{{itemlist.name}}</ion-label>
+      </div>
+    </ion-row>
+    <ion-row>
+      <div style="width: -webkit-fill-available;">
+        <ion-label>{{itemlist.description}}</ion-label>
+      </div>
+    </ion-row>
+    <ion-row>
+      <div style="width: -webkit-fill-available;">
+        <ion-label>Standard services</ion-label>
+      </div>
+    </ion-row>
+    <!-- <ion-row>
+      <ion-col size = '6'>
+        {{item.distance_location}}
+      </ion-col>
+      <ion-col size = '3' style="border-left: 1px solid white; border-right: 1px solid white;;">
+        {{item.one_way}}
+      </ion-col>
+      <ion-col size = '3'>
+        {{item.Pick_and_drop}}
+      </ion-col>
+    </ion-row> -->
+  </ion-grid>
 
 </ion-content>
 <!-- 

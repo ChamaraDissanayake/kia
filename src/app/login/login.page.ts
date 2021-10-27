@@ -24,31 +24,7 @@ export class LoginPage implements OnInit, AfterViewInit {
     ) {}
 
   ngAfterViewInit() {
-    // setTimeout(() => {
-    // }, 5000);
-    this.platform.ready().then(()=>{
-      this.animationCtrl.create()
-      .addElement(this.square.nativeElement)
-      .duration(1000)
-      .easing('ease-out')
-      .delay(2000)
-      // .fromTo('opacity', 0.1, 1)
-      .fromTo('transform', 'translateY(450px)', 'translateY(120px)')
-      .play();
-    })
 
-    
-
-
-    // this.animationCtrl.create()
-    // .addElement(this.image.nativeElement)
-    // .duration(1000)
-    // .easing('ease-out')
-    // // .fromTo('opacity', 0.1, 1)
-    // .fromTo('transform', 'scaleY(1)', 'scaleY(0.3)')
-    // .delay(3000)
-    // .play();
-    // console.log("ngAfterViewInit");
   }
 
   ngOnInit() {
@@ -57,6 +33,16 @@ export class LoginPage implements OnInit, AfterViewInit {
 
   ionViewDidEnter(){
     this.menu.swipeGesture(false);
+    this.platform.ready().then(()=>{
+      this.animationCtrl.create()
+      .addElement(this.square.nativeElement)
+      .duration(1000)
+      .easing('ease-out')
+      .delay(1000)
+      // .fromTo('opacity', 0.1, 1)
+      .fromTo('transform', 'translateY(500px)', 'translateY(120px)')
+      .play();
+    })
   }
 
   gotoHome(){

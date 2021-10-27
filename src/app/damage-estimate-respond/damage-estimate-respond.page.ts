@@ -145,7 +145,7 @@ validation_messages = {
       }else{
         console.log("send images:",this.imageURLs);
         this.showLoader=false;
-        // alert("Successfully uploaded");
+        this.images=[];
         this.presentToast();
       }
     })

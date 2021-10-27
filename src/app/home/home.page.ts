@@ -22,11 +22,13 @@ export class HomePage implements OnInit {
   sliderChange: boolean = false;
   activeSlider: string = '';
 
-  mainVideo: any =[];
+  mainVideo:any=[];
+  secondaryVideo:any=[];
 
-  videoPaused = true;
-  @ViewChild('player')videoPlayer;
-  @ViewChild('playImage')videoPlayButton;
+  videoPaused1 = true;
+  videoPaused2 = true;
+  @ViewChild('player1')videoPlayer1;
+  @ViewChild('player2')videoPlayer2;
   @ViewChild('loader')loader
 
   constructor(
@@ -64,6 +66,7 @@ export class HomePage implements OnInit {
       this.sliderSUV = data[2];
       this.sliderCommercial = data[3];
       this.mainVideo = data[4];
+      this.secondaryVideo = data[5];
       this.kiaSlider = this.sliderAll;
       // this.presentToast();
     },
@@ -87,8 +90,10 @@ export class HomePage implements OnInit {
   }
 
   ionViewWillLeave(){
-    this.videoPlayer.nativeElement.pause();
-    this.videoPaused=true;
+    this.videoPlayer1.nativeElement.pause();
+    this.videoPlayer2.nativeElement.pause();
+    this.videoPaused1=true;
+    this.videoPaused2=true;
     this.menu.swipeGesture(false);
   }
 
@@ -148,14 +153,28 @@ export class HomePage implements OnInit {
     }
   }
 
-  playVideo(){
-    if(this.videoPaused){
-      this.videoPlayer.nativeElement.play();
-      this.videoPaused=!this.videoPaused;
+  playVideo1(){
+    if(this.videoPaused1){
+      this.videoPlayer1.nativeElement.play();
+      this.videoPlayer2.nativeElement.pause();
+      this.videoPaused2=true;
+      this.videoPaused1=!this.videoPaused1;
       // this.videoPlayer.nativeElement.muted = false;
     }else{
-      this.videoPlayer.nativeElement.pause();
-      this.videoPaused=!this.videoPaused;
+      this.videoPlayer1.nativeElement.pause();
+      this.videoPaused1=!this.videoPaused1;
+    }
+  }
+
+  playVideo2(){
+    if(this.videoPaused2){
+      this.videoPlayer2.nativeElement.play();
+      this.videoPlayer1.nativeElement.pause();
+      this.videoPaused1=true;
+      this.videoPaused2=!this.videoPaused2;
+    }else{
+      this.videoPlayer2.nativeElement.pause();
+      this.videoPaused2=!this.videoPaused2;
     }
   }
 

@@ -82,7 +82,7 @@ export class AccessoriesViewPage implements OnInit {
     this.http.post(url, JSON.stringify(options), headers)
       .subscribe((data: any) => {
         console.log("accessory request", data)
-        this.router.navigateByUrl('/accessories');
+        this.router.navigateByUrl('/booking-accessory-confirmed');
       },
         (error: any) => {
           console.log('Something went wrong!', error);

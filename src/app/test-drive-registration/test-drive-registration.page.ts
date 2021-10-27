@@ -49,22 +49,14 @@ export class TestDriveRegistrationPage implements OnInit {
     options: any = {
       "deviceId":this.kiaProviderService.deviceId,
       "user_id":this.kiaProviderService.user_id,
-      "vehicle_id":"0",
       "showroom_id":this.kiaProviderService.showroom_id,
-      "supervisor_id":"0",
       "booking_type":this.kiaProviderService.booking_type,
-      "booking_settings_id":this.kiaProviderService.booking_settings_id,
       "date":this.kiaProviderService.date,
-      "time_slot":this.kiaProviderService.time_slot,
-      "start_time":this.kiaProviderService.start_time,
-      "end_time":this.kiaProviderService.end_time,
-      "is_inquiry":this.kiaProviderService.is_inquiry,
       "phone_number":this.signup.get('mobile').value,
-      "supervisor_name":"0",
       "customer_name":this.signup.get('name').value,
       "customer_email":this.signup.get('email').value
       },
-    url: any = this.kiaProviderService.baseURL + 'addBooking';
+    url: any = this.kiaProviderService.baseURL + 'addTestDrive';
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
