@@ -9,7 +9,7 @@ import { KiaProviderService } from '../kia-provider.service'
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit, AfterViewInit {
+export class LoginPage implements OnInit {
 
   @ViewChild('square', {static: false}) square:ElementRef;
   // @ViewChild('image', {static: false}) image:ElementRef;
@@ -23,15 +23,12 @@ export class LoginPage implements OnInit, AfterViewInit {
     private storage: Storage
     ) {}
 
-  ngAfterViewInit() {
-
-  }
-
   ngOnInit() {
-    this.kiaProviderService.from = 'login';
+    
   }
 
   ionViewDidEnter(){
+    this.kiaProviderService.from = 'login';
     this.menu.swipeGesture(false);
     this.platform.ready().then(()=>{
       this.animationCtrl.create()

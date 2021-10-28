@@ -32,7 +32,7 @@ export class RequestPartPage implements OnInit {
     private toastController: ToastController
     ) {
     this.partRequestForm = this.formBuilder.group({
-      description:['', [Validators.required, Validators.pattern('[A-Za-z0-9 ]{9,}'), Validators.minLength(10)]],
+      description:['', [Validators.required, Validators.minLength(10)]],
     }); 
   }
 
@@ -43,7 +43,7 @@ export class RequestPartPage implements OnInit {
   validation_messages = {
     'description': [
       { type: 'required', message: '* Description required!' },
-      { type: 'pattern', message: '* Description too short!' }
+      { type: 'minlength', message: '* Description too short!' }
     ]
   };
 

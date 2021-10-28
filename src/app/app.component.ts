@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, Platform } from '@ionic/angular';
 import { Device } from '@ionic-native/device/ngx';
@@ -10,7 +10,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent{
+export class AppComponent implements OnInit{
   pickAndDropSub: boolean = false;
   accidentSub: boolean = false;
 
@@ -27,6 +27,14 @@ export class AppComponent{
       this.sendDeviceID(deviceID);    
       kiaProviderService.deviceId = deviceID;
     })
+  }
+  ngOnInit() {
+    setInterval(()=>{
+      if(this.kiaProviderService.permissionLevel==1){
+        console.log("try to confirm user")
+        this.sendDeviceID(this.kiaProviderService.deviceId);
+      }
+    }, 60000)
   }
 
   menuClosed(){
@@ -135,6 +143,12 @@ export class AppComponent{
     }, 500);
   }
 
+  gotoContactUs(){
+    setTimeout(() => {
+      this.router.navigateByUrl("/contact-us");
+    },500);
+  }
+
   sendDeviceID(deviceID:string) {
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {
@@ -145,11 +159,14 @@ export class AppComponent{
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
+      if(this.kiaProviderService.permissionLevel==1 && data.register_status==2){
+        this.Congratulations();
+      }
       this.kiaProviderService.user_id = data.user_id;
       this.kiaProviderService.permissionLevel=data.register_status;
-      // this.kiaProviderService.user_id = "13";
+      // this.kiaProviderService.user_id="13";
       // this.kiaProviderService.permissionLevel=2;
-      console.log(this.kiaProviderService.user_id, this.kiaProviderService.permissionLevel);
+      console.log("user data", data, this.kiaProviderService.user_id, this.kiaProviderService.permissionLevel);
     },
     (error: any) => {
       console.log('Something went wrong!', error);
@@ -166,6 +183,23 @@ export class AppComponent{
           text: 'Try again',
           handler: () => {
             this.sendDeviceID(this.kiaProviderService.deviceId);
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async Congratulations() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Congratulations!',
+      message: 'Your registration details are confirmed. Now onwards you can access all our after sales services.',
+      buttons: [{
+          text: 'Okay',
+          role: 'cancel',
+          handler: () => {
+            console.log('User has aknowladged about success of registration');
           }
         }
       ]

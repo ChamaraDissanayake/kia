@@ -38,7 +38,6 @@ export class DamageEstimateViewPage implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.kiaProviderService.isDamageEstimatePending);
   }
 
   ionViewDidEnter(){

@@ -1,7 +1,7 @@
 <ion-app>
   <ion-menu menuId="main-menu" content-id='main' (ionWillClose)="menuClosed()">
     <ion-header>
-      <ion-toolbar style="--background: black; border-bottom: 3px solid white;">
+      <ion-toolbar style="--background: black;">
         <img src="../../assets/Kia White Logo (no BG).png" style="width: 26%; margin-left: 20px;" alt="KIA MOTORS">
       </ion-toolbar>
     </ion-header>
@@ -111,10 +111,10 @@
             <img class="menu-image" src="../assets/sidemenu-icons/Find us.png" alt="KIA">
             <ion-label class="text-white">Find us</ion-label>
           </ion-item>
-          <ion-item>
+          <ion-item (click)="gotoContactUs()">
             <!-- <ion-icon style="color: white;" name="information-circle-outline" slot="start"></ion-icon> -->
             <img class="menu-image" src="../assets/sidemenu-icons/Help & Support.png" alt="KIA">
-            <ion-label class="text-white">Help & support</ion-label>
+            <ion-label class="text-white">Contact us</ion-label>
           </ion-item>
         </ion-menu-toggle>
       </ion-list>

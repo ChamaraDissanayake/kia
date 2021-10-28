@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+  <ion-toolbar style="--background: #0f0f0f;">
     <ion-buttons slot="start">
       <ion-back-button style="color: white;" defaultHref="/home"></ion-back-button>
     </ion-buttons>
@@ -17,8 +17,9 @@
     <div>
       <ion-label class="topics" *ngIf="item.booking_type==1">Type: Test drive</ion-label>
       <ion-label class="topics" *ngIf="item.booking_type==2">Type: Service</ion-label>
-      <ion-label class="topics" *ngIf="item.booking_type==3">Type: Body shop</ion-label>
-      <ion-label class="topics" *ngIf="item.booking_type==4">Type: Workshop</ion-label>
+      <ion-label class="topics" *ngIf="item.booking_type==3">Type: Accident repairs</ion-label>
+      <ion-label class="topics" *ngIf="item.booking_type==4">Type: Mechanical repairs</ion-label>
+      <ion-label class="topics" *ngIf="item.booking_type==5">Type: Auto spa</ion-label>
     </div>
     <div>    
       <ion-label class="topics">Date: {{item.date}}</ion-label>

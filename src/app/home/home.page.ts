@@ -57,10 +57,12 @@ export class HomePage implements OnInit {
     options: any = {
 
     },
-    url: any = this.kiaProviderService.baseURL + 'getShowCaseForSlider';
+    url: any = this.kiaProviderService.baseURL + 'ShowCaseForSlider';
+    // url: any = this.kiaProviderService.baseURL + 'getShowCaseForSlider';
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
+      console.log("home data",data)
       this.sliderAll = data[0];
       this.sliderCar = data[1];
       this.sliderSUV = data[2];
@@ -109,7 +111,7 @@ export class HomePage implements OnInit {
     this.router.navigateByUrl("/showroom");
   }
   gotoSelectedVehicle(showcaseID) {
-    console.log(showcaseID);
+    console.log("selected", showcaseID);
     this.kiaProviderService.showcase_id = showcaseID;
     this.router.navigateByUrl("/selected-veicle");
   }

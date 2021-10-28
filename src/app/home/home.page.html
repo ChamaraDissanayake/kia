@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+  <ion-toolbar style="--background: #0f0f0f;">
     <ion-title>      
       <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
     </ion-title>
@@ -137,7 +137,8 @@
   <div style="padding: unset;">
     <ion-card style="margin: unset;" (click)="playVideo1()">
       <ion-card-content style="padding: unset;">
-        <video *ngFor="let item of mainVideo" #player1 playinline preload="auto" poster="../../assets/kia-video-thumbnail.jpeg">
+        <video *ngFor="let item of mainVideo" #player1 playinline preload="auto">
+          <!-- <video *ngFor="let item of mainVideo" #player1 playinline preload="auto" poster="../../assets/kia-video-thumbnail.jpeg"> -->
           <source [src]="item" type="video/mp4">
         </video>
         <img class="lbl-on-video image-on-video"
@@ -149,8 +150,8 @@
   <ion-grid class="no-padding">
     <ion-row>
       <ion-col class="no-padding" (click)="changeSlider('option1')">
-        <img src="../../assets/kia-suv-slider.png" alt="KIA" *ngIf="activeSlider=='suv'">
-        <img src="../../assets/kia-suv-slider-inactive.png" alt="KIA"  *ngIf="activeSlider!='suv'">
+        <img src="../../assets/kia-suv-slider.jpg" alt="KIA" *ngIf="activeSlider=='suv'">
+        <img src="../../assets/kia-suv-slider-inactive.jpg" alt="KIA"  *ngIf="activeSlider!='suv'">
       </ion-col>
       <ion-col class="no-padding" (click)="changeSlider('option2')">
         <img src="../../assets/kia-car-slider.png" alt="KIA" *ngIf="activeSlider=='car'">
@@ -191,7 +192,8 @@
   <div style="padding: unset;">
     <ion-card style="margin: unset;" (click)="playVideo2()">
       <ion-card-content style="padding: unset;">
-        <video *ngFor="let item of secondaryVideo" #player2 playinline preload="auto" poster="../../assets/kia-video-thumbnail.jpeg">
+        <video *ngFor="let item of secondaryVideo" #player2 playinline preload="auto">
+          <!-- <video *ngFor="let item of secondaryVideo" #player2 playinline preload="auto" poster="../../assets/kia-video-thumbnail.jpeg"> -->
           <source [src]="item" type="video/mp4">
         </video>
         <img class="lbl-on-video image-on-video"
@@ -201,7 +203,9 @@
   </div>
 
   <div style="text-align: center;">
-    <ion-button *ngIf="kiaProviderService.permissionLevel==2" class="btnAfterSales" [routerLink]="['/after-sales']">AFTER SALES</ion-button>
+    <!-- <div style="border: chocolate 4px outset;"> -->
+      <ion-button *ngIf="kiaProviderService.permissionLevel==2" class="btnAfterSales" [routerLink]="['/after-sales']">AFTER SALES</ion-button>
+    <!-- </div> -->
   </div>
 
   <!-- <ion-fab slot="fixed" style="bottom: 70px; left: 40%;">

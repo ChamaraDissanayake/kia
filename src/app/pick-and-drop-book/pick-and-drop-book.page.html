@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+  <ion-toolbar style="--background: #0f0f0f;">
     <ion-buttons slot="start">
       <ion-back-button style="color: white;" defaultHref="/pick-and-drop"></ion-back-button>
     </ion-buttons>
@@ -23,8 +23,9 @@
         </ion-col>
         <ion-col class="customCol" size = '7'>
           <ion-label *ngIf="item.booking_type==2">Service</ion-label>
-          <ion-label *ngIf="item.booking_type==3">Body shop</ion-label>
-          <ion-label *ngIf="item.booking_type==4">Workshop</ion-label>
+          <ion-label *ngIf="item.booking_type==3">Accident repairs</ion-label>
+          <ion-label *ngIf="item.booking_type==4">Mechanical repairs</ion-label>
+          <ion-label *ngIf="item.booking_type==5">Auto spa</ion-label>
         </ion-col>
       </ion-row>
       <ion-row>

@@ -25,13 +25,15 @@ export class DamageImageUploadPage implements OnInit {
   imageURLs: any = [];
   videoURLs: any = [];
   insurance: any = [];
+  profile: any = [];
   insuranceId: string = '';
+  vehicleId: string = '';
   i = 0;
   j = 0;
   selectedVideo: string = '';
   videoFileUpload: FileTransferObject;
   showLoader: boolean = false;
-
+  isValid: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,13 +49,13 @@ export class DamageImageUploadPage implements OnInit {
     private alertController: AlertController,
     private toastController: ToastController) {
     this.collitionForm = this.formBuilder.group({
-      description: ['', [Validators.required, Validators.pattern('[A-Za-z0-9 ]{9,}'), Validators.minLength(10)]],
+      description: ['', [Validators.required, Validators.minLength(10)]]
     });
   }
   validation_messages = {
     'description': [
       { type: 'required', message: '* Description required!' },
-      { type: 'pattern', message: '* Description too short!' }
+      { type: 'minlength', message: '* Description too short!' }
     ]
   };
 
@@ -65,7 +67,6 @@ export class DamageImageUploadPage implements OnInit {
     }, (err) => {
       this.imagePicker.requestReadPermission();
     })
-
     this.getInsurances();
   }
 
@@ -79,6 +80,7 @@ export class DamageImageUploadPage implements OnInit {
     .subscribe((data: any) => {
       console.log("insurance data ", data)
       this.insurance = data;
+      this.getMyDetails();
     },
     (error: any) => {
       console.log('Something went wrong!', error);
@@ -103,14 +105,14 @@ export class DamageImageUploadPage implements OnInit {
   }
 
   submitDetails() {
-    console.log(this.insuranceId)
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
       options: any = {
         "user_id": this.kiaProviderService.user_id,
         "description": this.collitionForm.get('description').value,
         "imageList": this.imageURLs,
         "videoList": this.videoURLs,
-        "insurance_id": this.insuranceId
+        "insurance_id": this.insuranceId,
+        "vehicle_id": this.vehicleId
       },
       url: any = this.kiaProviderService.baseURL + 'addDamageEstimate';
 
@@ -320,6 +322,17 @@ export class DamageImageUploadPage implements OnInit {
   selectInsurance(event){
     console.log(event.target.value);
     this.insuranceId = event.target.value;
+    if(this.vehicleId!='' && this.insuranceId!=''){
+      this.isValid = true;
+    }
+  }
+
+  selectVehicle(event){
+    console.log(event.target.value);
+    this.vehicleId = event.target.value;
+    if(this.vehicleId!='' && this.insuranceId!=''){
+      this.isValid = true;
+    }
   }
 
   async deleteImage(i) {
@@ -332,8 +345,8 @@ export class DamageImageUploadPage implements OnInit {
           text: 'No',
           role: 'cancel',
           cssClass: 'secondary',
-          handler: (blah) => {
-            console.log('Confirm Cancel: blah');
+          handler: () => {
+            console.log('Confirm Cancel');
           }
         }, {
           text: 'Yes',
@@ -355,6 +368,41 @@ export class DamageImageUploadPage implements OnInit {
       color: 'success'
     });
     toast.present();
+  }
+
+  getMyDetails() {
+    console.log(this.kiaProviderService.user_id, "user id")
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "user_id":this.kiaProviderService.user_id
+    },
+    url: any = this.kiaProviderService.baseURL + 'myProfile';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("profile data ", data)
+      this.profile=data[0];
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+      this.Retry3();
+    }); 
+  }
+
+  async Retry3() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.getMyDetails();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 
   refresh() {

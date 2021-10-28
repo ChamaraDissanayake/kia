@@ -47,13 +47,13 @@ export class DamageEstimateRespondPage implements OnInit {
     private toastController: ToastController,
     private zone: NgZone) {
     this.collitionForm = this.formBuilder.group({
-      description:['', [Validators.required, Validators.pattern('[A-Za-z0-9 ]{9,}'), Validators.minLength(10)]],
+      description:['', [Validators.required, Validators.minLength(10)]],
     }); 
   }
 validation_messages = {
   'description': [
     { type: 'required', message: '* Description required!' },
-    { type: 'pattern', message: '* Description too short!' }
+    { type: 'minlength', message: '* Description too short!' }
   ]
 };
 

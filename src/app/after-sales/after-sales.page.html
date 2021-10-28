@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+  <ion-toolbar style="--background: #0f0f0f;">
     <ion-buttons slot="start">
       <ion-back-button style="color: white;" defaultHref="/home"></ion-back-button>
     </ion-buttons>
@@ -10,23 +10,108 @@
 </ion-header>
 
 <ion-content fullscreen="true" class="background-image">
-  <div style="margin: 100px 0; text-align: center;">
+  <!-- <div style="margin: 100px 0; text-align: center;">
     <div>
-      <!-- <ion-button class="btnNavigate" (click)="goToShowroom()">Test drive</ion-button> -->
       <ion-button class="btnNavigate" (click)="gotoServices(2)">Service & maintenance</ion-button>
       <ion-button class="btnNavigate" (click)="gotoServices(4)">Mechanical repairs</ion-button>
       <ion-button class="btnNavigate" (click)="gotoServices(3)">Book accident repair</ion-button>
-      <ion-button class="btnNavigate" (click)="gotoDamageEstimate()">Get a damage estimate</ion-button>
-      <ion-button class="btnNavigate" (click)="gotoServices(5)">Book accident repair</ion-button>
-      <ion-button class="btnNavigate" (click)="gotoRequestPart()">Request part</ion-button>
+      <ion-button class="btnNavigate" (click)="gotoServices(5)">Auto spa</ion-button>
       <ion-button class="btnNavigate" (click)="gotoAccessories()">Accessories</ion-button>
       <ion-button class="btnNavigate" (click)="gotoCallUs()">24/7 Roadside assistance</ion-button>
-      <!-- <ion-button class="btnNavigate" (click)="goToMyBookings()">My bookings</ion-button> -->
-      <ion-button class="btnNavigate" (click)="gotoPickAndDropBookings()">Pick & drop bookings</ion-button>
       <ion-button class="btnNavigate" (click)="gotoPickAndDrop()">Book a pick & drop</ion-button>
       <ion-button class="btnNavigate" (click)="gotoOnlinePayment()">Online payment</ion-button>
       <ion-button class="btnNavigate" (click)="gotoShowroomList()">Find us</ion-button>
+      <ion-button class="btnNavigate" (click)="gotoContactUs()">Contact us</ion-button>
     </div>
-  </div>
+  </div> -->
+
+  <ion-grid>
+
+    <ion-row>
+      <ion-col size="6">
+        <ion-card>
+          <img src="../../assets/after-sales-icons/Service & maintainance.png">
+          <ion-label>Service & maintenance</ion-label><br>
+          <ion-button (click)="gotoServices(2)" class="btn-edit" style="height: 28px;">Book</ion-button>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card>
+          <img src="../../assets/after-sales-icons/Mecanical Repairs.png">
+          <ion-label>Mechanical repairs</ion-label><br>
+          <ion-button (click)="gotoServices(4)" class="btn-edit" style="height: 28px;">Book</ion-button>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="6">
+        <ion-card>
+          <img src="../../assets/after-sales-icons/Accident Repairs.png">
+          <ion-label>Accident repairs</ion-label><br>
+          <ion-button (click)="gotoServices(3)" class="btn-edit" style="height: 28px;">Book</ion-button>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card>
+          <img src="../../assets/after-sales-icons/Auto Spa.png">
+          <ion-label>Auto spa</ion-label><br>
+          <ion-button (click)="gotoServices(5)" class="btn-edit" style="height: 28px;">Book</ion-button>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="6">
+        <ion-card>
+          <img src="../../assets/kia-exterior.png">
+          <ion-label>Accessories</ion-label><br>
+          <ion-button (click)="gotoAccessories()" class="btn-edit" style="height: 28px;">Book</ion-button>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card>
+          <img src="../../assets/after-sales-icons/Roadside assistance.png">
+          <ion-label>24/7 Roadside assistance</ion-label><br>
+          <ion-button (click)="gotoCallUs()" class="btn-edit" style="height: 28px;">Go</ion-button>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="6">
+        <ion-card>
+          <img src="../../assets/after-sales-icons/Vehicle pick & drop-.png">
+          <ion-label>Pick & drop</ion-label><br>
+          <ion-button (click)="gotoPickAndDrop()" class="btn-edit" style="height: 28px;">Book</ion-button>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card>
+          <img src="../../assets/kia-exterior.png">
+          <ion-label>Online payment</ion-label><br>
+          <ion-button (click)="gotoOnlinePayment()" class="btn-edit" style="height: 28px;">Go</ion-button>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="6">
+        <ion-card>
+          <img src="../../assets/after-sales-icons/Accident Repairs.png">
+          <ion-label>Find us</ion-label><br>
+          <ion-button (click)="gotoShowroomList()" class="btn-edit" style="height: 28px;">Go</ion-button>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card>
+          <img src="../../assets/after-sales-icons/Help & Support.png">
+          <ion-label>Contact us</ion-label><br>
+          <ion-button (click)="gotoContactUs()" class="btn-edit" style="height: 28px;">Contact</ion-button>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
 
 </ion-content>

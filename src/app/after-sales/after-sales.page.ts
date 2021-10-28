@@ -66,4 +66,8 @@ export class AfterSalesPage implements OnInit {
   gotoPickAndDrop() {
     this.router.navigateByUrl("/pick-and-drop");
   }
+
+  gotoContactUs(){
+    this.router.navigateByUrl("/contact-us");
+  }
 }

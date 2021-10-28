@@ -221,13 +221,15 @@ video{
     --color: black;
 }
 
-.btnAfterSales{
-    --background: white;
+.btnAfterSales{ 
+    --background: gray;
     --color: black;
     font-weight: bold;
     width: -webkit-fill-available;
     height: 50px;
     margin: 10px;
     font-size: inherit;
-
+    // border: 4px outset rgb(200, 90, 0);
+    border: 4px outset rgb(167, 167, 167);
+    --border-radius: unset;
 }

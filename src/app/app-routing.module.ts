@@ -168,7 +168,17 @@ const routes: Routes = [
   {
     path: 'star-rating',
     loadChildren: () => import('./star-rating/star-rating.module').then( m => m.StarRatingPageModule)
+  },
+  {
+    path: 'contact-us',
+    loadChildren: () => import('./contact-us/contact-us.module').then( m => m.ContactUsPageModule)
+  },
+  {
+    path: 'login-success',
+    loadChildren: () => import('./login-success/login-success.module').then( m => m.LoginSuccessPageModule)
   }
+
+
 
 
 ];

@@ -90,8 +90,9 @@ ion-fab-button {
 }
 
 .image-container{
-    background-size: cover;
-    min-height: 250px;
+    background-size: contain;
+    min-height: 216px;
+    background-repeat: no-repeat;
 }
 
 .custom-button{

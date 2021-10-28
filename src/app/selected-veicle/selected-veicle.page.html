@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar style="--background: #0f0f0f; border-bottom: 3px solid white;">
+  <ion-toolbar style="--background: #0f0f0f;">
     <ion-buttons slot="start">
       <ion-back-button style="color: white;" defaultHref="/"></ion-back-button>
     </ion-buttons>
@@ -29,7 +29,8 @@
   <div style="padding: unset;">
     <ion-card *ngFor="let item of feed; let i = index" style="margin: unset;" (click)="playVideo(i)">
       <ion-card-content style="padding: unset;">
-        <video #player playinline preload="auto" poster="../../assets/kia-video-thumbnail.jpeg">
+        <video #player playinline preload="auto">
+          <!-- <video #player playinline preload="auto" poster="../../assets/kia-video-thumbnail.jpeg"> -->
           <source [src]="item.src" type="video/mp4" [id]="i">
         </video>
 
@@ -60,7 +61,7 @@
         </span>
       </div> -->
       <div *ngIf="changeSlider">
-        <ion-slides #slides slidesPerView="1" [options]="slideOpts">
+        <ion-slides [options]="slideOpts">
           <!-- <ion-slides #slides slidesPerView="1" [options]="slideOpts" class="swiper-no-swiping"> -->
           <ion-slide *ngFor="let img of vrImages">
             <img [src]="img" alt="KIA" style="min-height: 100px;">
@@ -68,8 +69,7 @@
         </ion-slides>
       </div>
       <div *ngIf="!changeSlider">
-        <ion-slides #slides slidesPerView="1" [options]="slideOpts">
-          <!-- <ion-slides #slides slidesPerView="1" [options]="slideOpts" class="swiper-no-swiping"> -->
+        <ion-slides [options]="slideOpts">
           <ion-slide *ngFor="let img of vrImages">
             <img [src]="img" alt="KIA" style="min-height: 100px;">
           </ion-slide>
@@ -86,8 +86,6 @@
       </div>
 
       <span *ngFor="let item of vrImagesList">
-        <!-- <ion-button class="custom-button" style="--background: rgb(243, 242, 239); width: 30px; height: 30px;" (click)="changeColor(0)"></ion-button>
-        <ion-button class="custom-button" style="--background: olive; width: 30px; height: 30px;" (click)="changeColor(1)"></ion-button> -->
         <ion-button class="custom-button" [style.--background]="item.colorCode" (click)="changeColor(item)"></ion-button>
       </span>
     </div>

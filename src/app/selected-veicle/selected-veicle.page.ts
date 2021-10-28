@@ -3,7 +3,7 @@ import { Component, OnInit, QueryList, ViewChildren, ViewChild, OnDestroy } from
 import { Router } from '@angular/router';
 import { AlertController, IonSlides, Platform, ViewWillLeave } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
-// import VRImageGreen from './../../assets/VRImageGreen.json'
+import VRImageGreen from './../../assets/VRImageGreen.json'
 // import VRImageWhite from './../../assets/VRImageWhite.json'
 
 declare var require: any
@@ -97,7 +97,10 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
         }
       },
     },
-    loop:true
+    loop:true,
+    initialSlide: 0,
+    // speed: 10,
+    // autoplay: true,
   }
 
   ngOnInit() {
@@ -158,6 +161,8 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
     .subscribe((data: any) => {
       console.log("vr data ", data)
       this.vrImages = data;
+      this.changeSlider = !this.changeSlider;
+      // this.vrImages = VRImageGreen;
     },
     (error: any) => {
       console.log('Something went wrong!', error);
@@ -182,7 +187,6 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
   }
 
   changeColor(button){
-    this.changeSlider = !this.changeSlider;
     console.log("check color", this.colorCode, button.colorCode);
     if(this.colorCode == button.colorCode){
       console.log("same color", button.colorCode);
@@ -190,6 +194,7 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
       console.log("color changed", button.colorCode);
       this.colorName = button.colorName;
       this.colorCode = button.colorCode;
+      // this.changeSlider = !this.changeSlider;
       this.LoadVR(this.colorCode);
     }
   }
