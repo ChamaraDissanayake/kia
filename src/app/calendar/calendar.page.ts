@@ -6,6 +6,7 @@ import { KiaProviderService } from '../kia-provider.service';
 // import myProfile from '../../assets/myProfile.json'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AlertController, Platform } from '@ionic/angular';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class CalendarPage implements OnInit {
   stt:number = 0;
   ett:number = 0;
   slotsAvailable:boolean = false;
+  phoneNo:string ='011 750 8708';
 
   public calendar = {
     currentDate: new Date(),
@@ -54,7 +56,8 @@ export class CalendarPage implements OnInit {
     private http: HttpClient,
     private platform: Platform,
     private router: Router,
-    private alertController: AlertController) { }
+    private alertController: AlertController,
+    private callNumber: CallNumber) { }
 
   ngOnInit() {
     this.selectedDay = new Date();
@@ -304,6 +307,7 @@ export class CalendarPage implements OnInit {
   }
 
   LoadEvents(){
+    console.log("Load events")
     var events = [];
     var startTime;
     var endTime;
@@ -337,6 +341,26 @@ export class CalendarPage implements OnInit {
     if(this.kiaProviderService.booking_type!=1){
       this.LoadBookings(new Date());
     }
+    this.getContactNumber();
+  }
+
+  getContactNumber() {
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "dealer_id":this.kiaProviderService.showroom_id,
+      "type":this.kiaProviderService.booking_type
+    },
+    url: any = this.kiaProviderService.baseURL + 'getDealerServicePhoneNumber';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("Contact data", data)
+      this.phoneNo = data.phone_number;
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+      this.Retry5();
+    }); 
   }
 
   checkBoxChanged(event){
@@ -362,6 +386,12 @@ export class CalendarPage implements OnInit {
     else{
       this.isDisabled = true;
     }
+  }
+
+  call(){
+    this.callNumber.callNumber(this.phoneNo, true)
+      .then(res => console.log('Launched dialer!', res))
+      .catch(err => console.log('Error launching dialer', err));
   }
 
   async Retry1() {
@@ -421,6 +451,22 @@ export class CalendarPage implements OnInit {
           text: 'Try again',
           handler: () => {
             this.fillTestDrive();            
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async Retry5() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.getContactNumber();            
           }
         }
       ]

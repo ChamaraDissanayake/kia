@@ -196,7 +196,7 @@ export class AppComponent implements OnInit{
       header: 'Congratulations!',
       message: 'Your registration details are confirmed. Now onwards you can access all our after sales services.',
       buttons: [{
-          text: 'Okay',
+          text: 'Close',
           role: 'cancel',
           handler: () => {
             console.log('User has aknowladged about success of registration');

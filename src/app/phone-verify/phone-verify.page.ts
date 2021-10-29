@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
@@ -11,6 +11,8 @@ import { KiaProviderService } from '../kia-provider.service';
   styleUrls: ['./phone-verify.page.scss'],
 })
 export class PhoneVerifyPage implements OnInit {
+  @ViewChild('vehicleAddFirst') vehicleAddFirst
+  @ViewChild('vehicleAddLast') vehicleAddLast
   public signup : FormGroup;
   
   constructor(
@@ -21,12 +23,11 @@ export class PhoneVerifyPage implements OnInit {
     private http: HttpClient) { 
     this.signup = this.formBuilder.group({
       name:['', [Validators.required, Validators.pattern('[A-Za-z ]{2,}')]],
-      // email: ['', Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')],
       email:['', [Validators.required, Validators.pattern('[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})')]],
-      vehicleNumber: ['', [Validators.required, Validators.minLength(6)]],
-      // vehicleNumber: ['', [Validators.required, Validators.minLength(6), Validators.pattern('^[A-Za-z0-9]{2,}-[0-9]{4}$')]],
-      mobile:['', [Validators.required, Validators.pattern('[0]{1}[7]{1}[0-9]{8}'), Validators.minLength(10)]]
-    });
+      mobile:['', [Validators.required, Validators.pattern('[0]{1}[7]{1}[0-9]{8}'), Validators.minLength(10)]],
+      vehicleNumberFirst: ['', [Validators.required, Validators.minLength(2), Validators.pattern('[A-Za-z]{2,}')]],
+      vehicleNumberLast: ['',[Validators.required, Validators.minLength(4)]]
+      });
   }
 
   ngOnInit() {
@@ -45,16 +46,23 @@ export class PhoneVerifyPage implements OnInit {
       { type: 'required', message: '* Email is required!' },
       { type: 'pattern', message: '* Not a valid e-mail!' }
     ],
-    'vehicleNumber': [
-      { type: 'required', message: '* Vehicle number is required!' }
-    ],
     'mobile': [
       { type: 'required', message: '* Mobile number is required!' },
       { type: 'pattern', message: '* Not a valid mobile number!' }
+    ],
+    'vehicleNumberFirst': [
+      { type: 'required', message: '* Vehicle number is required!' },
+      { type: 'minlength', message: '* Vehicle number includes at least 2 charactors!' }
+    ],
+    'vehicleNumberLast': [
+      { type: 'required', message: '* Vehicle number is required!' },
+      { type: 'minlength', message: '* Vehicle number includes 4 numbers!' }
     ]
   };
 
   submitDetails(){
+    let numberPlate = this.vehicleAddFirst.value.toUpperCase()+" "+this.vehicleAddLast.value;
+
     console.log(this.signup.value);
     
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -62,7 +70,7 @@ export class PhoneVerifyPage implements OnInit {
       "name":this.signup.get('name').value,
 			"email":this.signup.get('email').value,
 			"phone":this.signup.get('mobile').value,
-			"vehicle_no":this.signup.get('vehicleNumber').value.toUpperCase(),
+			"vehicle_no":numberPlate,
 			"device_id":this.kiaProviderService.deviceId
     },
       
@@ -94,5 +102,19 @@ export class PhoneVerifyPage implements OnInit {
       ]
     });
     await alert.present();
+  }
+
+  controllerFirst(){
+    if(this.vehicleAddFirst.value.length>2){
+      console.log(this.vehicleAddFirst.value.length);
+      this.vehicleAddLast.setFocus();
+    }
+  }
+  
+  controllerLast(){
+    if(this.vehicleAddLast.value.length==0){
+      console.log(this.vehicleAddFirst.value.length);
+      this.vehicleAddFirst.setFocus();
+    }
   }
 }

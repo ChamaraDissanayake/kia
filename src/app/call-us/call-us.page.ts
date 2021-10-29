@@ -10,7 +10,7 @@ import { KiaProviderService } from '../kia-provider.service';
   styleUrls: ['./call-us.page.scss'],
 })
 export class CallUsPage implements OnInit {
-  public phoneNo:string ='';
+  public phoneNo:string ='011 750 8708';
   constructor(
     private callNumber: CallNumber,
     private alertController: AlertController,

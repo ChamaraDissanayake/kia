@@ -147,6 +147,14 @@
     </ion-card>
   </div>
 
+  <div>
+    <ion-slides pager="true" [options]="slideOptsPromo">
+      <ion-slide *ngFor="let item of sliderPromotion">
+        <img [src]="item" style="background: white;" alt="KIA MOTORS">
+      </ion-slide>
+    </ion-slides>
+  </div>
+
   <ion-grid class="no-padding">
     <ion-row>
       <ion-col class="no-padding" (click)="changeSlider('option1')">

@@ -19,6 +19,7 @@ export class HomePage implements OnInit {
   sliderSUV:any=[];
   sliderCar:any=[];
   sliderCommercial:any=[];
+  sliderPromotion:any=[];
   sliderChange: boolean = false;
   activeSlider: string = '';
 
@@ -69,8 +70,10 @@ export class HomePage implements OnInit {
       this.sliderCommercial = data[3];
       this.mainVideo = data[4];
       this.secondaryVideo = data[5];
+      this.sliderPromotion = data[6];
       this.kiaSlider = this.sliderAll;
       // this.presentToast();
+      this.sliderChange = !this.sliderChange;
     },
     (error: any) => {
       console.log('Something went wrong!', error);
@@ -92,7 +95,9 @@ export class HomePage implements OnInit {
   }
 
   ionViewWillLeave(){
-    this.videoPlayer1.nativeElement.pause();
+    if(this.videoPlayer1){
+      this.videoPlayer1.nativeElement.pause();
+    }
     this.videoPlayer2.nativeElement.pause();
     this.videoPaused1=true;
     this.videoPaused2=true;
@@ -100,6 +105,12 @@ export class HomePage implements OnInit {
   }
 
   slideOpts = {
+    initialSlide: 0,
+    speed: 400,
+    autoplay: true
+  };
+
+  slideOptsPromo = {
     initialSlide: 0,
     speed: 400,
     autoplay: true,
@@ -171,8 +182,12 @@ export class HomePage implements OnInit {
   playVideo2(){
     if(this.videoPaused2){
       this.videoPlayer2.nativeElement.play();
-      this.videoPlayer1.nativeElement.pause();
-      this.videoPaused1=true;
+      console.log("video", this.videoPlayer1)
+      if(this.videoPlayer1){
+        this.videoPlayer1.nativeElement.pause();
+        this.videoPaused1=true;
+      }
+
       this.videoPaused2=!this.videoPaused2;
     }else{
       this.videoPlayer2.nativeElement.pause();

@@ -14,38 +14,106 @@
 
   <div *ngIf="kiaProviderService.vehicle_id!=''" style="text-align: -webkit-center;">
     <h2>Update vehicle</h2>
-    <form [formGroup]="signup" (ngSubmit)="updateNumber(vehicle.value)">
+    <form [formGroup]="signup" (ngSubmit)="updateNumber()">
       <div class="input-wrapper">
-        <ion-item class="input-style">
-          <ion-input #vehicle style='text-transform: uppercase; text-align: center; font-weight: bold;' placeholder="Ex: AAA-1234" type="text" formControlName="vehicleNumber"></ion-input>
-        </ion-item>
-        <div class="validation-errors">
-          <ng-container *ngFor="let validation of validation_messages.vehicleNumber">
-            <div class="error-message"
-              *ngIf="signup.get('vehicleNumber').hasError(validation.type) && (signup.get('vehicleNumber').dirty || signup.get('vehicleNumber').touched)">
-              {{ validation.message }}
-            </div>
-          </ng-container>
-        </div>
+        <ion-grid>
+          <ion-row>
+            <ion-col style="text-align: -webkit-right;">
+              <ion-item class="input-style">
+                <ion-input type="text" #vehicleAddFirst maxlength="3" style='text-transform: uppercase; text-align: center; font-weight: bold;' placeholder="AAA" formControlName="vehicleNumberFirst" (keyup)="controllerFirst()"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col style="text-align: -webkit-left;">
+              <ion-item class="input-style">
+                <ion-input type="tel" #vehicleAddLast maxlength="4" style='text-transform: uppercase; text-align: left; font-weight: bold;' placeholder="1234" formControlName="vehicleNumberLast" (keyup)="controllerLast()"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.vehicleNumberFirst">
+                  <div class="error-message"
+                    *ngIf="signup.get('vehicleNumberFirst').hasError(validation.type) && (signup.get('vehicleNumberFirst').dirty || signup.get('vehicleNumberFirst').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+              <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.vehicleNumberLast">
+                  <div class="error-message"
+                    *ngIf="signup.get('vehicleNumberLast').hasError(validation.type) && (signup.get('vehicleNumberLast').dirty || signup.get('vehicleNumberLast').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </div>
       <ion-button type="submit" [disabled]="!signup.valid" class="btnNavigate">Update</ion-button>
     </form>
   </div>
   <div *ngIf="kiaProviderService.vehicle_id==''" style="text-align: -webkit-center;">
     <h2>Vehicle add</h2>
-    <form [formGroup]="signup" (ngSubmit)="addNumber(vehicleAdd.value)">
-      <div class="input-wrapper">
+    <form [formGroup]="signup" (ngSubmit)="addNumber()">
+      <!-- <div class="input-wrapper">
         <ion-item class="input-style">
-          <ion-input #vehicleAdd style='text-transform: uppercase; text-align: center; font-weight: bold;' placeholder="Ex: AAA-1234" type="text" formControlName="vehicleNumber"></ion-input>
+          <ion-input type="text" #vehicleAddFirst style='text-transform: uppercase; text-align: center; font-weight: bold;' placeholder="Ex: AAA" formControlName="vehicleNumberFirst"></ion-input>
+          <ion-input type="tel" #vehicleAddLast style='text-transform: uppercase; text-align: left; font-weight: bold;' placeholder="1234" formControlName="vehicleNumberLast"></ion-input>
         </ion-item>
         <div class="validation-errors">
-          <ng-container *ngFor="let validation of validation_messages.vehicleNumber">
+          <ng-container *ngFor="let validation of validation_messages.vehicleNumberFirst">
             <div class="error-message"
-              *ngIf="signup.get('vehicleNumber').hasError(validation.type) && (signup.get('vehicleNumber').dirty || signup.get('vehicleNumber').touched)">
+              *ngIf="signup.get('vehicleNumberFirst').hasError(validation.type) && (signup.get('vehicleNumberFirst').dirty || signup.get('vehicleNumberFirst').touched)">
               {{ validation.message }}
             </div>
           </ng-container>
         </div>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.vehicleNumberLast">
+            <div class="error-message"
+              *ngIf="signup.get('vehicleNumberLast').hasError(validation.type) && (signup.get('vehicleNumberLast').dirty || signup.get('vehicleNumberLast').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+      </div> -->
+      <div class="input-wrapper">
+        <ion-grid>
+          <ion-row>
+            <ion-col style="text-align: -webkit-right;">
+              <ion-item class="input-style">
+                <ion-input type="text" #vehicleAddFirst maxlength="3" style='text-transform: uppercase; text-align: center; font-weight: bold;' placeholder="AAA" formControlName="vehicleNumberFirst" (keyup)="controllerFirst()"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col style="text-align: -webkit-left;">
+              <ion-item class="input-style">
+                <ion-input type="tel" #vehicleAddLast maxlength="4" style='text-transform: uppercase; text-align: left; font-weight: bold;' placeholder="1234" formControlName="vehicleNumberLast" (keyup)="controllerLast()"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.vehicleNumberFirst">
+                  <div class="error-message"
+                    *ngIf="signup.get('vehicleNumberFirst').hasError(validation.type) && (signup.get('vehicleNumberFirst').dirty || signup.get('vehicleNumberFirst').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+              <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.vehicleNumberLast">
+                  <div class="error-message"
+                    *ngIf="signup.get('vehicleNumberLast').hasError(validation.type) && (signup.get('vehicleNumberLast').dirty || signup.get('vehicleNumberLast').touched)">
+                    {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </div>
       <ion-button type="submit" [disabled]="!signup.valid" class="btnNavigate">Add</ion-button>
     </form>

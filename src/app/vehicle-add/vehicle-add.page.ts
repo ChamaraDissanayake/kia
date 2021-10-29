@@ -11,7 +11,8 @@ import { KiaProviderService } from '../kia-provider.service';
   styleUrls: ['./vehicle-add.page.scss'],
 })
 export class VehicleAddPage implements OnInit {
-  @ViewChild('vehicle') vehicle
+  @ViewChild('vehicleAddFirst') vehicleAddFirst
+  @ViewChild('vehicleAddLast') vehicleAddLast
 
   public signup : FormGroup;
 
@@ -23,7 +24,25 @@ export class VehicleAddPage implements OnInit {
     private http: HttpClient,
     private platform: Platform) {
     this.signup = this.formBuilder.group({
-      vehicleNumber: [this.kiaProviderService.vehicle_number, [Validators.required, Validators.minLength(6)]],
+      // vehicleNumberFirst: [this.kiaProviderService.vehicle_number, [Validators.required, Validators.minLength(2), Validators.maxLength(3), Validators.pattern('[A-Za-z]')]],
+      // vehicleNumberLast: [this.kiaProviderService.vehicle_number, [Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern('[0-9]')]]
+      // this.kiaProviderService.vehicle_number.substring(0,this.kiaProviderService.vehicle_number.indexOf(' '))
+      // this.kiaProviderService.vehicle_number.indexOf(' ')+1,this.kiaProviderService.vehicle_number.length
+      vehicleNumberFirst: [
+        this.kiaProviderService.vehicle_number.substring(0,this.kiaProviderService.vehicle_number.indexOf(' ')),
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.pattern('[A-Za-z]{2,}')
+        ]
+      ],
+      vehicleNumberLast: [
+        this.kiaProviderService.vehicle_number.substring(this.kiaProviderService.vehicle_number.indexOf(' ')+1,this.kiaProviderService.vehicle_number.length),
+        [
+          Validators.required,
+          Validators.minLength(4)
+        ]
+      ]
     });
   }
 
@@ -34,21 +53,31 @@ export class VehicleAddPage implements OnInit {
     //     this.vehicle.value = this.kiaProviderService.vehicle_id;
     //   }
     // });
+    console.log(this.kiaProviderService.vehicle_number, 'index of space')
   }
 
   validation_messages = {
-    'vehicleNumber': [
-      { type: 'required', message: '* Vehicle number is required!' }
+    'vehicleNumberFirst': [
+      { type: 'required', message: '* Vehicle number is required!' },
+      { type: 'minlength', message: '* Vehicle number includes at least 2 charactors!' }
+    ],
+    'vehicleNumberLast': [
+      { type: 'required', message: '* Vehicle number is required!' },
+      { type: 'minlength', message: '* Vehicle number includes 4 numbers!' }
     ]
   };
 
-  addNumber(vehicleNum){
+  addNumber(){
+    let numberPlate = this.vehicleAddFirst.value.toUpperCase()+" "+this.vehicleAddLast.value;
+    console.log(numberPlate);
     this.kiaProviderService.vehicle_id="";
-    this.kiaProviderService.vehicle_number=vehicleNum.toUpperCase();
+    this.kiaProviderService.vehicle_number=numberPlate;
     this.AddVehicle();
   }
-  updateNumber(vehicleNum){
-    this.kiaProviderService.vehicle_number=vehicleNum.toUpperCase();
+
+  updateNumber(){
+    let numberPlate = this.vehicleAddFirst.value.toUpperCase()+" "+this.vehicleAddLast.value;
+    this.kiaProviderService.vehicle_number=numberPlate;
     this.AddVehicle();
   }
 
@@ -90,5 +119,19 @@ export class VehicleAddPage implements OnInit {
       ]
     });
     await alert.present();
+  }
+
+  controllerFirst(){
+    if(this.vehicleAddFirst.value.length>2){
+      console.log(this.vehicleAddFirst.value.length);
+      this.vehicleAddLast.setFocus();
+    }
+  }
+  
+  controllerLast(){
+    if(this.vehicleAddLast.value.length==0){
+      console.log(this.vehicleAddFirst.value.length);
+      this.vehicleAddFirst.setFocus();
+    }
   }
 }

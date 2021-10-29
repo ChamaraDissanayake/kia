@@ -67,11 +67,73 @@ export class MyProfilePage implements OnInit {
     },
     (error: any) => {
       console.log('Something went wrong!', error);
-      this.Retry();
+      this.Retry1();
     }); 
   }
 
-  async Retry() {
+  async Retry1() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.getMyDetails();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async askDeleteVehicle(vehicle) {
+    console.log(vehicle, "going to deleted")
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Are you sure want to remove your vehicle?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Yes',
+          handler: () => {
+            console.log('Confirm Okay');
+            this.deleteVehicle(vehicle);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  deleteVehicle(vehicle) {
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "user_id":this.kiaProviderService.user_id,
+      "vehicle_id":vehicle.vehicle_id
+    },
+    url: any = this.kiaProviderService.baseURL + 'removeVehicle';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("vehicle deleted ", data);
+      this.getMyDetails();
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+      this.Retry2();
+    }); 
+  }
+
+  async Retry2() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Alert!',

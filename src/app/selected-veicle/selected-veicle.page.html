@@ -26,7 +26,7 @@
     <ion-fab-button class="enabled" [routerLink]="['/showroom']">Test<br>drive</ion-fab-button>
   </ion-fab>
 
-  <div style="padding: unset;">
+  <div style="padding: unset; min-height: 200px;">
     <ion-card *ngFor="let item of feed; let i = index" style="margin: unset;" (click)="playVideo(i)">
       <ion-card-content style="padding: unset;">
         <video #player playinline preload="auto">
@@ -50,7 +50,7 @@
   <!-- <div>
     <img src="../../assets/kia-360VR.png" alt="360 IMAGE">
   </div> -->
-  <div style="background: white;">
+  <div style="background: white; min-height: 280px;">
     <div class="text-360">
       360VR
     </div>
