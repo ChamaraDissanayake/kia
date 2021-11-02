@@ -137,9 +137,9 @@
   <div style="padding: unset;">
     <ion-card style="margin: unset;" (click)="playVideo1()">
       <ion-card-content style="padding: unset;">
-        <video *ngFor="let item of mainVideo" #player1 playinline preload="auto">
+        <video *ngFor="let item of mainVideo" controls loop #player1 playinline preload="auto" poster="{{item.thumbnail}}">
           <!-- <video *ngFor="let item of mainVideo" #player1 playinline preload="auto" poster="../../assets/kia-video-thumbnail.jpeg"> -->
-          <source [src]="item" type="video/mp4">
+          <source [src]="item.src" type="video/mp4">
         </video>
         <img class="lbl-on-video image-on-video"
           [ngClass]="{'btnHide': !videoPaused1}" src="../../assets/kia-play-icon.png">
@@ -148,7 +148,7 @@
   </div>
 
   <div>
-    <ion-slides pager="true" [options]="slideOptsPromo">
+    <ion-slides pager="false" [options]="slideOptsPromo">
       <ion-slide *ngFor="let item of sliderPromotion">
         <img [src]="item" style="background: white;" alt="KIA MOTORS">
       </ion-slide>
@@ -200,9 +200,9 @@
   <div style="padding: unset;">
     <ion-card style="margin: unset;" (click)="playVideo2()">
       <ion-card-content style="padding: unset;">
-        <video *ngFor="let item of secondaryVideo" #player2 playinline preload="auto">
+        <video *ngFor="let item of secondaryVideo" controls loop #player2 playinline preload="auto" poster="{{item.thumbnail}}">
           <!-- <video *ngFor="let item of secondaryVideo" #player2 playinline preload="auto" poster="../../assets/kia-video-thumbnail.jpeg"> -->
-          <source [src]="item" type="video/mp4">
+          <source [src]="item.src" type="video/mp4">
         </video>
         <img class="lbl-on-video image-on-video"
           [ngClass]="{'btnHide': !videoPaused2}" src="../../assets/kia-play-icon.png">

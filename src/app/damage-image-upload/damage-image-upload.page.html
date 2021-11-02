@@ -10,6 +10,10 @@
 </ion-header>
 
 <ion-content class="background-image" fullscreen="true">
+  <div class="loader" *ngIf="showLoader">
+    <ion-label>Uploading</ion-label><br>
+    <ion-spinner name="dots"></ion-spinner>
+  </div>
   <form [formGroup]="collitionForm" (ngSubmit)="submitDetails()" style="margin: 20px;">
     <div>
       <ion-label class="topics">Message</ion-label>
@@ -25,9 +29,7 @@
         </ng-container>
       </div>
     </div>
-    <div style="text-align: center;">
-      <ion-spinner name="dots" *ngIf="showLoader"></ion-spinner>
-    </div>
+
     <div style="margin-top: 20px;">
       <tr class="row" style="place-items: center">
         <td class="col-6">
@@ -44,17 +46,8 @@
 
       <tr style="background: rgba(0, 0, 0, 0.5);">
         <span *ngFor="let image of imageURLs; let i = index">
-          <!-- <ion-icon name="trash-bin-outline" style="position: absolute;  margin: 10px;"></ion-icon> -->
           <img class="thumbnail" [src]='image' (click)="deleteImage(i)">
         </span>
-        <!-- <ion-grid>
-          <ion-row>
-            <ion-col style="padding: unset;" size="4" *ngFor="let image of images">
-              <div class="image-container" [style.background-image]="'url('+image+')'">
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid> -->
       </tr>
     </div>
   
@@ -77,11 +70,6 @@
           </span>
         </td>
       </tr>
-      <!-- <tr>
-        <span *ngFor="let item of imgURLs">
-          <img class="thumbnail" [src]='item.src'>
-        </span>
-      </tr> -->
     </div>
 
     <div style="margin-top: 20px;">
@@ -121,6 +109,3 @@
     </div>
   </form>
 </ion-content>
-<!-- <ion-footer no-border>
-  <img class="kia-main-footer" src="../../assets/kia-footer.png" alt="kia-footer">
-</ion-footer> -->

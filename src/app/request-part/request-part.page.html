@@ -10,6 +10,10 @@
 </ion-header>
 
 <ion-content class="background-image" fullscreen="true">
+  <div class="loader" *ngIf="showLoader">
+    <ion-label>Uploading</ion-label><br>
+    <ion-spinner name="dots"></ion-spinner>
+  </div>
   <form [formGroup]="partRequestForm" (ngSubmit)="submitDetails()" style="margin: 20px;">
     <div>
       <ion-label class="topics">Description</ion-label>
@@ -25,7 +29,7 @@
         </ng-container>
       </div>
     </div>
-    <div style="margin-top: 20px;">
+    <div>
       <tr class="row" style="place-items: center">
         <td class="col-6">
           <ion-label class="topics">Upload image</ion-label>
@@ -35,13 +39,15 @@
         </td>
         <td class="col-1"></td>
       </tr>
-
-      <tr style="background: rgba(0, 0, 0, 0.5);">
-        <img [src]='finalImageURL' (click)="deleteImage()">
+      
+      <tr>
+        <div style="background: rgba(0, 0, 0, 0.5); margin: 10px 0;">
+          <img [src]='finalImageURL' (click)="deleteImage()">
+        </div>
       </tr>
     </div>
 
-    <div>
+    <div >
       <tr class="row" style="place-items: center">
         <td class="col-6">
           <ion-label class="topics">Vehicle model</ion-label>
@@ -59,9 +65,6 @@
       </tr>
     </div>
   
-    <div style="text-align: center;">
-      <ion-spinner name="dots" *ngIf="showLoader"></ion-spinner>
-    </div>
     <div style="width: 100%; margin-top: 20px; text-align: center;">
       <ion-button class="btnNavigate" type="Submit" [disabled]="!partRequestForm.valid">Request</ion-button>
     </div>

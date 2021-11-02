@@ -12,6 +12,8 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { KiaProviderService } from '../kia-provider.service';
 import { AlertController, ToastController } from '@ionic/angular';
 
+const MAX_IMAGE_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_VIDEO_FILE_SIZE = 20 * 1024 * 1024;
 
 @Component({
   selector: 'app-damage-estimate-respond',
@@ -27,6 +29,8 @@ export class DamageEstimateRespondPage implements OnInit {
   images:any = [];
   imageURLs:any = [];
   videoURLs:any = [];
+  imageCount:number = 0;
+  videoCount:number = 0;
   i = 0;
   j = 0;
   selectedVideo: string='';
@@ -47,15 +51,14 @@ export class DamageEstimateRespondPage implements OnInit {
     private toastController: ToastController,
     private zone: NgZone) {
     this.collitionForm = this.formBuilder.group({
-      description:['', [Validators.required, Validators.minLength(10)]],
+      description:[''],
     }); 
   }
-validation_messages = {
-  'description': [
-    { type: 'required', message: '* Description required!' },
-    { type: 'minlength', message: '* Description too short!' }
-  ]
-};
+// validation_messages = {
+//   'description': [
+//     { type: 'minlength', message: '* Description too short!' }
+//   ]
+// };
 
   ngOnInit() {
     this.imagePicker.hasReadPermission().then((val)=>{
@@ -84,6 +87,8 @@ validation_messages = {
       this.messages = data[0].messages;
       this.imageURLs = data[0].imageList;
       this.videoURLs = data[0].videoList;
+      this.imageCount = data[0].imageList.length;
+      this.videoCount = data[0].videoList.length;
     },
     (error: any) => {
       console.log('Something went wrong!', error);
@@ -99,29 +104,33 @@ validation_messages = {
       "imageList",this.imageURLs,
       "videoList",this.videoURLs
     )
-    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
-    options: any = {
-      "user_id":this.kiaProviderService.user_id,
-      "damage_estimate_id":this.kiaProviderService.damage_estimate_id,
-      "message":this.collitionForm.get('description').value,
-      "imageList":this.imageURLs,
-      "videoList":this.videoURLs
-    },
-    url: any = this.kiaProviderService.baseURL + 'addRespondDamageEstimate';
+    if(this.imageURLs.length>this.imageCount || this.videoURLs>this.videoCount){
+      let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+      options: any = {
+        "user_id":this.kiaProviderService.user_id,
+        "damage_estimate_id":this.kiaProviderService.damage_estimate_id,
+        "message":this.collitionForm.get('description').value,
+        "imageList":this.imageURLs,
+        "videoList":this.videoURLs
+      },
+      url: any = this.kiaProviderService.baseURL + 'addRespondDamageEstimate';
 
-    this.http.post(url, JSON.stringify(options), headers)
-    .subscribe((data: any) => {
-      console.log("profile data ", data)
-      if(data.message=='success'){
-        this.router.navigateByUrl("/damage-estimate");
-      }else{
-        alert("Something went wrong!");
-      }
-    },
-    (error: any) => {
-      console.log('Something went wrong!', error);
-      this.Retry2();
-    }); 
+      this.http.post(url, JSON.stringify(options), headers)
+      .subscribe((data: any) => {
+        console.log("profile data ", data)
+        if(data.message=='success'){
+          this.router.navigateByUrl("/damage-estimate");
+        }else{
+          alert("Something went wrong!");
+        }
+      },
+      (error: any) => {
+        console.log('Something went wrong!', error);
+        this.Retry2();
+      });
+    } else{
+      alert("Upload at least one another image or video to continue.");
+    }
   }
   
 
@@ -148,34 +157,59 @@ validation_messages = {
         this.images=[];
         this.presentToast();
       }
-    })
+    }, (error) => {
+      this.showLoader=false;
+      console.log(error);
+      alert("Sorry! file upload failed. Try another");
+    });
   }
 
   getImages(){
     this.showLoader=true;
     var options:ImagePickerOptions={
-      maximumImagesCount:5,
-      outputType:1,
-      width:100,
-      height:100
+      maximumImagesCount:10,
+      outputType:0
     }
-    this.imagePicker.getPictures(options).then((results)=>{
-      if(results.length){
-        for(var interval = 0; interval<results.length; interval++){
-          let url = 'data:image/jpeg;base64,'+results[interval]
-          this.images.push(url);
+    this.imagePicker.getPictures(options).then(async (selectedImage) => {
+      if (selectedImage.length) {
+        for (var interval = 0; interval < selectedImage.length; interval++) {
+          console.log(selectedImage[interval]);
+          var filename = selectedImage[interval].substring(selectedImage[interval].lastIndexOf('/') + 1);
+          var dirpath = selectedImage[interval].substring(0, selectedImage[interval].lastIndexOf('/') + 1);
+
+          dirpath = dirpath.includes("file://") ? dirpath : "file://" + dirpath;
+          
+          try {
+            var dirUrl = await this.file.resolveDirectoryUrl(dirpath);
+            var retrievedFile = await this.file.getFile(dirUrl, filename, {});
+
+          } catch(err) {
+            console.log(err);
+          }
+
+          retrievedFile.file( data => {
+            console.log("retrievedFile", data)
+            if (data.size > MAX_IMAGE_FILE_SIZE){
+              alert("Maximum individual image size is 5MB!, rest will be uploaded.");              
+            }else{
+              this.images.push(retrievedFile.nativeURL);
+            }
+            // if (data.type !== ALLOWED_MIME_TYPE) return console.log("Incorrect file type.");            
+          });
         }
-  
-        setTimeout(() => {
-          this.i=0;
-          this.sendImages();
-        }, 1000);
-      }else{
-        this.showLoader=false;
+
+        if(this.images.length>0){
+          setTimeout(() => {
+            this.i = 0;
+            this.sendImages();
+          }, 1000);
+        }
+
+      } else {
+        this.showLoader = false;
       }
-      
-    },(err)=>{
-      this.showLoader=false;
+    }, (err) => {
+      this.showLoader = false;
       alert(JSON.stringify(err));
     })
     console.log("images array", this.images, this.images[this.i]);
@@ -204,13 +238,17 @@ validation_messages = {
             alert("Error! Something went wrong.");
           }
           
-          retrievedFile.file( data => {
-            console.log(data);
-            this.selectedVideo = retrievedFile.nativeURL;
-
-            setTimeout(() => {
-              this.uploadVideo()
-            }, 1000);
+          retrievedFile.file(data => {
+            console.log("retrievedFile", data)
+            if (data.size > MAX_VIDEO_FILE_SIZE){
+              alert("Maximum video size is 20MB!");
+              this.showLoader = false;
+            }else{
+              this.selectedVideo = retrievedFile.nativeURL;
+              setTimeout(() => {
+                this.uploadVideo()
+              }, 1000);
+            }
           });
         }
       },

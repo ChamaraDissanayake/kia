@@ -37,7 +37,7 @@ export class TestDriveRegistrationPage implements OnInit {
     ],
     'mobile': [
       { type: 'required', message: '* Mobile number is required!' },
-      { type: 'pattern', message: '* Not a valid mobile number!' }
+      { type: 'pattern', message: '* Not a valid! Try 07XXXXXXXX' }
     ]
   };
 

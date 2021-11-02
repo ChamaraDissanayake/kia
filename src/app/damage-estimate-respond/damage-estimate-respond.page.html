@@ -10,6 +10,10 @@
 </ion-header>
 
 <ion-content class="background-image" fullscreen="true">
+  <div class="loader" *ngIf="showLoader">
+    <ion-label>Uploading</ion-label><br>
+    <ion-spinner name="dots"></ion-spinner>
+  </div>
     <div style="margin: 20px 10px;">
       <!-- <div style="margin: 5px;"> -->
         <div *ngFor="let msg of messages">
@@ -39,14 +43,14 @@
         <ion-item style="border-radius: 24px; padding: 5px;">
           <ion-textarea style="min-height: 86px;" auto-grow=true placeholder="Write a note" formControlName="description"></ion-textarea>
         </ion-item>
-        <div class="validation-errors">
+        <!-- <div class="validation-errors">
           <ng-container *ngFor="let validation of validation_messages.description">
             <div class="error-message"
               *ngIf="collitionForm.get('description').hasError(validation.type) && (collitionForm.get('description').dirty || collitionForm.get('description').touched)">
               {{ validation.message }}
             </div>
           </ng-container>
-        </div>
+        </div> -->
       </div>
       <div style="margin-top: 20px;">
         <tr class="row" style="place-items: center">
@@ -85,9 +89,6 @@
             </span>
           </td>
         </tr>
-      </div>
-      <div style="text-align: center;">
-        <ion-spinner name="dots" *ngIf="showLoader"></ion-spinner>
       </div>
       <div style="width: 100%; margin-top: 20px; text-align: center;">
         <ion-button class="btnNavigate" type="Submit" [disabled]="!collitionForm.valid">Submit</ion-button>

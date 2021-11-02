@@ -2,11 +2,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+// import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { File } from '@ionic-native/file/ngx';
 import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
+import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx';
 import { AlertController, ToastController } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
 
+const MAX_IMAGE_FILE_SIZE = 5 * 1024 * 1024;
 @Component({
   selector: 'app-request-part',
   templateUrl: './request-part.page.html',
@@ -24,12 +27,14 @@ export class RequestPartPage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private camera: Camera,
+    // private camera: Camera,
     public kiaProviderService: KiaProviderService,
     public transfer: FileTransfer,
     private alertController: AlertController,
     private http: HttpClient,
-    private toastController: ToastController
+    private toastController: ToastController,
+    public file: File,
+    private imagePicker: ImagePicker,
     ) {
     this.partRequestForm = this.formBuilder.group({
       description:['', [Validators.required, Validators.minLength(10)]],
@@ -48,22 +53,68 @@ export class RequestPartPage implements OnInit {
   };
 
   selectImage() {
-    this.showLoader=true;
-    const options: CameraOptions = {
-      mediaType: this.camera.MediaType.PICTURE,
-      allowEdit: false,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+    // this.showLoader=true;
+    // const options: CameraOptions = {
+    //   mediaType: this.camera.MediaType.PICTURE,
+    //   allowEdit: false,
+    //   sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+    // }
+
+    // this.camera.getPicture(options).then( async (imageUrl) => {
+    //   console.log("imageUrl", imageUrl);
+    //   this.image = imageUrl;
+    //   this.sendImage();
+    // },
+    // (err) => {
+    //   console.log("select image:", err);
+    //   this.showLoader=false;
+    // });
+
+
+    this.showLoader = true;
+    var options: ImagePickerOptions = {
+      maximumImagesCount: 1,
+      outputType: 0
     }
 
-    this.camera.getPicture(options).then( async (imageUrl) => {
-      console.log("imageUrl", imageUrl);
-      this.image = imageUrl;
-      this.sendImage();
-    },
-    (err) => {
-      console.log("select image:", err);
-      this.showLoader=false;
-    });
+    this.imagePicker.getPictures(options).then(async (selectedImage) => {
+      if (selectedImage.length) {
+          console.log(selectedImage[0]);
+          var filename = selectedImage[0].substring(selectedImage[0].lastIndexOf('/') + 1);
+          var dirpath = selectedImage[0].substring(0, selectedImage[0].lastIndexOf('/') + 1);
+
+          dirpath = dirpath.includes("file://") ? dirpath : "file://" + dirpath;
+          
+          try {
+            var dirUrl = await this.file.resolveDirectoryUrl(dirpath);
+            var retrievedFile = await this.file.getFile(dirUrl, filename, {});
+
+          } catch(err) {
+            console.log(err);
+          }
+
+          retrievedFile.file( data => {
+            console.log("retrievedFile", data)
+            if (data.size > MAX_IMAGE_FILE_SIZE){
+              alert("Maximum individual image size is 5MB!");              
+            }else{
+              this.image = retrievedFile.nativeURL;
+            }
+          });
+
+        if(this.image!=''){
+          setTimeout(() => {
+            this.sendImage();
+          }, 1000);
+        }
+
+      } else {
+        this.showLoader = false;
+      }
+    }, (err) => {
+      this.showLoader = false;
+      alert(JSON.stringify(err));
+    })
   }
 
   sendImage(){
@@ -82,9 +133,12 @@ export class RequestPartPage implements OnInit {
       console.log("image url fixed", imageurlFixed)
       this.finalImageURL = imageurlFixed;
       this.showLoader=false;
-      // alert("Successfully uploaded");
       this.presentToast();
-    })
+    }, (error) => {
+      this.showLoader=false;
+      console.log(error);
+      alert("Sorry! file upload failed. Try another");
+    });
   }
 
   selectModel(ev){

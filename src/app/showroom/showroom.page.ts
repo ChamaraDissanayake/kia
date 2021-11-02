@@ -17,10 +17,10 @@ export class ShowRoomPage implements OnInit {
   showrooms;
   // showroomDetails = showroomdetails;
   // showroomId: string;
-  showroomName: string;
-  showroomAddress: string;
-  showroomAddressSplitted;
-  showRoomOpenHours: string;
+  showroomName: string = '';
+  showroomAddress: string = '';
+  showroomAddressSplitted:any = [];
+  showRoomOpenHours: string = '';
   isValid: boolean = false;
   tempEvent: any;
 

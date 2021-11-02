@@ -6,12 +6,16 @@ import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx'
 import { File } from '@ionic-native/file/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
-import { FilePath } from '@ionic-native/file-path/ngx';
+// import { FilePath } from '@ionic-native/file-path/ngx';
 
 // import sliderAll from '../../assets/SliderAll.json';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { KiaProviderService } from '../kia-provider.service';
 import { AlertController, ToastController } from '@ionic/angular';
+
+const MAX_IMAGE_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_VIDEO_FILE_SIZE = 20 * 1024 * 1024;
+// const ALLOWED_MIME_TYPE = "image/jpeg";
 
 @Component({
   selector: 'app-damage-image-upload',
@@ -21,7 +25,6 @@ import { AlertController, ToastController } from '@ionic/angular';
 export class DamageImageUploadPage implements OnInit {
   public collitionForm: FormGroup;
   images: any = [];
-  // videos:any = [];
   imageURLs: any = [];
   videoURLs: any = [];
   insurance: any = [];
@@ -43,7 +46,7 @@ export class DamageImageUploadPage implements OnInit {
     private http: HttpClient,
     private camera: Camera,
     public kiaProviderService: KiaProviderService,
-    public filePath: FilePath,
+    // public filePath: FilePath,
     public transfer: FileTransfer,
     private zone: NgZone,
     private alertController: AlertController,
@@ -105,7 +108,8 @@ export class DamageImageUploadPage implements OnInit {
   }
 
   submitDetails() {
-    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    if(this.imageURLs.length>0 || this.videoURLs>0){
+      let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
       options: any = {
         "user_id": this.kiaProviderService.user_id,
         "description": this.collitionForm.get('description').value,
@@ -125,10 +129,14 @@ export class DamageImageUploadPage implements OnInit {
           alert("Something went wrong!");
         }
       },
-        (error: any) => {
-          console.log('Something went wrong!', error);
-          this.Retry2();
-        });
+      (error: any) => {
+        console.log('Something went wrong!', error);
+        this.Retry2();
+      });
+    } else{
+      alert("Upload at least one image or video to continue.");
+    }
+    
   }
 
   async Retry2() {
@@ -157,10 +165,11 @@ export class DamageImageUploadPage implements OnInit {
     }
     var serverurl = this.kiaProviderService.baseURL + "ImageUploadOneByOne";
     fileTransfer.upload(this.images[this.i], serverurl, options).then((data) => {
+      console.log("fileTransfer", data);
       let imageurl = data.response.substring(2, data.response.length - 2);
-      console.log(imageurl);
+      console.log("imageurl",imageurl);
       let imageurlFixed = imageurl.replace(/\\/g, '');
-      console.log("video url fixed", imageurlFixed)
+      console.log("image url fixed", imageurlFixed)
       this.imageURLs.push(imageurlFixed);
       this.i++;
       if (this.i < this.images.length) {
@@ -169,49 +178,83 @@ export class DamageImageUploadPage implements OnInit {
         console.log("send images:", this.imageURLs);
         this.showLoader = false;
         this.images=[];
-        // alert("Successfully uploaded");
         this.presentToast();
       }
-    })
+    }, (error) => {
+      this.showLoader=false;
+      console.log(error);
+      alert("Sorry! file upload failed. Try another");
+    });
   }
 
-
-  //     fileKey:"video",
-  //     chunkedMode:false,
-  //     mimeType: "video/mp4",
-  //     headers:{}
+  // getImages() {
+  //   this.showLoader = true;
+  //   var options: ImagePickerOptions = {
+  //     maximumImagesCount: 10,
+  //     outputType: 1
   //   }
-  //   var serverurl = this.kiaProviderService.baseURL + "ImageUploadOneByOne";
-  //   fileTransfer.upload(this.videos[this.j],serverurl,options).then((data)=>{
-  //     console.log("video url:", data);
-  //     this.videoURLs.push(data.response);
-  //     this.j++;
-  //     if(this.j<this.videos.length){
-  //       this.sendVideos();
-  //     }else{
-  //       console.log("send videos:",this.videoURLs);
-  //       alert("successfully uploaded");
+  //   this.imagePicker.getPictures(options).then((results) => {
+  //     if (results.length) {
+  //       for (var interval = 0; interval < results.length; interval++) {
+  //         let url = 'data:image/jpeg;base64,' + results[interval]
+  //         this.images.push(url);
+  //       }
+
+  //       setTimeout(() => {
+  //         this.i = 0;
+  //         this.sendImages();
+  //       }, 1000);
+  //     } else {
+  //       this.showLoader = false;
   //     }
+  //   }, (err) => {
+  //     this.showLoader = false;
+  //     alert(JSON.stringify(err));
   //   })
+  //   console.log("images array", this.images, this.images[this.i]);
   // }
 
   getImages() {
     this.showLoader = true;
     var options: ImagePickerOptions = {
-      maximumImagesCount: 5,
-      outputType: 1
+      maximumImagesCount: 10,
+      outputType: 0
     }
-    this.imagePicker.getPictures(options).then((results) => {
-      if (results.length) {
-        for (var interval = 0; interval < results.length; interval++) {
-          let url = 'data:image/jpeg;base64,' + results[interval]
-          this.images.push(url);
+    this.imagePicker.getPictures(options).then(async (selectedImage) => {
+      if (selectedImage.length) {
+        for (var interval = 0; interval < selectedImage.length; interval++) {
+          console.log(selectedImage[interval]);
+          var filename = selectedImage[interval].substring(selectedImage[interval].lastIndexOf('/') + 1);
+          var dirpath = selectedImage[interval].substring(0, selectedImage[interval].lastIndexOf('/') + 1);
+
+          dirpath = dirpath.includes("file://") ? dirpath : "file://" + dirpath;
+          
+          try {
+            var dirUrl = await this.file.resolveDirectoryUrl(dirpath);
+            var retrievedFile = await this.file.getFile(dirUrl, filename, {});
+
+          } catch(err) {
+            console.log(err);
+          }
+
+          retrievedFile.file( data => {
+            console.log("retrievedFile", data)
+            if (data.size > MAX_IMAGE_FILE_SIZE){
+              alert("Maximum individual image size is 5MB!, rest will be uploaded.");              
+            }else{
+              this.images.push(retrievedFile.nativeURL);
+            }
+            // if (data.type !== ALLOWED_MIME_TYPE) return console.log("Incorrect file type.");            
+          });
         }
 
-        setTimeout(() => {
-          this.i = 0;
-          this.sendImages();
-        }, 1000);
+        if(this.images.length>0){
+          setTimeout(() => {
+            this.i = 0;
+            this.sendImages();
+          }, 1000);
+        }
+
       } else {
         this.showLoader = false;
       }
@@ -221,27 +264,6 @@ export class DamageImageUploadPage implements OnInit {
     })
     console.log("images array", this.images, this.images[this.i]);
   }
-
-  // getVideo(){
-  //   const options: CameraOptions = {
-  //     mediaType: this.camera.MediaType.VIDEO,
-  //     sourceType:0
-  //   }
-
-  //   this.camera.getPicture(options).then((data) => {
-  //     // imageData is either a base64 encoded string or a file URI
-  //     // If it's base64 (DATA_URL):
-  //     let base64Video = 'data:video/mp4;base64,' + data;
-  //     this.videos.push(base64Video);
-  //     setTimeout(() => {
-  //       console.log("video", this.videos)
-  //       this.j=0;
-  //       this.sendVideos();
-  //     }, 1000);
-  //    }, (err) => {
-  //     alert(JSON.stringify(err));
-  //    });
-  // }
 
   selectVideo() {
     this.showLoader = true;
@@ -267,12 +289,16 @@ export class DamageImageUploadPage implements OnInit {
         }
 
         retrievedFile.file(data => {
-          console.log(data);
-          this.selectedVideo = retrievedFile.nativeURL;
-
-          setTimeout(() => {
-            this.uploadVideo()
-          }, 1000);
+          console.log("retrievedFile", data)
+          if (data.size > MAX_VIDEO_FILE_SIZE){
+            alert("Maximum video size is 20MB!");
+            this.showLoader = false;
+          }else{
+            this.selectedVideo = retrievedFile.nativeURL;
+            setTimeout(() => {
+              this.uploadVideo()
+            }, 1000);
+          }
         });
       }
     },
@@ -303,7 +329,6 @@ export class DamageImageUploadPage implements OnInit {
         this.showLoader = false;
         console.log("show loader", this.showLoader, "video url fixed", videourlFixed)
         this.refresh();
-        // alert("Successfully uploaded!");
         this.presentToast();
       })
       .catch((err) => {
@@ -313,11 +338,6 @@ export class DamageImageUploadPage implements OnInit {
         alert("Video upload failed");
       });
   }
-
-  // deleteImage(i){
-  //   console.log(i)
-  //   this.imageURLs.splice(i, 1);
-  // }
 
   selectInsurance(event){
     console.log(event.target.value);

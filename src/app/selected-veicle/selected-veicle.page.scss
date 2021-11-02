@@ -39,7 +39,7 @@ ion-fab-button {
     color: white;
     border-left: 3px solid rgb(235, 0, 41);
     padding-left: 10px;
-    margin-left: 5px;
+    margin: 5px;
 }
 
 .lbl-on-video{
@@ -48,6 +48,8 @@ ion-fab-button {
     bottom: 10px;
     font-weight: bold;
     color: white;
+    padding-left: 10px;
+    border-left: 3px solid rgb(235, 0, 41);
 }
 
 .swiper-container-horizontal > .swiper-pagination-bullets {
@@ -98,4 +100,9 @@ ion-fab-button {
 .custom-button{
     width: 30px;
     height: 30px;
+}
+
+.no-padding{
+    padding: unset;
+    border: 1px solid gray;
 }

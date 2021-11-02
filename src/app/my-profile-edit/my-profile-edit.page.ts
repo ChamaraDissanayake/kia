@@ -43,7 +43,7 @@ export class MyProfileEditPage implements OnInit {
     ],
     'mobile': [
       { type: 'required', message: '* New mobile number required!' },
-      { type: 'pattern', message: '* Not a valid mobile number!' }
+      { type: 'pattern', message: '* Not a valid! Try 07XXXXXXXX' }
     ]
   };
   

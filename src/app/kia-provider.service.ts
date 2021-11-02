@@ -26,7 +26,7 @@ export class KiaProviderService {
   // customer_name: string = '';
   // customer_phone: string = '';
   // customer_email: string = '';
-  booking_type: number = 5;
+  booking_type: number = 1;
   booking_id: number = 0;
   booking_settings_id: string = '';
   date: string = '';
