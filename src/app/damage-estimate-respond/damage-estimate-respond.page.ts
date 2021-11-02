@@ -156,6 +156,7 @@ export class DamageEstimateRespondPage implements OnInit {
         this.showLoader=false;
         this.images=[];
         this.presentToast();
+        this.refresh();
       }
     }, (error) => {
       this.showLoader=false;
@@ -165,13 +166,13 @@ export class DamageEstimateRespondPage implements OnInit {
   }
 
   getImages(){
-    this.showLoader=true;
     var options:ImagePickerOptions={
       maximumImagesCount:10,
       outputType:0
     }
     this.imagePicker.getPictures(options).then(async (selectedImage) => {
       if (selectedImage.length) {
+        this.showLoader=true;
         for (var interval = 0; interval < selectedImage.length; interval++) {
           console.log(selectedImage[interval]);
           var filename = selectedImage[interval].substring(selectedImage[interval].lastIndexOf('/') + 1);
@@ -203,6 +204,8 @@ export class DamageEstimateRespondPage implements OnInit {
             this.i = 0;
             this.sendImages();
           }, 1000);
+        }else{
+          this.showLoader=false;
         }
 
       } else {
@@ -215,8 +218,7 @@ export class DamageEstimateRespondPage implements OnInit {
     console.log("images array", this.images, this.images[this.i]);
   }
 
-  selectVideo() {
-    this.showLoader=true;
+  selectVideo() {    
     const options: CameraOptions = {
       mediaType: this.camera.MediaType.VIDEO,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
@@ -224,7 +226,7 @@ export class DamageEstimateRespondPage implements OnInit {
 
     this.camera.getPicture(options).then( async (videoUrl) => {
         if (videoUrl) {
-          
+          this.showLoader=true;
           var filename = videoUrl.substr(videoUrl.lastIndexOf('/') + 1);
           var dirpath = videoUrl.substr(0, videoUrl.lastIndexOf('/') + 1);
 
@@ -278,14 +280,13 @@ export class DamageEstimateRespondPage implements OnInit {
         this.videoURLs.push(videourlFixed);
         this.showLoader=false;
         console.log("show loader", this.showLoader, "video url fixed", videourlFixed)
-        this.refresh();
         // alert("Successfully uploaded!");
         this.presentToast();
+        this.refresh();
       })
       .catch((err)=>{
         console.log(err)
         this.showLoader=false;
-        this.refresh();
         alert("Video upload failed");
       });
   }

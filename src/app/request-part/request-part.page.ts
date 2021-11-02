@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 // import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
@@ -17,17 +17,18 @@ const MAX_IMAGE_FILE_SIZE = 5 * 1024 * 1024;
 })
 export class RequestPartPage implements OnInit {
 
-  public partRequestForm : FormGroup;
-  image:string = '';
-  finalImageURL:string = '';
-  vehicleModels:any = [];
-  showLoader:boolean = false;
-  vehicle_model:string = '';
-  
+  public partRequestForm: FormGroup;
+  image: string = '';
+  finalImageURL: string = '';
+  vehicleModels: any = [];
+  showLoader: boolean = false;
+  vehicle_model: string = '';
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     // private camera: Camera,
+    private zone: NgZone,
     public kiaProviderService: KiaProviderService,
     public transfer: FileTransfer,
     private alertController: AlertController,
@@ -35,10 +36,10 @@ export class RequestPartPage implements OnInit {
     private toastController: ToastController,
     public file: File,
     private imagePicker: ImagePicker,
-    ) {
+  ) {
     this.partRequestForm = this.formBuilder.group({
-      description:['', [Validators.required, Validators.minLength(10)]],
-    }); 
+      description: ['', [Validators.required, Validators.minLength(10)]],
+    });
   }
 
   ngOnInit() {
@@ -71,7 +72,6 @@ export class RequestPartPage implements OnInit {
     // });
 
 
-    this.showLoader = true;
     var options: ImagePickerOptions = {
       maximumImagesCount: 1,
       outputType: 0
@@ -79,40 +79,32 @@ export class RequestPartPage implements OnInit {
 
     this.imagePicker.getPictures(options).then(async (selectedImage) => {
       if (selectedImage.length) {
-          console.log(selectedImage[0]);
-          var filename = selectedImage[0].substring(selectedImage[0].lastIndexOf('/') + 1);
-          var dirpath = selectedImage[0].substring(0, selectedImage[0].lastIndexOf('/') + 1);
+        this.showLoader = true;
+        console.log(selectedImage[0]);
+        var filename = selectedImage[0].substring(selectedImage[0].lastIndexOf('/') + 1);
+        var dirpath = selectedImage[0].substring(0, selectedImage[0].lastIndexOf('/') + 1);
 
-          dirpath = dirpath.includes("file://") ? dirpath : "file://" + dirpath;
-          
-          try {
-            var dirUrl = await this.file.resolveDirectoryUrl(dirpath);
-            var retrievedFile = await this.file.getFile(dirUrl, filename, {});
+        dirpath = dirpath.includes("file://") ? dirpath : "file://" + dirpath;
 
-          } catch(err) {
-            console.log(err);
+        try {
+          var dirUrl = await this.file.resolveDirectoryUrl(dirpath);
+          var retrievedFile = await this.file.getFile(dirUrl, filename, {});
+
+        } catch (err) {
+          console.log(err);
+        }
+
+        retrievedFile.file(data => {
+          console.log("retrievedFile", data)
+          if (data.size > MAX_IMAGE_FILE_SIZE) {
+            this.showLoader = false;
+            alert("Maximum individual image size is 5MB!");
+          } else {
+            this.image = retrievedFile.nativeURL;
+            console.log("native url", this.image);
+            this.sendImage();
           }
-
-          retrievedFile.file( data => {
-            console.log("retrievedFile", data)
-            if (data.size > MAX_IMAGE_FILE_SIZE){
-              alert("Maximum individual image size is 5MB!");
-              this.showLoader=false;
-            }else{
-              this.image = retrievedFile.nativeURL;
-              console.log("native url" ,this.image);
-              this.sendImage();
-            }
-          });
-
-        // if(this.image!=''){
-        //   console.log("image selected")
-        //   setTimeout(() => {
-        //     this.sendImage();
-        //   }, 1000);
-        // }else{
-        //   console.log("no image selected")
-        // }
+        });
 
       } else {
         this.showLoader = false;
@@ -123,56 +115,57 @@ export class RequestPartPage implements OnInit {
     })
   }
 
-  sendImage(){
+  sendImage() {
     console.log("send image working")
     const fileTransfer = this.transfer.create();
-    let options:FileUploadOptions={
-      fileKey:"image",
-      chunkedMode:false,
-      headers:{}
+    let options: FileUploadOptions = {
+      fileKey: "image",
+      chunkedMode: false,
+      headers: {}
     }
 
     var serverurl = this.kiaProviderService.baseURL + "ImageUploadOneByOne";
-    fileTransfer.upload(this.image,serverurl,options).then((data)=>{
-      let imageurl = data.response.substring(2,data.response.length-2);
+    fileTransfer.upload(this.image, serverurl, options).then((data) => {
+      this.showLoader = false;
+      let imageurl = data.response.substring(2, data.response.length - 2);
       console.log(imageurl);
       let imageurlFixed = imageurl.replace(/\\/g, '');
       console.log("image url fixed", imageurlFixed)
       this.finalImageURL = imageurlFixed;
-      this.showLoader=false;
       this.presentToast();
+      this.refresh();
     }, (error) => {
-      this.showLoader=false;
+      this.showLoader = false;
       console.log(error);
       alert("Sorry! file upload failed. Try another");
     });
   }
 
-  selectModel(ev){
+  selectModel(ev) {
     this.vehicle_model = ev.target.value;
   }
 
-  submitDetails(){
+  submitDetails() {
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
-    options: any = {
-      "user_id":this.kiaProviderService.user_id,
-      "description":this.partRequestForm.get('description').value,
-      "image":this.finalImageURL,
-      "vehicle_model_id":this.vehicle_model
-    },
-    url: any = this.kiaProviderService.baseURL + 'add-request-part';
+      options: any = {
+        "user_id": this.kiaProviderService.user_id,
+        "description": this.partRequestForm.get('description').value,
+        "image": this.finalImageURL,
+        "vehicle_model_id": this.vehicle_model
+      },
+      url: any = this.kiaProviderService.baseURL + 'add-request-part';
 
     this.http.post(url, JSON.stringify(options), headers)
-    .subscribe((data: any) => {
-      console.log("Request part success", data);
-      this.router.navigateByUrl("/my-part-requests");
-    },
-    (error: any) => {
-      console.log('Something went wrong!', error);
-      this.Retry2();
-    });
+      .subscribe((data: any) => {
+        console.log("Request part success", data);
+        this.router.navigateByUrl("/my-part-requests");
+      },
+        (error: any) => {
+          console.log('Something went wrong!', error);
+          this.Retry2();
+        });
   }
-  
+
   async deleteImage() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
@@ -190,7 +183,7 @@ export class RequestPartPage implements OnInit {
           text: 'Yes',
           handler: () => {
             console.log('Confirm Okay');
-            this.finalImageURL='';
+            this.finalImageURL = '';
           }
         }
       ]
@@ -200,20 +193,20 @@ export class RequestPartPage implements OnInit {
 
   getVehicleModels() {
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
-    options: any = {
-    },
-    url: any = this.kiaProviderService.baseURL + 'get-vehicle-model';
+      options: any = {
+      },
+      url: any = this.kiaProviderService.baseURL + 'get-vehicle-model';
 
     this.http.post(url, JSON.stringify(options), headers)
-    .subscribe((data: any) => {
-      console.log("vehicle models data ", data);
-      this.vehicleModels=data;
-      console.log("vehicle models array ", this.vehicleModels);
-    },
-    (error: any) => {
-      console.log('Something went wrong!', error);
-      this.Retry1();
-    }); 
+      .subscribe((data: any) => {
+        console.log("vehicle models data ", data);
+        this.vehicleModels = data;
+        console.log("vehicle models array ", this.vehicleModels);
+      },
+        (error: any) => {
+          console.log('Something went wrong!', error);
+          this.Retry1();
+        });
   }
 
   async Retry1() {
@@ -222,11 +215,11 @@ export class RequestPartPage implements OnInit {
       header: 'Alert!',
       message: 'Check your connection and try again!',
       buttons: [{
-          text: 'Try again',
-          handler: () => {
-            this.getVehicleModels();
-          }
+        text: 'Try again',
+        handler: () => {
+          this.getVehicleModels();
         }
+      }
       ]
     });
     await alert.present();
@@ -238,11 +231,11 @@ export class RequestPartPage implements OnInit {
       header: 'Alert!',
       message: 'Check your connection and try again!',
       buttons: [{
-          text: 'Try again',
-          handler: () => {
-            this.submitDetails();
-          }
+        text: 'Try again',
+        handler: () => {
+          this.submitDetails();
         }
+      }
       ]
     });
     await alert.present();
@@ -255,5 +248,11 @@ export class RequestPartPage implements OnInit {
       color: 'success'
     });
     toast.present();
+  }
+
+  refresh() {
+    this.zone.run(() => {
+      console.log('force update the screen');
+    });
   }
 }
