@@ -96,17 +96,23 @@ export class RequestPartPage implements OnInit {
           retrievedFile.file( data => {
             console.log("retrievedFile", data)
             if (data.size > MAX_IMAGE_FILE_SIZE){
-              alert("Maximum individual image size is 5MB!");              
+              alert("Maximum individual image size is 5MB!");
+              this.showLoader=false;
             }else{
               this.image = retrievedFile.nativeURL;
+              console.log("native url" ,this.image);
+              this.sendImage();
             }
           });
 
-        if(this.image!=''){
-          setTimeout(() => {
-            this.sendImage();
-          }, 1000);
-        }
+        // if(this.image!=''){
+        //   console.log("image selected")
+        //   setTimeout(() => {
+        //     this.sendImage();
+        //   }, 1000);
+        // }else{
+        //   console.log("no image selected")
+        // }
 
       } else {
         this.showLoader = false;
@@ -118,6 +124,7 @@ export class RequestPartPage implements OnInit {
   }
 
   sendImage(){
+    console.log("send image working")
     const fileTransfer = this.transfer.create();
     let options:FileUploadOptions={
       fileKey:"image",
