@@ -24,7 +24,7 @@
   <div style="text-align: center; margin-bottom: 10px;">
     <ion-card *ngFor="let item of videos; let i = index" style="margin: 5px 5px 0px 5px; background: black;">
       <ion-card-content style="padding: unset;">
-        <video #player playinline controls loop preload="auto">
+        <video #player playinline controls loop controlsList="nodownload" preload="auto">
           <source [src]="item" type="video/mp4" [id]="i">
         </video>
       </ion-card-content>

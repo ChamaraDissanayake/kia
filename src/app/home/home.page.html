@@ -149,7 +149,7 @@
   <div style="padding: unset;">
     <ion-card style="margin: unset;">
       <ion-card-content style="padding: unset;">
-        <video *ngFor="let item of mainVideo" controls loop #player1 playinline preload="auto" poster="{{item.thumbnail}}">          
+        <video *ngFor="let item of mainVideo" controls loop controlsList="nodownload" #player1 playinline preload="auto" poster="{{item.thumbnail}}">          
           <source [src]="item.src" type="video/mp4">
         </video>        
       </ion-card-content>
@@ -221,7 +221,7 @@
   <div style="padding: unset;">
     <ion-card style="margin: unset;">
       <ion-card-content style="padding: unset;">
-        <video *ngFor="let item of secondaryVideo" controls loop #player2 playinline preload="auto" poster="{{item.thumbnail}}">
+        <video *ngFor="let item of secondaryVideo" controls loop controlsList="nodownload" #player2 playinline preload="auto" poster="{{item.thumbnail}}">
           <source [src]="item.src" type="video/mp4">
         </video>        
       </ion-card-content>

@@ -43,7 +43,7 @@
   <div style="padding: unset; min-height: 200px;">
     <ion-card *ngFor="let item of feed; let i = index" style="margin: unset;">
       <ion-card-content style="padding: unset;">
-        <video #player playinline preload="auto" controls loop poster="{{item.thumbnail}}">
+        <video #player playinline preload="auto" controls loop controlsList="nodownload" poster="{{item.thumbnail}}">
           <source [src]="item.src" type="video/mp4" [id]="i">
         </video>
         <ion-label class="lbl-on-video">{{ item.title }}</ion-label>
