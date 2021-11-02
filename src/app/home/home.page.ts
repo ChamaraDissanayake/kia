@@ -28,8 +28,8 @@ export class HomePage implements OnInit {
 
   videoPaused1 = true;
   videoPaused2 = true;
-  @ViewChild('player1')videoPlayer1;
-  @ViewChild('player2')videoPlayer2;
+  // @ViewChild('player1')videoPlayer1;
+  // @ViewChild('player2')videoPlayer2;
   @ViewChild('loader')loader
 
   constructor(
@@ -95,12 +95,12 @@ export class HomePage implements OnInit {
   }
 
   ionViewWillLeave(){
-    if(this.videoPlayer1){
-      this.videoPlayer1.nativeElement.pause();
-    }
-    this.videoPlayer2.nativeElement.pause();
-    this.videoPaused1=true;
-    this.videoPaused2=true;
+    // if(this.videoPlayer1){
+    //   this.videoPlayer1.nativeElement.pause();
+    // }
+    // this.videoPlayer2.nativeElement.pause();
+    // this.videoPaused1=true;
+    // this.videoPaused2=true;
     this.menu.swipeGesture(false);
   }
 
@@ -229,34 +229,34 @@ export class HomePage implements OnInit {
     }
   }
 
-  playVideo1(){
-    if(this.videoPaused1){
-      this.videoPlayer1.nativeElement.play();
-      this.videoPlayer2.nativeElement.pause();
-      this.videoPaused2=true;
-      this.videoPaused1=!this.videoPaused1;
-      // this.videoPlayer.nativeElement.muted = false;
-    }else{
-      this.videoPlayer1.nativeElement.pause();
-      this.videoPaused1=!this.videoPaused1;
-    }
-  }
+  // playVideo1(){
+  //   if(this.videoPaused1){
+  //     this.videoPlayer1.nativeElement.play();
+  //     this.videoPlayer2.nativeElement.pause();
+  //     this.videoPaused2=true;
+  //     this.videoPaused1=!this.videoPaused1;
+  //     // this.videoPlayer.nativeElement.muted = false;
+  //   }else{
+  //     this.videoPlayer1.nativeElement.pause();
+  //     this.videoPaused1=!this.videoPaused1;
+  //   }
+  // }
 
-  playVideo2(){
-    if(this.videoPaused2){
-      this.videoPlayer2.nativeElement.play();
-      console.log("video", this.videoPlayer1)
-      if(this.videoPlayer1){
-        this.videoPlayer1.nativeElement.pause();
-        this.videoPaused1=true;
-      }
+  // playVideo2(){
+  //   if(this.videoPaused2){
+  //     this.videoPlayer2.nativeElement.play();
+  //     console.log("video", this.videoPlayer1)
+  //     if(this.videoPlayer1){
+  //       this.videoPlayer1.nativeElement.pause();
+  //       this.videoPaused1=true;
+  //     }
 
-      this.videoPaused2=!this.videoPaused2;
-    }else{
-      this.videoPlayer2.nativeElement.pause();
-      this.videoPaused2=!this.videoPaused2;
-    }
-  }
+  //     this.videoPaused2=!this.videoPaused2;
+  //   }else{
+  //     this.videoPlayer2.nativeElement.pause();
+  //     this.videoPaused2=!this.videoPaused2;
+  //   }
+  // }
 
   resetValues(){
     this.kiaProviderService.showroom_id = '';

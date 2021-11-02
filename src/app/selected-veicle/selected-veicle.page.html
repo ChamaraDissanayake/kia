@@ -26,11 +26,10 @@
     <ion-fab-button class="enabled" [routerLink]="['/showroom']">Test<br>drive</ion-fab-button>
   </ion-fab>
 
-  <div style="padding: unset; min-height: 200px;">
+  <!-- <div style="padding: unset; min-height: 200px;">
     <ion-card *ngFor="let item of feed; let i = index" style="margin: unset;" (click)="playVideo(i)">
       <ion-card-content style="padding: unset;">
         <video #player playinline preload="auto" controls loop poster="{{item.thumbnail}}">
-          <!-- <video #player playinline preload="auto" poster="../../assets/kia-video-thumbnail.jpeg"> -->
           <source [src]="item.src" type="video/mp4" [id]="i">
         </video>
 
@@ -39,17 +38,19 @@
           [ngClass]="{'btnHide': i == videoId && !videoPaused}" src="../../assets/kia-play-icon.png">
       </ion-card-content>
     </ion-card>
-  </div>
-  <!-- "src": "http://static.videogular.com/assets/videos/elephants-dream.mp4" -->
-  <!-- <div>
-    <img src="../../assets/kia-video-thumbnail-1.png">
-  </div>
-  <div>
-    <img src="../../assets/kia-video-thumbnail-2.png">
   </div> -->
-  <!-- <div>
-    <img src="../../assets/kia-360VR.png" alt="360 IMAGE">
-  </div> -->
+
+  <div style="padding: unset; min-height: 200px;">
+    <ion-card *ngFor="let item of feed; let i = index" style="margin: unset;">
+      <ion-card-content style="padding: unset;">
+        <video #player playinline preload="auto" controls loop poster="{{item.thumbnail}}">
+          <source [src]="item.src" type="video/mp4" [id]="i">
+        </video>
+        <ion-label class="lbl-on-video">{{ item.title }}</ion-label>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
   <div style="background: white; min-height: 280px;">
     <div class="text-360">
       360VR

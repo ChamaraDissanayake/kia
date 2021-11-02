@@ -28,7 +28,7 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
   pdf: any = [];
   
   @ViewChildren('player')videoPlayers: QueryList<any>;
-  @ViewChildren('playImage')videoPlayButton: QueryList<any>;
+  // @ViewChildren('playImage')videoPlayButton: QueryList<any>;
   @ViewChild('slides') slides: IonSlides;
 
 
@@ -170,21 +170,21 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
     }); 
   }
 
-  playVideo(id){
-    console.log("video id ",this.videoPlayButton.get(id).nativeElement.id);
-    this.videoPlayers.forEach(player =>{
-      player.nativeElement.pause();
-    })
-    if(this.videoPaused){
-      this.videoPlayers.get(id).nativeElement.play();
-      this.videoPaused=false;
-      this.videoId = this.videoPlayButton.get(id).nativeElement.id;
-    }else{
-      this.videoPlayers.get(id).nativeElement.pause();
-      this.videoPaused=true;
-      this.videoId = 0;
-    }
-  }
+  // playVideo(id){
+  //   console.log("video id ",this.videoPlayButton.get(id).nativeElement.id);
+  //   this.videoPlayers.forEach(player =>{
+  //     player.nativeElement.pause();
+  //   })
+  //   if(this.videoPaused){
+  //     this.videoPlayers.get(id).nativeElement.play();
+  //     this.videoPaused=false;
+  //     this.videoId = this.videoPlayButton.get(id).nativeElement.id;
+  //   }else{
+  //     this.videoPlayers.get(id).nativeElement.pause();
+  //     this.videoPaused=true;
+  //     this.videoId = 0;
+  //   }
+  // }
 
   changeColor(button){
     console.log("check color", this.colorCode, button.colorCode);

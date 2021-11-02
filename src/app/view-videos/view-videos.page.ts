@@ -11,13 +11,13 @@ import { KiaProviderService } from '../kia-provider.service';
   styleUrls: ['./view-videos.page.scss'],
 })
 export class ViewVideosPage implements OnInit {
-  videoPaused: boolean = true;
-  videoId = 0;
+  // videoPaused: boolean = true;
+  // videoId = 0;
   videos: any = [];
 
   // feed = data;
   @ViewChildren('player')videoPlayers: QueryList<any>;
-  @ViewChildren('playImage')videoPlayButton: QueryList<any>;
+  // @ViewChildren('playImage')videoPlayButton: QueryList<any>;
 
   currentPlaying = null;
   
@@ -25,30 +25,30 @@ export class ViewVideosPage implements OnInit {
     private http: HttpClient,
     public kiaProviderService: KiaProviderService,
     private alertController: AlertController,
-    private platform: Platform
+    // private platform: Platform
   ) { }
 
   ngOnInit() {
     this.getDetails();
   }
 
-  playVideo(id){
-    this.platform.ready().then(()=>{
-      console.log("video id ",this.videoPlayButton.get(id).nativeElement.id);
-    })
-    this.videoPlayers.forEach(player =>{
-      player.nativeElement.pause();
-    })
-    if(this.videoPaused){
-      this.videoPlayers.get(id).nativeElement.play();
-      this.videoPaused=false;
-      this.videoId = this.videoPlayButton.get(id).nativeElement.id;
-    }else{
-      this.videoPlayers.get(id).nativeElement.pause();
-      this.videoPaused=true;
-      this.videoId = 100;
-    }
-  }
+  // playVideo(id){
+  //   this.platform.ready().then(()=>{
+  //     console.log("video id ",this.videoPlayButton.get(id).nativeElement.id);
+  //   })
+  //   this.videoPlayers.forEach(player =>{
+  //     player.nativeElement.pause();
+  //   })
+  //   if(this.videoPaused){
+  //     this.videoPlayers.get(id).nativeElement.play();
+  //     this.videoPaused=false;
+  //     this.videoId = this.videoPlayButton.get(id).nativeElement.id;
+  //   }else{
+  //     this.videoPlayers.get(id).nativeElement.pause();
+  //     this.videoPaused=true;
+  //     this.videoId = 100;
+  //   }
+  // }
 
   getDetails(){
     console.log("working")
