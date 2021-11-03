@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+// import { Router } from '@angular/router';
 import { KiaProviderService } from '../kia-provider.service';
-import payList from '../../assets/getInvoices.json';
-import { AlertController } from '@ionic/angular';
+// import payList from '../../assets/getInvoices.json';
+import { AlertController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-online-payment',
@@ -12,11 +12,13 @@ import { AlertController } from '@ionic/angular';
 })
 export class OnlinePaymentPage implements OnInit {
   bills: any = [];
+  showLoader: boolean = false;
   constructor(
-    private router: Router,
+    // private router: Router,
     public kiaProviderService: KiaProviderService,
     private http: HttpClient,
-    private alertController: AlertController) { }
+    private alertController: AlertController,
+    private toastController: ToastController) { }
 
   ngOnInit() {
     // this.bills = payList;
@@ -27,6 +29,7 @@ export class OnlinePaymentPage implements OnInit {
   }
 
   getBillList() {
+    this.showLoader = true;
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {
       "user_id":this.kiaProviderService.user_id
@@ -37,9 +40,11 @@ export class OnlinePaymentPage implements OnInit {
     .subscribe((data: any) => {
       console.log("Bills", data);
       this.bills = data;
+      this.showLoader = false;
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.showLoader = false;
       this.Retry();
     }); 
   }

@@ -47,21 +47,21 @@
         Distance to service location
       </ion-col>
       <ion-col size = '3' style="border-left: 1px solid white; border-right: 1px solid white;;">
-        One way
+        One way (Rs)
       </ion-col>
       <ion-col size = '3'>
-        Pickup & Drop
+        Pickup & Drop (Rs)
       </ion-col>
     </ion-row>
     <ion-row *ngFor="let item of pricing">
       <ion-col size = '6'>
         {{item.distance_location}}
       </ion-col>
-      <ion-col size = '3' style="border-left: 1px solid white; border-right: 1px solid white;;">
-        {{item.one_way}}
+      <ion-col size = '3' style="border-left: 1px solid white; border-right: 1px solid white; text-align: end;">
+        {{item.one_way | number:'1.0':'en-US'}}
       </ion-col>
-      <ion-col size = '3'>
-        {{item.Pick_and_drop}}
+      <ion-col size = '3' style="text-align: end;">
+        {{item.Pick_and_drop | number:'1.0':'en-US'}}
       </ion-col>
     </ion-row>
   </ion-grid>

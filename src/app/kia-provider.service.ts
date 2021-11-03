@@ -35,7 +35,7 @@ export class KiaProviderService {
   end_time: number = 0;
   is_inquiry: string = '0';
   isDamageEstimatePending: boolean = true;
-  baseURL = 'http://52.66.188.137/api/';
+  baseURL = 'http://web.kialanka.lk/api/';
   damage_estimate_id = 0;
   showcase_id = 0;
   request_part_id = 0;

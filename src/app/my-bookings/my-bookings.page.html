@@ -13,7 +13,7 @@
   <!-- <div style="width: 100%; height: 3px; background: rgb(235, 0, 41);" slot="fixed"></div> -->
   <h1 style="text-align: center;">My bookings</h1>
 
-  <div *ngFor="let item of allBookings" class="booking-container">
+  <div *ngFor="let item of allBookings" class="booking-container" [ngClass]="{'inquiry': item.inquiry == '2'}">
     <div>
       <ion-label class="topics" *ngIf="item.booking_type==1">Type: Test drive</ion-label>
       <ion-label class="topics" *ngIf="item.booking_type==2">Type: Service</ion-label>

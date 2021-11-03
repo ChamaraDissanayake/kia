@@ -137,7 +137,8 @@ export class CalendarPage implements OnInit {
   fillTestDrive() {
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {
-      "shop_id":this.kiaProviderService.showroom_id,
+      // "shop_id":this.kiaProviderService.showroom_id,
+      "shop_id":9
     },
     url: any = this.kiaProviderService.baseURL + 'getDateForTestDrive';
 
@@ -187,6 +188,9 @@ export class CalendarPage implements OnInit {
       this.isSlotBooked = false;
     }
     
+    if((this.isSlotBooked || !this.isAvailableDay) && this.slotsAvailable){
+      this.inquiryWarning();
+    }
     this.checkValidity();
   }
 
@@ -233,7 +237,11 @@ export class CalendarPage implements OnInit {
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
       console.log("submitted ",data)
-      this.router.navigateByUrl("/booking-confirmed");
+      if(this.kiaProviderService.is_inquiry = '1'){
+        this.router.navigateByUrl("/booking-success-inquiry");
+      }else{
+        this.router.navigateByUrl("/booking-confirmed");
+      }      
     },
     (error: any) => {
       console.log('Something went wrong!', error);
@@ -247,7 +255,9 @@ export class CalendarPage implements OnInit {
         if(calEvents.year==event.getFullYear() && calEvents.month==event.getMonth()+1 && calEvents.day==event.getDate()){
           if(!calEvents.isAvailable){
             this.isAvailableDay=false;
-            console.log("isAvailableDay",this.isAvailableDay)
+            console.log("isAvailableDay",this.isAvailableDay, event)
+            let date = calEvents.day+'/'+calEvents.month+'/'+calEvents.year;
+            this.notAvailableDateTD(date)
           }else{
             this.isAvailableDay=true;
             console.log("isAvailableDay",this.isAvailableDay)
@@ -298,6 +308,8 @@ export class CalendarPage implements OnInit {
         
         if(this.bookedSlots.length==0){
           this.slotsAvailable=false;
+          let date = calEvents.day+'/'+calEvents.month+'/'+calEvents.year;
+          this.notAvailableDate(date)
         }else{
           this.slotsAvailable=true;
         }
@@ -468,6 +480,48 @@ export class CalendarPage implements OnInit {
           handler: () => {
             this.getContactNumber();            
           }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async inquiryWarning() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'There are no available slots for particular time. Please check make inquiry checkbox to make an inquiry. Service agent will contact you to confirm your booking.',
+      buttons: [{
+          text: 'Accept',
+          role: 'cancel'
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async notAvailableDate(date) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Service bookings are not available on '+date+'. Try different date.',
+      buttons: [{
+          text: 'Close',
+          role: 'cancel'
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async notAvailableDateTD(date) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Test drives are not available on '+date+'. Try different date.',
+      buttons: [{
+          text: 'Close',
+          role: 'cancel'
         }
       ]
     });

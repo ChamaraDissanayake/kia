@@ -1,18 +1,19 @@
 <ion-content>
-  <div style="height: 250px; margin: 25px;">
+    <!-- <ion-button style="position: fixed; right: 10px; top: 10px;"></ion-button> -->
+    <ion-icon name="close" class="close-button" (click)="close()"></ion-icon>
+    
     <div class="stars-container">
       <h2>Rate us</h2>
-      <span class="fa fa-star add-margin" (click)="addRating(1)" [ngClass]="{'checked': rating >= 1}"></span>
-      <span class="fa fa-star add-margin" (click)="addRating(2)" [ngClass]="{'checked': rating >= 2}"></span>
-      <span class="fa fa-star add-margin" (click)="addRating(3)" [ngClass]="{'checked': rating >= 3}"></span>
-      <span class="fa fa-star add-margin" (click)="addRating(4)" [ngClass]="{'checked': rating >= 4}"></span>
-      <span class="fa fa-star add-margin" (click)="addRating(5)" [ngClass]="{'checked': rating >= 5}"></span>
+      <span class="fa fa-star-o add-margin" (click)="addRating(1)" [ngClass]="{'checked': rating >= 1}"></span>
+      <span class="fa fa-star-o add-margin" (click)="addRating(2)" [ngClass]="{'checked': rating >= 2}"></span>
+      <span class="fa fa-star-o add-margin" (click)="addRating(3)" [ngClass]="{'checked': rating >= 3}"></span>
+      <span class="fa fa-star-o add-margin" (click)="addRating(4)" [ngClass]="{'checked': rating >= 4}"></span>
+      <span class="fa fa-star-o add-margin" (click)="addRating(5)" [ngClass]="{'checked': rating >= 5}"></span>
     </div>
   
     <div class="stars-container">
-      <ion-textarea #note style="width: 95%; background: lightgray;" auto-grow=true placeholder="Add a note"></ion-textarea>
+      <ion-textarea #note style="width: 95%; min-height: 45px; background: lightgray;" auto-grow=true placeholder="Add a note"></ion-textarea>
       <ion-button style="margin-top: 20px;" class="btnNavigate" (click)="submitRating()">Submit</ion-button>
     </div>
-  </div>
 
 </ion-content>

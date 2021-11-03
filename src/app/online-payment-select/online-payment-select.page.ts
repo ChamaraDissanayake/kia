@@ -2,9 +2,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { KiaProviderService } from '../kia-provider.service';
-import payList from '../../assets/getInvoices.json';
+// import payList from '../../assets/getInvoices.json';
 import { AlertController } from '@ionic/angular';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
 
 
 @Component({
@@ -17,12 +17,21 @@ export class OnlinePaymentSelectPage implements OnInit {
   bills: any = [];
   indexes: any = [];
   payList: any = [];
+
   constructor(
     private router: Router,
     public kiaProviderService: KiaProviderService,
     private http: HttpClient,
     private alertController: AlertController,
-    private inAppBrowser: InAppBrowser) { }
+    private inAppBrowser: InAppBrowser) {
+    }
+
+  IABoptions : InAppBrowserOptions = {
+      location : 'yes',
+      hidden : 'no',
+      zoom : 'yes',
+      hideurlbar:'yes'
+  };
 
   ngOnInit() {
     // this.bills = payList;
@@ -71,9 +80,18 @@ export class OnlinePaymentSelectPage implements OnInit {
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
-      console.log("payment", data.url)
-      this.inAppBrowser.create(data.url);
-      //4508 7500 1574 1019
+      console.log("payment", data.url);
+      const browse = this.inAppBrowser.create(data.url,"_blank",this.IABoptions);
+      
+      browse.on('loadstart').subscribe(event => {
+        if(event.url == 'http://web.kialanka.lk/exitDirectpayCardPayment'){
+          browse.close();
+        }
+      });
+      
+      // 4508 7500 1574 1019
+      // 5123 4500 0000 0008
+
       this.router.navigateByUrl('/home');
     },
     (error: any) => {
@@ -81,7 +99,7 @@ export class OnlinePaymentSelectPage implements OnInit {
       this.Retry()
     }); 
   }
-
+  
   async Retry() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',

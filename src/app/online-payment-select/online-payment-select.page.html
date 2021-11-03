@@ -12,14 +12,14 @@
 <ion-content class="background-image" style="text-align: -webkit-center;" fullscreen="true">
   <ion-list *ngFor="let item of bills; let i = index" class="billItem text-white">
     <ion-item class="no-background">
-      <ion-checkbox slot="start" color="danger" value="{{item.refInv}},{{item.bamt}}+{{i}}" (ionChange)="selectInvoce($event)"></ion-checkbox>
+      <ion-checkbox slot="start" color="danger" value="{{item.refInv}},{{item.totBal}}+{{i}}" (ionChange)="selectInvoce($event)"></ion-checkbox>
       <ion-label>Invoice: {{item.refInv}}</ion-label>
     </ion-item>
-    <ion-label>Balance: Rs. {{item.bamt}}</ion-label>
+    <ion-label>Balance: Rs. {{item.totBal | number:'1.0':'en-US'}}</ion-label>
   </ion-list>
 
   <div>
-    <h1>Total: Rs. {{total}}</h1>
+    <h1>Total: Rs. {{total | number:'1.0':'en-US'}}</h1>
   </div>
   <div style="text-align: center; margin: 40px 0;">
     <ion-button class="btnNavigate" (click)="pay()">Pay</ion-button>

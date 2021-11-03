@@ -45,5 +45,14 @@ export class LoginPage implements OnInit {
   gotoHome(){
     this.router.navigateByUrl('/home');
     this.storage.set("isNewUser", false);
+    this.platform.ready().then(()=>{
+      this.animationCtrl.create()
+      .addElement(this.square.nativeElement)
+      .duration(1000)
+      .easing('ease-out')
+      .delay(1000)
+      .fromTo('transform', 'translateY(120px)', 'translateY(500px)')
+      .play();
+    })
   }
 }

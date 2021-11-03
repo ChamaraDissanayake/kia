@@ -66,11 +66,13 @@
             <ion-label class="text-white">Auto spa</ion-label>
           </ion-item>
           <ion-item (click)="gotoRequestPart()" [disabled]='kiaProviderService.permissionLevel!=2'>
-            <ion-icon style="color: white;" name="cart-outline" slot="start"></ion-icon>
+            <!-- <ion-icon style="color: white;" name="cart-outline" slot="start"></ion-icon> -->
+            <img class="menu-image" src="../assets/sidemenu-icons/Request part.png" alt="KIA">
             <ion-label class="text-white">Request part</ion-label>
           </ion-item>
           <ion-item (click)="gotoAccessories()" [disabled]='kiaProviderService.permissionLevel!=2'>
-            <ion-icon style="color: white;" name="build-outline" slot="start"></ion-icon>
+            <!-- <ion-icon style="color: white;" name="build-outline" slot="start"></ion-icon> -->
+            <img class="menu-image" src="../assets/sidemenu-icons/Accessories.png" alt="KIA">
             <ion-label class="text-white">Accessories</ion-label>
           </ion-item>
           <ion-item (click)="gotoCallUs()" [disabled]='kiaProviderService.permissionLevel!=2'>
@@ -79,7 +81,8 @@
             <ion-label class="text-white">24/7 Roadside assistance</ion-label>
           </ion-item>
           <ion-item [disabled]='kiaProviderService.permissionLevel!=2' (click)="goToMyBookings()">
-            <ion-icon style="color: white;" name="book-outline" slot="start"></ion-icon>
+            <!-- <ion-icon style="color: white;" name="book-outline" slot="start"></ion-icon> -->
+            <img class="menu-image" src="../assets/sidemenu-icons/My Bookings.png" alt="KIA">
             <ion-label class="text-white">My bookings</ion-label>
           </ion-item>
         </ion-menu-toggle>
@@ -103,7 +106,8 @@
 
         <ion-menu-toggle>
           <ion-item (click)="gotoOnlinePayment()" [disabled]='kiaProviderService.permissionLevel!=2'>
-            <ion-icon style="color: white;" name="card-outline" slot="start"></ion-icon>
+            <!-- <ion-icon style="color: white;" name="card-outline" slot="start"></ion-icon> -->
+            <img class="menu-image" src="../assets/sidemenu-icons/Online Payment.png" alt="KIA">
             <ion-label class="text-white">Online payment</ion-label>
           </ion-item>
           <ion-item (click)="gotoShowroomList()">

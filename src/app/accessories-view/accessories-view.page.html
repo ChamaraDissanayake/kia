@@ -28,7 +28,7 @@
       <ion-label class="topics" *ngIf="!isAvailable">Availability: Out of stock</ion-label>
     </div>
     <div style="margin: 20px 0px 5px 10px;" *ngIf="isAvailable">
-      <ion-label class="topics">Price: {{price}}</ion-label>
+      <ion-label class="topics">Price: Rs. {{price | number:'1.0':'en-US'}}</ion-label>
     </div>
   </div>
 

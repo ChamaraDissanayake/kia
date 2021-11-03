@@ -176,7 +176,12 @@ const routes: Routes = [
   {
     path: 'login-success',
     loadChildren: () => import('./login-success/login-success.module').then( m => m.LoginSuccessPageModule)
+  },
+  {
+    path: 'booking-success-inquiry',
+    loadChildren: () => import('./booking-success-inquiry/booking-success-inquiry.module').then( m => m.BookingSuccessInquiryPageModule)
   }
+
 
 
 

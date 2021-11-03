@@ -44,7 +44,7 @@
 
 :host ::ng-deep {
     .monthview-primary-with-event {
-      background-color: gray;
+      background-color: gray !important;
     }
    
     // .monthview-primary-with-event.fullyBooked {
@@ -55,13 +55,22 @@
         background-color: black !important;
     }
 
-    .monthview-datetable td.monthview-primary-with-event {
-        background-color:  gray;
-    }
-
-    // .monthview-datetable[_ngcontent-ynx-c137] th[_ngcontent-ynx-c137] {
-    //     text-align: center;
+    // .monthview-datetable {
+    //     background-color:  rgb(168, 218, 247) !important;
     // }
+
+    // .table > thead:first-child > tr:first-child > th, .table > thead:first-child > tr:first-child > td {
+    //     border-top: 0;
+    //     background: white;
+    // }
+
+    // .monthview-datetable td.monthview-disabled {
+    //     background: brown;
+    // }
+
+    .monthview-datetable td.monthview-primary-with-event {
+        background-color:  gray !important;
+    }
 
     .table thead th{
         padding-left: 0px !important;

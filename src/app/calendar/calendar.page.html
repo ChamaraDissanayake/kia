@@ -96,7 +96,7 @@
   <!-- <div style="text-align: center; margin: 20px;" *ngIf="isSlotBooked || !isAvailableDay || isRecentDay"> -->
   <div *ngIf="kiaProviderService.booking_type!=1">
     <div style="text-align: center; margin: 20px;" *ngIf="(isSlotBooked || !isAvailableDay) && slotsAvailable">
-      <ion-checkbox #inquiry color="danger" size="larger" checked="true" (ionChange)="checkBoxChanged($event)"></ion-checkbox>
+      <ion-checkbox #inquiry color="danger" size="larger" checked="false" (ionChange)="checkBoxChanged($event)"></ion-checkbox>
       <span>
         <ion-label label-for="inquiry"
           style="font-size: 16px; padding-left: 10px; vertical-align: bottom;">
@@ -123,7 +123,7 @@
 
   <div style="margin: 20px;" *ngIf="!isSlotBooked"></div>
 
-  <div style="text-align: -webkit-center; margin-top: 25px; background: rgba(0, 0, 0, 0.5);">
+  <div style="text-align: -webkit-center; margin: 25px 0px; background: rgba(0, 0, 0, 0.5);">
     <h2>Contact us: {{phoneNo}}</h2>
     <ion-button class="btnNavigate"  style="--background: #b1824e; height: 40px;" (click)="call()">Call now</ion-button>
   </div>

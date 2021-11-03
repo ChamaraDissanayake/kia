@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
 // import myAllBookings from './../../assets/allBookings.json';
 import { ModalController } from '@ionic/angular';
@@ -12,8 +12,9 @@ import { StarRatingPage } from '../star-rating/star-rating.page';
   styleUrls: ['./my-bookings.page.scss'],
 })
 export class MyBookingsPage implements OnInit {
-  allBookings: any=[];
+  allBookings: any = [];
   rating: number = 0;
+  modal: any
   //  = myAllBookings;
   constructor(
     public kiaProviderService: KiaProviderService,
@@ -21,38 +22,44 @@ export class MyBookingsPage implements OnInit {
     private http: HttpClient,
     private modalController: ModalController) { }
 
-  async showModal(id){
+  async showModal(id) {
     this.kiaProviderService.booking_id = id;
-    const modal = await this.modalController.create({
+    this.modal = await this.modalController.create({
       component: StarRatingPage,
       cssClass: 'star-modal',
       backdropDismiss: false
     })
-    await modal.present();
+    await this.modal.present();
   }
   ngOnInit() {
   }
 
-  ionViewDidEnter(){
+  ionViewDidEnter() {
     this.getMyBookings();
   }
 
+  ionViewWillLeave(){
+    if(this.modal){
+      this.modal.dismiss();
+    }
+  }
+  
   getMyBookings() {
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
-    options: any = {
-      "user_id":this.kiaProviderService.user_id
-    },
-    url: any = this.kiaProviderService.baseURL + 'myBooking';
+      options: any = {
+        "user_id": this.kiaProviderService.user_id
+      },
+      url: any = this.kiaProviderService.baseURL + 'myBooking';
 
     this.http.post(url, JSON.stringify(options), headers)
-    .subscribe((data: any) => {
-      console.log("my bookings ", data);
-      this.allBookings = data;
-    },
-    (error: any) => {
-      console.log('Something went wrong!', error);
-      this.Retry();
-    }); 
+      .subscribe((data: any) => {
+        console.log("my bookings ", data);
+        this.allBookings = data;
+      },
+        (error: any) => {
+          console.log('Something went wrong!', error);
+          this.Retry();
+        });
   }
 
   async Retry() {
@@ -61,17 +68,17 @@ export class MyBookingsPage implements OnInit {
       header: 'Alert!',
       message: 'Check your connection and try again!',
       buttons: [{
-          text: 'Try again',
-          handler: () => {
-            this.getMyBookings();
-          }
+        text: 'Try again',
+        handler: () => {
+          this.getMyBookings();
         }
+      }
       ]
     });
     await alert.present();
   }
 
-  addRating(rate){
+  addRating(rate) {
     this.rating = rate;
     console.log(this.rating);
   }
