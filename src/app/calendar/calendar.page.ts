@@ -31,6 +31,7 @@ export class CalendarPage implements OnInit {
   firstLoad: boolean = true;
   makeInquiry: boolean = false;
   vehicleSelected: boolean = true;
+  isHoliday: boolean = false;
   stt:number = 0;
   ett:number = 0;
   slotsAvailable:boolean = false;
@@ -269,12 +270,14 @@ export class CalendarPage implements OnInit {
   }
 
   onCurrentDateChanged(event){
+    this.isHoliday = false;
     if(this.kiaProviderService.booking_type==1){
       this.calendarEvents.forEach(calEvents =>{
         if(calEvents.year==event.getFullYear() && calEvents.month==event.getMonth()+1 && calEvents.day==event.getDate()){          
           let date = calEvents.day+'/'+calEvents.month+'/'+calEvents.year;
           console.log("calEvents", calEvents)
           if(calEvents.isHoliyday){
+            this.isHoliday = true;
             this.holiday(date);
             console.log("Holiday ", date);
           }else{
@@ -316,6 +319,7 @@ export class CalendarPage implements OnInit {
       if(calEvents.year==event.getFullYear() && calEvents.month==event.getMonth()+1 && calEvents.day==event.getDate()){
         let date = calEvents.day+'/'+calEvents.month+'/'+calEvents.year;
         if(calEvents.isHoliyday){
+          this.isHoliday = true;
           this.holiday(date);
           console.log("Holiday ", date);
         }else{
