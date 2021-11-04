@@ -43,17 +43,14 @@
 }
 
 :host ::ng-deep {
-    .monthview-primary-with-event {
-      background-color: gray !important;
+    .monthview-selected {
+        background-color: black !important;
     }
-   
+
     // .monthview-primary-with-event.fullyBooked {
     //     background-color: rgb(62, 50, 230) !important;
     // }
 
-    .monthview-selected {
-        background-color: black !important;
-    }
 
     // .monthview-datetable {
     //     background-color:  rgb(168, 218, 247) !important;
@@ -69,7 +66,7 @@
     // }
 
     .monthview-datetable td.monthview-primary-with-event {
-        background-color:  gray !important;
+        background-color:  gray;
     }
 
     .table thead th{

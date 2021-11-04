@@ -34,7 +34,7 @@ export class AppComponent implements OnInit{
         console.log("try to confirm user")
         this.sendDeviceID(this.kiaProviderService.deviceId);
       }
-    }, 60000)
+    }, 30000)
   }
 
   menuClosed(){

@@ -24,31 +24,61 @@
   </div>
 
   <div style="min-height: 40%;" *ngIf="showroomId!=''">
-    <div style="text-align:center">
-      <label class="topics">Service center name</label><br>
-      <label class="content">{{showroomName}}</label>
-    </div>
-    <div style="text-align:center; margin-top:10px;">
-      <label class="topics">Service center address</label><br>
-      <div *ngFor="let item of showroomAddressSplitted; let i = index" style="height: 18px;">
-        <label class="content">{{item}}</label>
-        <label class="content" *ngIf="showroomAddressSplitted.length>i+1">,</label>
+    <div *ngIf="changeSelect">
+      <div style="text-align:center">
+        <label class="topics">Service center name</label><br>
+        <label class="content">{{showroomName}}</label>
+      </div>
+      <div style="text-align:center; margin-top:10px;">
+        <label class="topics">Service center address</label><br>
+        <div *ngFor="let item of showroomAddressSplitted; let i = index" style="height: 18px;">
+          <label class="content">{{item}}</label>
+          <label class="content" *ngIf="showroomAddressSplitted.length>i+1">,</label>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:10px;">
+        <label class="topics">Opening hours</label><br>
+        <label class="content">{{showRoomOpenHours}}</label>
+      </div>
+      <div style="text-align: -webkit-center; margin-bottom: 20px; margin-top:10px;" *ngIf="supervisors.length>0">
+        <label class="topics" style="margin-bottom: 10px;">Select service advisor</label>
+        <ion-item class="selector-wrapper" style="width: fit-content;">
+          <ion-select placeholder="Name" okText="Confirm" cancelText="Dismiss"
+            (ionChange)="selectSupervisor($event)">
+            <ion-select-option *ngFor="let item of supervisors" value="{{item.supervisor_id}},{{item.supervisor_name}}">
+              {{item.supervisor_name}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
       </div>
     </div>
-    <div style="text-align:center; margin-top:10px;">
-      <label class="topics">Opening hours</label><br>
-      <label class="content">{{showRoomOpenHours}}</label>
-    </div>
-    <div style="text-align: -webkit-center; margin-bottom: 20px; margin-top:10px;" *ngIf="supervisors.length>0">
-      <label class="topics" style="margin-bottom: 10px;">Select service advisor</label>
-      <ion-item class="selector-wrapper" style="width: fit-content;">
-        <ion-select placeholder="Name" okText="Confirm" cancelText="Dismiss"
-          (ionChange)="selectSupervisor($event)">
-          <ion-select-option *ngFor="let item of supervisors" value="{{item.supervisor_id}},{{item.supervisor_name}}">
-            {{item.supervisor_name}}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
+    <div *ngIf="!changeSelect">
+      <div style="text-align:center">
+        <label class="topics">Service center name</label><br>
+        <label class="content">{{showroomName}}</label>
+      </div>
+      <div style="text-align:center; margin-top:10px;">
+        <label class="topics">Service center address</label><br>
+        <div *ngFor="let item of showroomAddressSplitted; let i = index" style="height: 18px;">
+          <label class="content">{{item}}</label>
+          <label class="content" *ngIf="showroomAddressSplitted.length>i+1">,</label>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:10px;">
+        <label class="topics">Opening hours</label><br>
+        <label class="content">{{showRoomOpenHours}}</label>
+      </div>
+      <div style="text-align: -webkit-center; margin-bottom: 20px; margin-top:10px;" *ngIf="supervisors.length>0">
+        <label class="topics" style="margin-bottom: 10px;">Select service advisor</label>
+        <ion-item class="selector-wrapper" style="width: fit-content;">
+          <ion-select placeholder="Name" okText="Confirm" cancelText="Dismiss"
+            (ionChange)="selectSupervisor($event)">
+            <ion-select-option *ngFor="let item of supervisors" value="{{item.supervisor_id}},{{item.supervisor_name}}">
+              {{item.supervisor_name}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
     </div>
   </div>
 

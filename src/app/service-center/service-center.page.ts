@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, Platform } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-import showroomslist from './../../assets/showroom.json';
-import showroomdetails from './../../assets/showroomdetails.json';
+// import showroomslist from './../../assets/showroom.json';
+// import showroomdetails from './../../assets/showroomdetails.json';
 import { KiaProviderService } from '../kia-provider.service';
 
 @Component({
@@ -26,6 +26,7 @@ export class ServiceCenterPage implements OnInit {
   showroomAddressSplitted;
   isValid: boolean = false;
   tempEvent: any;
+  changeSelect: boolean = true;
 
   constructor(private router: Router,
     public kiaProviderService: KiaProviderService,
@@ -75,6 +76,7 @@ export class ServiceCenterPage implements OnInit {
   // }
 
   selectShowroom(event){
+    this.changeSelect = !this.changeSelect;
     this.tempEvent = event;
     this.kiaProviderService.showroom_id=event.target.value;
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),

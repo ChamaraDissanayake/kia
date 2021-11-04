@@ -32,7 +32,9 @@
     </div>
 
     <div *ngIf="item.change_status==1">
-      <ion-label class="topics">Status: Pending</ion-label>
+      <ion-label class="topics">Status: Pending <span *ngIf="item.inquiry == '2'"> inquiry</span></ion-label>
+      <br>
+      <ion-button (click)="cancelBookingRequest(item.booking_id)" class="btn-edit btn-add">Cancel</ion-button>
     </div>
     <div *ngIf="item.change_status==2">
       <ion-label class="topics">Status: Accepted</ion-label>

@@ -83,6 +83,30 @@ export class MyBookingsPage implements OnInit {
     console.log(this.rating);
   }
 
+  async cancelBookingRequest(id) {
+    this.kiaProviderService.booking_id = id;
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+        text: 'Cancel booking',
+        handler: () => {
+          this.cancelBooking(id);
+        }
+      },{
+        text: 'Back',
+        role: 'cancel'
+      }
+      ]
+    });
+    await alert.present();
+  }
+  
+  cancelBooking(id) {
+    console.log("cancel id", id);
+  }
+
   // async rate(){
   //   const alert = await this.alertController.create({
   //     header: 'Rate us',

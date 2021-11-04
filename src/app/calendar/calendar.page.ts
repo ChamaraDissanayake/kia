@@ -29,7 +29,7 @@ export class CalendarPage implements OnInit {
   bookedSlots=[];
   firstView: boolean = true;
   firstLoad: boolean = true;
-  makeInquiry: boolean = true;
+  makeInquiry: boolean = false;
   vehicleSelected: boolean = true;
   stt:number = 0;
   ett:number = 0;
@@ -201,7 +201,8 @@ export class CalendarPage implements OnInit {
     }else{
       this.kiaProviderService.is_inquiry = '0';
     }
-    this.kiaProviderService.date = this.selectedDay.getFullYear()+"-"+this.selectedDay.getMonth()+"-"+this.selectedDay.getDate();
+    let monthFixed = this.selectedDay.getMonth()+1;
+    this.kiaProviderService.date = this.selectedDay.getFullYear()+"-"+monthFixed+"-"+this.selectedDay.getDate();
     this.kiaProviderService.start_time = this.stt;
     this.kiaProviderService.end_time = this.ett;
 
@@ -213,6 +214,24 @@ export class CalendarPage implements OnInit {
   }
 
   sendServiceData() {
+    // console.log(
+    // "deviceId",this.kiaProviderService.deviceId,
+    // "user_id",this.kiaProviderService.user_id,
+    // "vehicle_id",this.kiaProviderService.vehicle_id,
+    // "showroom_id",this.kiaProviderService.showroom_id,
+    // "supervisor_id",this.kiaProviderService.supervisor_id,
+    // "booking_type",this.kiaProviderService.booking_type,
+    // "booking_settings_id",this.kiaProviderService.booking_settings_id,
+    // "date",this.kiaProviderService.date,
+    // "time_slot",this.kiaProviderService.time_slot,
+    // "start_time",this.kiaProviderService.start_time,
+    // "end_time",this.kiaProviderService.end_time,
+    // "is_inquiry",this.kiaProviderService.is_inquiry,
+    // "phone_number",this.kiaProviderService.user_phone,
+    // "supervisor_name",this.kiaProviderService.supervisor_name,
+    // "customer_name",this.kiaProviderService.user_name,
+    // "customer_email",this.kiaProviderService.user_email);
+    
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {
       "deviceId":this.kiaProviderService.deviceId,
@@ -236,8 +255,8 @@ export class CalendarPage implements OnInit {
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
-      console.log("submitted ",data)
-      if(this.kiaProviderService.is_inquiry = '1'){
+      console.log("submitted ",data,this.kiaProviderService.is_inquiry)
+      if(this.kiaProviderService.is_inquiry == '1'){
         this.router.navigateByUrl("/booking-success-inquiry");
       }else{
         this.router.navigateByUrl("/booking-confirmed");
@@ -252,15 +271,21 @@ export class CalendarPage implements OnInit {
   onCurrentDateChanged(event){
     if(this.kiaProviderService.booking_type==1){
       this.calendarEvents.forEach(calEvents =>{
-        if(calEvents.year==event.getFullYear() && calEvents.month==event.getMonth()+1 && calEvents.day==event.getDate()){
-          if(!calEvents.isAvailable){
-            this.isAvailableDay=false;
-            console.log("isAvailableDay",this.isAvailableDay, event)
-            let date = calEvents.day+'/'+calEvents.month+'/'+calEvents.year;
-            this.notAvailableDateTD(date)
+        if(calEvents.year==event.getFullYear() && calEvents.month==event.getMonth()+1 && calEvents.day==event.getDate()){          
+          let date = calEvents.day+'/'+calEvents.month+'/'+calEvents.year;
+          console.log("calEvents", calEvents)
+          if(calEvents.isHoliyday){
+            this.holiday(date);
+            console.log("Holiday ", date);
           }else{
-            this.isAvailableDay=true;
-            console.log("isAvailableDay",this.isAvailableDay)
+            if(!calEvents.isAvailable){
+              this.isAvailableDay=false;
+              console.log("isAvailableDay",this.isAvailableDay, event)              
+              this.notAvailableDateTD(date);
+            }else{
+              this.isAvailableDay=true;
+              console.log("isAvailableDay",this.isAvailableDay)
+            }
           }
         }
       })
@@ -271,8 +296,7 @@ export class CalendarPage implements OnInit {
     this.stt = 0;
     this.ett = 0;
     
-    this.selectedDay = new Date(Date.UTC(event.getFullYear(), event.getMonth()+1, event.getDate(),0,0,0,0));
-
+    this.selectedDay = new Date(Date.UTC(event.getFullYear(), event.getMonth(), event.getDate(),0,0,0,0));
     if(!this.firstLoad && this.kiaProviderService.booking_type!=1){
       this.LoadBookings(event);
     }
@@ -290,13 +314,20 @@ export class CalendarPage implements OnInit {
 
     this.calendarEvents.forEach(calEvents =>{
       if(calEvents.year==event.getFullYear() && calEvents.month==event.getMonth()+1 && calEvents.day==event.getDate()){
-        if(!calEvents.isAvailable){
-          this.isAvailableDay=false;
-          console.log("isAvailableDay",this.isAvailableDay)
+        let date = calEvents.day+'/'+calEvents.month+'/'+calEvents.year;
+        if(calEvents.isHoliyday){
+          this.holiday(date);
+          console.log("Holiday ", date);
         }else{
-          this.isAvailableDay=true;
-          console.log("isAvailableDay",this.isAvailableDay)
+          if(!calEvents.isAvailable){
+            this.isAvailableDay=false;
+            console.log("isAvailableDay",this.isAvailableDay)
+          }else{
+            this.isAvailableDay=true;
+            console.log("isAvailableDay",this.isAvailableDay)
+          }
         }
+
         calEvents.slots.forEach(slotList => {
           if(!slotList.isSlotAvailable){
             slotList.status='booked';
@@ -325,7 +356,7 @@ export class CalendarPage implements OnInit {
     var endTime;
     this.calendarEvents.forEach(calEvents =>{
 
-      if(!calEvents.isAvailable){
+      if(!calEvents.isAvailable || calEvents.isHoliyday){
         startTime = new Date(Date.UTC(
           calEvents.year,
           calEvents.month-1,
@@ -519,6 +550,20 @@ export class CalendarPage implements OnInit {
       cssClass: 'my-custom-class',
       header: 'Alert!',
       message: 'Test drives are not available on '+date+'. Try different date.',
+      buttons: [{
+          text: 'Close',
+          role: 'cancel'
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async holiday(date) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Sorry we are closing on '+date+'. Try different date.',
       buttons: [{
           text: 'Close',
           role: 'cancel'
