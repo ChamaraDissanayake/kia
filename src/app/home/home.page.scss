@@ -120,7 +120,7 @@
 
 .no-padding{
     padding: unset;
-    border: 1px solid gray;
+    // border: 1px solid gray;
 }
 
 .lbl-on-video{
@@ -222,14 +222,27 @@ video{
 }
 
 .btnAfterSales{ 
-    --background: gray;
-    --color: black;
+    --background: linear-gradient(to right,#bb8a52,#9d6432);
     font-weight: bold;
-    width: -webkit-fill-available;
     height: 50px;
-    margin: 10px;
+    margin: unset;
     font-size: inherit;
-    // border: 4px outset rgb(200, 90, 0);
-    border: 4px outset rgb(167, 167, 167);
-    --border-radius: unset;
+    --border-radius: 16px;
+    width: 200px;
+}
+
+.btn-wrapper{
+    border: 4px outset;
+    margin: 10px;
+    width: fit-content;
+    border-radius: 18px;
+    background: white;
+}
+
+// .image-border-active{
+//     border: 4px outset antiquewhite;
+// }
+
+.image-border-inactive{
+    border: 4px outset dimgray;
 }

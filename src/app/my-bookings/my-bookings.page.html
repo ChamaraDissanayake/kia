@@ -38,6 +38,8 @@
       <ion-label class="topics">Status: Accepted</ion-label>
     </div>
     <div *ngIf="item.change_status==3">
+      <ion-label class="topics">Status: Completed</ion-label>
+      <br>
       <ion-button (click)="showModal(item.booking_id)" class="btn-edit btn-add">Rate</ion-button>
     </div>
     <div *ngIf="item.change_status==4">

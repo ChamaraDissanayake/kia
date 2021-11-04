@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 import { AlertController } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
 
@@ -17,7 +18,8 @@ export class PickDropViewPage implements OnInit {
   constructor(
     public kiaProviderService: KiaProviderService,
     private http: HttpClient,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private callNumber: CallNumber
   ) { }
 
   ngOnInit() {
@@ -94,4 +96,9 @@ export class PickDropViewPage implements OnInit {
     await alert.present();
   }
 
+  call(){
+    this.callNumber.callNumber(this.pd_driver_phone, true)
+      .then(res => console.log('Launched dialer!', res))
+      .catch(err => console.log('Error launching dialer', err));
+  }
 }

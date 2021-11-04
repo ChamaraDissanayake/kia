@@ -168,15 +168,15 @@
     <ion-row>
       <ion-col class="no-padding" (click)="changeSlider('option1')">
         <img src="../../assets/kia-suv-slider.jpg" alt="KIA" *ngIf="activeSlider=='suv'">
-        <img src="../../assets/kia-suv-slider-inactive.jpg" alt="KIA"  *ngIf="activeSlider!='suv'">
+        <img class="image-border-inactive" src="../../assets/kia-suv-slider-inactive.jpg" alt="KIA"  *ngIf="activeSlider!='suv'">
       </ion-col>
       <ion-col class="no-padding" (click)="changeSlider('option2')">
         <img src="../../assets/kia-car-slider.jpg" alt="KIA" *ngIf="activeSlider=='car'">
-        <img src="../../assets/kia-car-slider-inactive.jpg" alt="KIA" *ngIf="activeSlider!='car'">
+        <img class="image-border-inactive" src="../../assets/kia-car-slider-inactive.jpg" alt="KIA" *ngIf="activeSlider!='car'">
       </ion-col>
       <ion-col class="no-padding" (click)="changeSlider('option3')">
         <img src="../../assets/kia-commercial-slider.jpg" alt="KIA" *ngIf="activeSlider=='lorry'">
-        <img src="../../assets/kia-commercial-slider-inactive.jpg" alt="KIA" *ngIf="activeSlider!='lorry'">
+        <img class="image-border-inactive" src="../../assets/kia-commercial-slider-inactive.jpg" alt="KIA" *ngIf="activeSlider!='lorry'">
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -228,10 +228,10 @@
     </ion-card>
   </div>
 
-  <div style="text-align: center;">
-    <!-- <div style="border: chocolate 4px outset;"> -->
+  <div style="text-align: -webkit-center;">
+    <div class="btn-wrapper">
       <ion-button *ngIf="kiaProviderService.permissionLevel==2" class="btnAfterSales" [routerLink]="['/after-sales']">AFTER SALES</ion-button>
-    <!-- </div> -->
+    </div>
   </div>
 
   <!-- <ion-fab slot="fixed" style="bottom: 70px; left: 40%;">

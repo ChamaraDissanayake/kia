@@ -137,8 +137,8 @@ export class CalendarPage implements OnInit {
   fillTestDrive() {
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {
-      // "shop_id":this.kiaProviderService.showroom_id,
-      "shop_id":9
+      "shop_id":this.kiaProviderService.showroom_id
+      // "shop_id":9
     },
     url: any = this.kiaProviderService.baseURL + 'getDateForTestDrive';
 
