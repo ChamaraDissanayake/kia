@@ -31,10 +31,18 @@
       <ion-label class="topics">Agent: {{item.supervisor_name}}</ion-label>
     </div>
 
+
     <div *ngIf="item.change_status==1">
-      <ion-label class="topics">Status: Pending <span *ngIf="item.inquiry == '2'"> inquiry</span></ion-label>
-      <br>
-      <ion-button (click)="cancelBookingRequest(item.booking_id)" class="btn-edit btn-add">Cancel</ion-button>
+      <div *ngIf="item.cancel_status==1 || item.cancel_status==2">
+        <ion-label class="topics">Status: Cancelled</ion-label>
+        <br>
+        <ion-label class="topics">Reason: {{item.cancel_reason}}</ion-label>
+      </div>
+      <div *ngIf="item.cancel_status!=2">
+        <ion-label class="topics">Status: Pending <span *ngIf="item.inquiry == '2'"> inquiry</span></ion-label>
+        <br>
+        <ion-button (click)="cancelBookingRequest(item.booking_id)" class="btn-edit btn-add">Cancel</ion-button>
+      </div>
     </div>
     <div *ngIf="item.change_status==2">
       <ion-label class="topics">Status: Accepted</ion-label>

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AlertController, Platform } from '@ionic/angular';
+import { AlertController, Platform, ToastController } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
 // import myAllBookings from './../../assets/allBookings.json';
 import { ModalController } from '@ionic/angular';
@@ -20,7 +20,8 @@ export class MyBookingsPage implements OnInit {
     public kiaProviderService: KiaProviderService,
     private alertController: AlertController,
     private http: HttpClient,
-    private modalController: ModalController) { }
+    private modalController: ModalController,
+    private toastController: ToastController) { }
 
   async showModal(id) {
     this.kiaProviderService.booking_id = id;
@@ -58,11 +59,49 @@ export class MyBookingsPage implements OnInit {
       },
         (error: any) => {
           console.log('Something went wrong!', error);
-          this.Retry();
+          this.Retry1();
         });
   }
 
-  async Retry() {
+  async Retry1() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+        text: 'Try again',
+        handler: () => {
+          this.getMyBookings();
+        }
+      }
+      ]
+    });
+    await alert.present();
+  }
+
+  cancelBooking(id, note){
+    console.log(id, note);
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+      options: any = {
+        "user_id": this.kiaProviderService.user_id,
+        "booking_id":id,
+        "note":note
+      },
+      url: any = this.kiaProviderService.baseURL + 'cancelBooking';
+
+    this.http.post(url, JSON.stringify(options), headers)
+      .subscribe((data: any) => {
+        console.log("cancel bookings ", data);
+        this.presentToast()
+        this.getMyBookings();
+      },
+        (error: any) => {
+          console.log('Something went wrong!', error);
+          this.Retry2();
+        });
+  }
+
+  async Retry2() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Alert!',
@@ -86,57 +125,36 @@ export class MyBookingsPage implements OnInit {
   async cancelBookingRequest(id) {
     this.kiaProviderService.booking_id = id;
     const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Alert!',
-      message: 'Check your connection and try again!',
+      cssClass: 'cancel-booking',
+      message: 'Please state the reason for cancelling.',
+      inputs:[{
+          name: 'note',
+          type: 'text',
+          placeholder: 'State reason'
+        }
+      ],
       buttons: [{
         text: 'Cancel booking',
-        handler: () => {
-          this.cancelBooking(id);
+          handler: (alertData) => {
+            this.cancelBooking(id, alertData.note);
+            this.presentToast();
+          }
+        },
+        {
+          text: 'Back',
+          role: 'cancel'
         }
-      },{
-        text: 'Back',
-        role: 'cancel'
-      }
       ]
     });
     await alert.present();
   }
-  
-  cancelBooking(id) {
-    console.log("cancel id", id);
-  }
 
-  // async rate(){
-  //   const alert = await this.alertController.create({
-  //     header: 'Rate us',
-  //     cssClass: 'alertstar',
-  //     backdropDismiss:false,
-  //     buttons: [{
-  //       text: 'Submit',
-  //       handler: () => {
-  //         this.submitRating();
-  //       }
-  //     }
-  //   ],
-  //     inputs: [
-  //       {
-  //         type: 'checkbox',
-  //         value: '1',
-  //         handler: () => {
-  //           console.log('Radio 1 selected');
-  //         },
-  //         checked: true
-  //       },
-  //       {
-  //         type: 'checkbox',
-  //         value: '1',
-  //         handler: () => {
-  //           console.log('Radio 1 selected');
-  //         },
-  //         checked: true
-  //       }]
-  // });
-  // await alert.present();
-  // }
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Successfully deleted!',
+      duration: 3000,
+      color: 'success'
+    });
+    toast.present();
+  }
 }

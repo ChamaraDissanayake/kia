@@ -9,38 +9,16 @@
   </ion-toolbar>
 </ion-header>
 
-<!-- <ion-content [fullscreen]="false">
-  <div id="container">
-    <ion-button expand="block" color="primary" (click)="playOfflineVideo()">View Local Video</ion-button>
-
-    <ion-button expand="block" color="success" (click)="playOnlineVideo()">View Online Video</ion-button>
-
-    <ion-button expand="block" color="danger" (click)="closeVideoPlayer()">Close Video Player</ion-button>
-  </div>
-</ion-content> -->
-
-<!-- <ion-content [scrollEvents]="true" (ionScroll)="didScroll()" fullscreen="true" style="--background: #0f0f0f;"> -->
 <ion-content fullscreen="true" style="--background: #0f0f0f;">
-  <!-- <div style="width: 100%; height: 3px; background: rgb(235, 0, 41);" slot="fixed"></div> -->
-  <ion-fab slot="fixed" vertical="bottom" horizontal="center">
+  <ion-fab slot="fixed" vertical="bottom" horizontal="start">
+    <ion-fab-button class="enabled" (click)="downloadPdf()">Download<br>brochure</ion-fab-button>
+  </ion-fab>
+  
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button class="enabled" [routerLink]="['/showroom']">Test<br>drive</ion-fab-button>
   </ion-fab>
-
-  <!-- <div style="padding: unset; min-height: 200px;">
-    <ion-card *ngFor="let item of feed; let i = index" style="margin: unset;" (click)="playVideo(i)">
-      <ion-card-content style="padding: unset;">
-        <video #player playinline preload="auto" controls loop poster="{{item.thumbnail}}">
-          <source [src]="item.src" type="video/mp4" [id]="i">
-        </video>
-
-        <ion-label class="lbl-on-video">{{ item.title }}</ion-label>
-        <img #playImage [id]="i" class="lbl-on-video image-on-video"
-          [ngClass]="{'btnHide': i == videoId && !videoPaused}" src="../../assets/kia-play-icon.png">
-      </ion-card-content>
-    </ion-card>
-  </div> -->
-
-  <div style="padding: unset; min-height: 200px;">
+  
+  <div *ngIf="feed.length" style="padding: unset; min-height: 200px;">
     <ion-card *ngFor="let item of feed; let i = index" style="margin: unset;">
       <ion-card-content style="padding: unset;">
         <video #player playinline preload="auto" controls loop controlsList="nodownload" poster="{{item.thumbnail}}">
@@ -51,19 +29,13 @@
     </ion-card>
   </div>
 
-  <div style="background: white; min-height: 280px;">
+  <div *ngIf="vrImagesList.length" style="background: white; min-height: 280px;">
     <div class="text-360">
       360VR
     </div>
     <div class="vrContainer">
-      <!-- <div class="col-2" style="padding-left: 20px; padding-right: 0px; padding-top: 20px;">
-        <span (click)="slideNext()">
-          <img src="../../assets/kia-left-rotate-vr.png">
-        </span>
-      </div> -->
       <div *ngIf="changeSlider">
         <ion-slides [options]="slideOpts">
-          <!-- <ion-slides #slides slidesPerView="1" [options]="slideOpts" class="swiper-no-swiping"> -->
           <ion-slide *ngFor="let img of vrImages">
             <img [src]="img" alt="KIA" style="min-height: 100px;">
           </ion-slide>
@@ -92,17 +64,7 @@
     </div>
   </div>
 
-  <div>
-    <!-- <ion-grid>
-      <ion-row>
-        <ion-col style="padding: unset;" size="6" *ngFor="let item of images">
-          <div class="image-container" [style.background-image]="'url('+item.src+')'">
-            <ion-label class="lbl-on-image" style="left: 0;">{{item.title}}</ion-label>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid> -->
-
+  <!-- <div>
     <ion-grid class="no-padding">
       <ion-row>
         <ion-col size="6" class="no-padding" *ngFor="let item of images">
@@ -111,12 +73,48 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-
     <ion-button class="btn-brochure" style="text-transform: none; margin-top:15px" (click)="downloadPdf()">Download brochure</ion-button>
+  </div> -->
+
+  <div style="margin-bottom: 30px;" *ngIf="sliderExterior.length">
+    <div class="slide-topics-wrapper">
+      <h1 class="slide-topics">Exterior</h1>
+    </div>    
+    <ion-slides pager="true" [options]="slideOptsSecondary">
+      <ion-slide *ngFor="let item of sliderExterior">
+        <img [src]="item.src" style="background: white;" alt="KIA MOTORS">
+      </ion-slide>
+    </ion-slides>
+  </div>
+  <div style="margin-bottom: 30px;" *ngIf="sliderInterior.length">
+    <div class="slide-topics-wrapper">
+      <h1 class="slide-topics">Interior</h1>
+    </div>    
+    <ion-slides pager="true" [options]="slideOptsSecondary">
+      <ion-slide *ngFor="let item of sliderInterior">
+        <img [src]="item.src" style="background: white;" alt="KIA MOTORS">
+      </ion-slide>
+    </ion-slides>
+  </div>
+  <div style="margin-bottom: 30px;" *ngIf="sliderPerformance.length">
+    <div class="slide-topics-wrapper">
+      <h1 class="slide-topics">Performance</h1>
+    </div>  
+    <ion-slides pager="true" [options]="slideOptsSecondary">
+      <ion-slide *ngFor="let item of sliderPerformance">
+        <img [src]="item.src" style="background: white;" alt="KIA MOTORS">
+      </ion-slide>
+    </ion-slides>
+  </div>
+  <div style="margin-bottom: 30px;" *ngIf="sliderSafety.length">
+    <div class="slide-topics-wrapper">
+      <h1 class="slide-topics">Safety</h1>
+    </div>  
+    <ion-slides pager="true" [options]="slideOptsSecondary">
+      <ion-slide *ngFor="let item of sliderSafety">
+        <img [src]="item.src" style="background: white;" alt="KIA MOTORS">
+      </ion-slide>
+    </ion-slides>
   </div>
 
 </ion-content>
-
-<!-- <ion-footer no-border>
-  <img class="kia-main-footer" src="../../assets/kia-footer.png" alt="kia-footer">
-</ion-footer> -->

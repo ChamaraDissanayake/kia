@@ -182,10 +182,6 @@ const routes: Routes = [
     loadChildren: () => import('./booking-success-inquiry/booking-success-inquiry.module').then( m => m.BookingSuccessInquiryPageModule)
   }
 
-
-
-
-
 ];
 
 @NgModule({

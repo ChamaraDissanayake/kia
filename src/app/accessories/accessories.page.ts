@@ -15,6 +15,7 @@ export class AccessoriesPage implements OnInit {
   accessories: any = [];
   vehicleModalId: string ='';
   myOrders: any = [];
+  isOnline: boolean = false;
 
   constructor(
     public kiaProviderService: KiaProviderService,
@@ -74,7 +75,12 @@ export class AccessoriesPage implements OnInit {
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
       console.log("all accessories", data)
-      this.accessories = data;
+      if(data.length){
+        this.accessories = data;
+        this.isOnline = true;
+      }else{
+        this.isOnline = false;
+      }
     },
     (error: any) => {
       console.log('Something went wrong!', error);

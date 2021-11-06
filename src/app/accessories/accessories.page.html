@@ -10,36 +10,37 @@
 </ion-header>
 
 <ion-content class="background-image" fullscreen="true">
-  <ion-segment class="segment" [(ngModel)]="accessoriesSwitch" color="primary">
-    <ion-segment-button class="segment-button" value="orders">
-      My orders
-    </ion-segment-button>
-    <ion-segment-button class="segment-button" value="accessories">
-      Accessories
-    </ion-segment-button>
-  </ion-segment>
+  <div *ngIf="isOnline">
+    <ion-segment class="segment" [(ngModel)]="accessoriesSwitch" color="primary">
+      <ion-segment-button class="segment-button" value="orders">
+        My orders
+      </ion-segment-button>
+      <ion-segment-button class="segment-button" value="accessories">
+        Accessories
+      </ion-segment-button>
+    </ion-segment>
 
-  <div [ngSwitch]="accessoriesSwitch">
-    <div *ngSwitchCase="'orders'">
-      <div class="my-orders" *ngFor="let item of myOrders">
-        <div>
-          <img class="thumbnail" [src]='item.image'>
+    <div [ngSwitch]="accessoriesSwitch">
+      <div *ngSwitchCase="'orders'">
+        <div class="my-orders" *ngFor="let item of myOrders">
+          <div>
+            <img class="thumbnail" [src]='item.image'>
+          </div>
+          <div style="margin: 10px 0px 10px 10px;">
+            <ion-label class="topics">Name: {{item.name}}</ion-label>
+          </div>
+          <div style="margin: 10px 0px 10px 10px;">
+            <ion-label class="topics">Description: {{item.description}}</ion-label>
+          </div>
         </div>
-        <div style="margin: 10px 0px 10px 10px;">
-          <ion-label class="topics">Name: {{item.name}}</ion-label>
-        </div>
-        <div style="margin: 10px 0px 10px 10px;">
-          <ion-label class="topics">Description: {{item.description}}</ion-label>
+
+        <div style="width: 100%; margin: 20px 0; text-align: center;">
+          <ion-button class="btnNavigate" [routerLink]="['/home']">Back</ion-button>
         </div>
       </div>
-    
-      <div style="width: 100%; margin: 20px 0; text-align: center;">
-        <ion-button class="btnNavigate" [routerLink]="['/home']">Back</ion-button>
-      </div>
-    </div>
 
 
-    <div *ngSwitchCase="'accessories'" style="text-align: -webkit-center;">
+      <div *ngSwitchCase="'accessories'" style="text-align: -webkit-center;">
         <h2>Select vehicle model</h2>
         <ion-item class="selector-wrapper">
           <ion-select placeholder="Select model" okText="Confirm" cancelText="Dismiss"
@@ -55,13 +56,20 @@
               <ion-card>
                 <img [src]="item.image">
                 <ion-label>{{item.name}}</ion-label><br>
-                <ion-button (click)="gotoViewAccossory(item.accessory_id)" class="btn-edit" style="height: 28px;">View</ion-button>
+                <ion-button (click)="gotoViewAccossory(item.accessory_id)" class="btn-edit" style="height: 28px;">View
+                </ion-button>
               </ion-card>
             </ion-col>
           </ion-row>
         </ion-grid>
         <h3 style="margin-top: 50px;" *ngIf="accessories.length==0">No accessories available at the moment.</h3>
+      </div>
     </div>
   </div>
-
+  <div *ngIf="!isOnline" style=" text-align: center;">
+    <h1 style="margin: 120px 120px 0 120px;">Online store to be open soon!</h1>
+    <div style="width: 100%; margin: 20px 0;">
+      <ion-button class="btnNavigate" [routerLink]="['/home']">Back</ion-button>
+    </div>
+  </div>
 </ion-content>

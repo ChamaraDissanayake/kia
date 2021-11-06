@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit, QueryList, ViewChildren, ViewChild, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { AlertController, IonSlides, Platform, ViewWillLeave } from '@ionic/angular';
+import { Component, OnInit, QueryList, ViewChildren, ViewChild } from '@angular/core';
+// import { Router } from '@angular/router';
+import { AlertController, IonSlides, ViewWillLeave } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
-import VRImageGreen from './../../assets/VRImageGreen.json'
+// import VRImageGreen from './../../assets/VRImageGreen.json'
 // import VRImageWhite from './../../assets/VRImageWhite.json'
 
 declare var require: any
@@ -26,15 +26,25 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
   feed: any = [];
   images: any = [];
   pdf: any = [];
+  sliderExterior:any=[];
+  sliderInterior:any=[];
+  sliderPerformance:any=[];
+  sliderSafety:any=[];
+
   
   @ViewChildren('player')videoPlayers: QueryList<any>;
   // @ViewChildren('playImage')videoPlayButton: QueryList<any>;
   @ViewChild('slides') slides: IonSlides;
-
+  
+  slideOptsSecondary = {
+    initialSlide: 0,
+    speed: 400,
+    autoplay: true
+  };
 
   constructor(
-    private router: Router,
-    private platform: Platform,
+    // private router: Router,
+    // private platform: Platform,
     private http: HttpClient,
     private alertController: AlertController,
     public kiaProviderService: KiaProviderService) {}
@@ -124,6 +134,7 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
   }
 
   LoadData(){
+    console.log(this.kiaProviderService.showcase_id)
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {
       "showcase_id":this.kiaProviderService.showcase_id
@@ -138,9 +149,15 @@ export class SelectedVeiclePage implements OnInit, ViewWillLeave{
       this.pdf = data[2];
       this.vrImagesList = data[3];
       console.log(this.vrImagesList);
-      this.colorCode = this.vrImagesList[0].colorCode;
-      this.colorName = this.vrImagesList[0].colorName;
-      this.LoadVR(this.colorCode);
+      if(this.vrImagesList.length){
+        this.colorCode = this.vrImagesList[0].colorCode;
+        this.colorName = this.vrImagesList[0].colorName;
+        this.LoadVR(this.colorCode);
+      }
+      this.sliderExterior = data[4];
+      this.sliderInterior = data[5];
+      this.sliderPerformance = data[6];
+      this.sliderSafety = data[7];
     },
     (error: any) => {
       console.log('Something went wrong!', error);
