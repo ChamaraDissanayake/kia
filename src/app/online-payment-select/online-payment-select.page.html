@@ -15,11 +15,11 @@
       <ion-checkbox slot="start" color="danger" value="{{item.refInv}},{{item.totBal}}+{{i}}" (ionChange)="selectInvoce($event)"></ion-checkbox>
       <ion-label>Invoice: {{item.refInv}}</ion-label>
     </ion-item>
-    <ion-label>Balance: Rs. {{item.totBal | number:'1.0':'en-US'}}</ion-label>
+    <ion-label>Balance: Rs. {{item.totBal | number:'1.2-2':'en-US'}}</ion-label>
   </ion-list>
 
   <div>
-    <h1>Total: Rs. {{total | number:'1.0':'en-US'}}</h1>
+    <h1>Total: Rs. {{total | number:'1.2-2':'en-US'}}</h1>
   </div>
   <div style="text-align: center; margin: 40px 0;">
     <ion-button class="btnNavigate" (click)="pay()">Pay</ion-button>

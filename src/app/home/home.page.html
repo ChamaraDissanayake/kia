@@ -228,9 +228,9 @@
     </ion-card>
   </div>
 
-  <div style="text-align: -webkit-center;">
+  <div style="text-align: -webkit-center;" *ngIf="kiaProviderService.permissionLevel==2" >
     <div class="btn-wrapper">
-      <ion-button *ngIf="kiaProviderService.permissionLevel==2" class="btnAfterSales" [routerLink]="['/after-sales']">AFTER SALES</ion-button>
+      <ion-button class="btnAfterSales" [routerLink]="['/after-sales']">AFTER SALES</ion-button>
     </div>
   </div>
 

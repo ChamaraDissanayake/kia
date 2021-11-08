@@ -9,13 +9,13 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen="true" style="--background: #0f0f0f;">
+<ion-content fullscreen="true" class="background-image" fullscreen="true">
   <ion-fab slot="fixed" vertical="bottom" horizontal="start">
     <ion-fab-button class="enabled" (click)="downloadPdf()">Download<br>brochure</ion-fab-button>
   </ion-fab>
   
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button class="enabled" [routerLink]="['/showroom']">Test<br>drive</ion-fab-button>
+    <ion-fab-button class="enabled" [routerLink]="['/showroom']">Test drive</ion-fab-button>
   </ion-fab>
   
   <div *ngIf="feed.length" style="padding: unset; min-height: 200px;">
@@ -115,6 +115,9 @@
         <img [src]="item.src" style="background: white;" alt="KIA MOTORS">
       </ion-slide>
     </ion-slides>
+  </div>
+  <div class="filler">
+    <img style="width: 30%;" src="../../assets/Kia White Logo (no BG).png">
   </div>
 
 </ion-content>

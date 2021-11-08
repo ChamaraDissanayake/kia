@@ -70,12 +70,13 @@ export class FindUsPage implements OnInit {
       "shop_id":this.kiaProviderService.showroom_id,
       "booking_type":0
     },
-    url: any = this.kiaProviderService.baseURL + 'getDealerShopListDetails';
+    // url: any = this.kiaProviderService.baseURL + 'getDealerShopListDetails';
+    url: any = this.kiaProviderService.baseURL + 'getDealerShopListData';
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
       // console.log(`Congratulations find us data was `, data[0]);
-      this.showroom = data[0];
+      this.showroom = data;
       this.setMapMarker();
     },
     (error: any) => {

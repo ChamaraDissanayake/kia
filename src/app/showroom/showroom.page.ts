@@ -21,6 +21,7 @@ export class ShowRoomPage implements OnInit {
   showroomAddress: string = '';
   showroomAddressSplitted:any = [];
   showRoomOpenHours: string = '';
+  showRoomCloseHours: string = '';
   isValid: boolean = false;
   tempEvent: any;
 
@@ -68,15 +69,19 @@ export class ShowRoomPage implements OnInit {
       "shop_id":this.kiaProviderService.showroom_id,
       "booking_type":this.kiaProviderService.booking_type
     },
-    url: any = this.kiaProviderService.baseURL + 'getDealerShopListDetails';
+    // url: any = this.kiaProviderService.baseURL + 'getDealerShopListDetails';
+    url: any = this.kiaProviderService.baseURL + 'getDealerShopListData';
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
       console.log(`Congratulations showroom data was `, data);
-      this.showroomName=data[0].shop_name;
-      this.showroomAddress=data[0].shop_address;
+      this.showroomName=data.shop_name;
+      this.showroomAddress=data.shop_address;
       this.showroomAddressSplitted = this.showroomAddress.split(",");  
-      this.showRoomOpenHours=data[0].shop_openTime.substring(0,5) + " to " + data[0].shop_closeTime.substring(0,5);
+      this.showRoomOpenHours = "Weekdays: "+data.opnTime[0].open.substring(0,5)+" to "+data.opnTime[0].close.substring(0,5);
+      if(data.opnTime.length>5){
+        this.showRoomCloseHours = "Weekends: "+data.opnTime[5].open.substring(0,5)+" to "+data.opnTime[5].close.substring(0,5)
+      }      
       this.isValid = true;
       this.tempEvent=null;
     },

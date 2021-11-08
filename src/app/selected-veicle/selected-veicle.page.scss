@@ -15,8 +15,8 @@ video{
 // }
 
 ion-fab-button {
-    width: 75px;
-    height: 75px;
+    width: 100px;
+    height: 100px;
     margin: 20px;
 }
 
@@ -117,4 +117,19 @@ ion-fab-button {
     width: fit-content;
     border-left: solid red;
     padding-left: 10px;
+}
+
+.filler{
+    height: 110px;
+    text-align: center;
+    padding-top: 10px;
+}
+
+@media only screen and (max-width: 390px) {
+    ion-fab-button {
+        margin: 0px;
+    }
+    .filler{
+        height: 90px;
+    }
 }
