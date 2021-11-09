@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { SplashScreen } from '@capacitor/splash-screen';
 import { Animation, AnimationController, MenuController, Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { KiaProviderService } from '../kia-provider.service'
@@ -24,7 +25,10 @@ export class LoginPage implements OnInit {
     ) {}
 
   ngOnInit() {
-    
+    setTimeout(async () => {
+      await SplashScreen.hide();
+      console.log("splash off now")
+    }, 100);
   }
 
   ionViewDidEnter(){

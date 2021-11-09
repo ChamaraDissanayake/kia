@@ -41,6 +41,7 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
     FileOpener,
     InAppBrowser,
     CallNumber,
+    Geolocation,
     { 
       provide: RouteReuseStrategy, 
       useClass: IonicRouteStrategy

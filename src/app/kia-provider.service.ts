@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from "rxjs/Rx";
 
 @Injectable({
   providedIn: 'root'
@@ -40,4 +41,5 @@ export class KiaProviderService {
   showcase_id = 0;
   request_part_id = 0;
   accessory_id = 0;
+  public rated: BehaviorSubject<boolean> = new BehaviorSubject(false);
 }

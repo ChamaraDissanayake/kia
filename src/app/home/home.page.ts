@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { KiaProviderService } from '../kia-provider.service';
 import { AlertController, MenuController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { SplashScreen } from '@capacitor/splash-screen';
 
 @Component({
   selector: 'app-home',
@@ -42,6 +43,10 @@ export class HomePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    setTimeout(async () => {
+      await SplashScreen.hide();
+      console.log("splash off now")
+    }, 100);
     this.LoadData();
     // this.platform.ready().then(()=>{
     //   if(this.kiaProviderService.firstLoad){
@@ -276,6 +281,7 @@ export class HomePage implements OnInit {
     this.kiaProviderService.showcase_id = 0;
     this.kiaProviderService.request_part_id = 0;
     this.kiaProviderService.accessory_id = 0;
+    this.kiaProviderService.rated.next(false);
   }
 
   async Retry() {

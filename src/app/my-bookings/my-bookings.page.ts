@@ -5,6 +5,7 @@ import { KiaProviderService } from '../kia-provider.service';
 // import myAllBookings from './../../assets/allBookings.json';
 import { ModalController } from '@ionic/angular';
 import { StarRatingPage } from '../star-rating/star-rating.page';
+import { BehaviorSubject } from "rxjs/Rx";
 
 @Component({
   selector: 'app-my-bookings',
@@ -21,7 +22,19 @@ export class MyBookingsPage implements OnInit {
     private alertController: AlertController,
     private http: HttpClient,
     private modalController: ModalController,
-    private toastController: ToastController) { }
+    private toastController: ToastController) 
+  {
+    this.kiaProviderService.rated.subscribe((value) => { 
+      console.log(value);
+      if (true === value) {
+        console.log("Rated and reloading")
+        this.getMyBookings();
+        this.kiaProviderService.rated.next(false);
+      } else {
+        console.log("Not rated")
+      }
+   });
+  }
 
   async showModal(id) {
     this.kiaProviderService.booking_id = id;
@@ -33,6 +46,11 @@ export class MyBookingsPage implements OnInit {
     await this.modal.present();
   }
   ngOnInit() {
+    
+  }
+
+  ngOnChanges(){
+    console.log("Change")
   }
 
   ionViewDidEnter() {
@@ -117,10 +135,10 @@ export class MyBookingsPage implements OnInit {
     await alert.present();
   }
 
-  addRating(rate) {
-    this.rating = rate;
-    console.log(this.rating);
-  }
+  // addRating(rate) {
+  //   this.rating = rate;
+  //   console.log(this.rating);
+  // }
 
   async cancelBookingRequest(id) {
     this.kiaProviderService.booking_id = id;

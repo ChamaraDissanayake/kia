@@ -46,6 +46,7 @@ export class StarRatingPage implements OnInit {
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
       console.log("rating data ", data);
+      this.kiaProviderService.rated.next(true); 
       this.close();
     },
     (error: any) => {
