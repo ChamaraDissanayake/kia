@@ -119,7 +119,9 @@
     <div style="text-align: -webkit-center; margin-bottom: 20px;">
       <ion-item class="selector-wrapper">
         <ion-select okText="Confirm" cancelText="Dismiss" (ionChange)="selectVehicle($event)" placeholder="Vehicle">
-          <ion-select-option value="{{item.vehicle_id}}" *ngFor="let item of myVehicles" [ngClass]="{'bookedSlot': item.status == 'booked'}">{{item.vehicle_no}}</ion-select-option>
+          <div *ngFor="let item of myVehicles">
+            <ion-select-option *ngIf="item.verify_status" value="{{item.vehicle_id}}" [ngClass]="{'bookedSlot': item.status == 'booked'}">{{item.vehicle_no}}</ion-select-option>
+          </div>
         </ion-select>
       </ion-item>
     </div>

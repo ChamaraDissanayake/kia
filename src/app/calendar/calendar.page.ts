@@ -16,7 +16,7 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 })
 export class CalendarPage implements OnInit {
 
-  myVehicles;
+  myVehicles: any = [];
   //  = myProfile.my_vehicles;
   eventSource = [];
   viewTitle: string;
@@ -24,7 +24,7 @@ export class CalendarPage implements OnInit {
   isSlotBooked: boolean = false;
   eventCount = 0;
   calendarEvents:any=[];
-  timeSlots
+  // timeSlots
   isDisabled = true;
   bookedSlots=[];
   firstView: boolean = true;
@@ -99,11 +99,11 @@ export class CalendarPage implements OnInit {
     options: any = {
       "user_id":this.kiaProviderService.user_id
     },
-    url: any = this.kiaProviderService.baseURL + 'myProfile';
+    url: any = this.kiaProviderService.baseURL + 'getMyVehicle';
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
-      console.log("vehicle data ", data)
+      console.log("vehicle data new", data)
       this.myVehicles = data[0].vehicles;
       this.kiaProviderService.user_name = data[0].name;
       this.kiaProviderService.user_phone = data[0].phone_number;

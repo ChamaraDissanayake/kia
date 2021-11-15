@@ -97,7 +97,12 @@ export class VehicleAddPage implements OnInit {
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
       console.log("profile data ", data);
-      this.router.navigateByUrl('/my-profile');
+      // this.router.navigateByUrl('/my-profile');
+      if(this.kiaProviderService.vehicle_id==""){
+        this.addVehicleMessage("Your vehicle added successfully. Once our service advisor validate and approve your vehicle, you can access all our aftersales services.");
+      }else{
+        this.addVehicleMessage("Your vehicle updated successfully. Once our service advisor validate and approve your vehicle, you can access all our aftersales services.");
+      }
     },
     (error: any) => {
       console.log('Something went wrong!', error);
@@ -114,6 +119,23 @@ export class VehicleAddPage implements OnInit {
           text: 'Try again',
           handler: () => {
             this.AddVehicle();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async addVehicleMessage(message) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      backdropDismiss: false,
+      message: message,
+      buttons: [{
+          text: 'Close',
+          handler: () => {
+            this.router.navigateByUrl('/my-profile');
           }
         }
       ]

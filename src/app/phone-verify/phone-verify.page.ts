@@ -63,7 +63,12 @@ export class PhoneVerifyPage implements OnInit {
   submitDetails(){
     let numberPlate = this.vehicleAddFirst.value.toUpperCase()+" "+this.vehicleAddLast.value;
 
-    console.log(this.signup.value);
+    console.log(
+    "name",this.signup.get('name').value,
+    "email",this.signup.get('email').value,
+    "phone",this.signup.get('mobile').value,
+    "vehicle_no",numberPlate,
+    "device_id",this.kiaProviderService.deviceId);
     
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {
@@ -80,12 +85,12 @@ export class PhoneVerifyPage implements OnInit {
     .subscribe((data: any) => {
       this.kiaProviderService.user_id = data.user_id
       this.kiaProviderService.permissionLevel=data.register_status;
+      this.router.navigateByUrl("/otp");
     },
     (error: any) => {
       console.log('Something went wrong!', error);
       this.Retry();
     });  
-    this.router.navigateByUrl("/otp");
   }
 
   async Retry() {

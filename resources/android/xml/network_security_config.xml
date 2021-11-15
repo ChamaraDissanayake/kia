@@ -7,6 +7,6 @@
     </base-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">localhost</domain>
-        <domain includeSubdomains="true">http://52.66.188.137/api/</domain>
+        <domain includeSubdomains="true">http://web.kialanka.lk/api/</domain>
     </domain-config>
 </network-security-config>
