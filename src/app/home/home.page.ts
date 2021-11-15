@@ -8,6 +8,7 @@ import { KiaProviderService } from '../kia-provider.service';
 import { AlertController, MenuController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SplashScreen } from '@capacitor/splash-screen';
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 
 @Component({
   selector: 'app-home',
@@ -39,7 +40,8 @@ export class HomePage implements OnInit {
     private menu: MenuController,
     // private platform: Platform,
     private http: HttpClient,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private photoViewer: PhotoViewer
   ) { }
 
   ngOnInit() {
@@ -298,5 +300,9 @@ export class HomePage implements OnInit {
       ]
     });
     await alert.present();
+  }
+
+  FullImage(image){
+    this.photoViewer.show(image);
   }
 }

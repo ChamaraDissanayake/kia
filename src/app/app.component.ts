@@ -4,6 +4,7 @@ import { AlertController, Platform } from '@ionic/angular';
 import { Device } from '@ionic-native/device/ngx';
 import { KiaProviderService } from './kia-provider.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,8 @@ export class AppComponent implements OnInit{
     public kiaProviderService: KiaProviderService,
     public http: HttpClient,
     private device: Device,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private screenOrientation: ScreenOrientation
     ) {
     this.platform.ready().then(()=>{
       let deviceID = this.device.uuid;
@@ -29,6 +31,7 @@ export class AppComponent implements OnInit{
     })
   }
   ngOnInit() {
+    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
     setInterval(()=>{
       if(this.kiaProviderService.permissionLevel==1){
         console.log("try to confirm user")

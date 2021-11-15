@@ -159,7 +159,7 @@
   <div>
     <ion-slides pager="false" [options]="slideOptsPromo">
       <ion-slide *ngFor="let item of sliderPromotion">
-        <img [src]="item" style="background: white;" alt="KIA MOTORS">
+        <img [src]="item" style="background: white;" alt="KIA MOTORS" (click)="FullImage(item)">
       </ion-slide>
     </ion-slides>
   </div>
