@@ -42,4 +42,5 @@ export class KiaProviderService {
   request_part_id = 0;
   accessory_id = 0;
   public rated: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  public updateVehicle: BehaviorSubject<boolean> = new BehaviorSubject(false);
 }

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, Platform } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-vehicle-add',
@@ -22,12 +23,8 @@ export class VehicleAddPage implements OnInit {
     public kiaProviderService: KiaProviderService,
     private alertController: AlertController,
     private http: HttpClient,
-    private platform: Platform) {
-    this.signup = this.formBuilder.group({
-      // vehicleNumberFirst: [this.kiaProviderService.vehicle_number, [Validators.required, Validators.minLength(2), Validators.maxLength(3), Validators.pattern('[A-Za-z]')]],
-      // vehicleNumberLast: [this.kiaProviderService.vehicle_number, [Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern('[0-9]')]]
-      // this.kiaProviderService.vehicle_number.substring(0,this.kiaProviderService.vehicle_number.indexOf(' '))
-      // this.kiaProviderService.vehicle_number.indexOf(' ')+1,this.kiaProviderService.vehicle_number.length
+    private storage: Storage) {
+    this.signup = this.formBuilder.group({ 
       vehicleNumberFirst: [
         this.kiaProviderService.vehicle_number.substring(0,this.kiaProviderService.vehicle_number.indexOf(' ')),
         [
@@ -97,6 +94,7 @@ export class VehicleAddPage implements OnInit {
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
       console.log("profile data ", data);
+      this.checkNewVehicles(data.vehicle_id);
       // this.router.navigateByUrl('/my-profile');
       if(this.kiaProviderService.vehicle_id==""){
         this.addVehicleMessage("Your vehicle added successfully. Once our service advisor validate and approve your vehicle, you can access all our aftersales services.");
@@ -108,6 +106,34 @@ export class VehicleAddPage implements OnInit {
       console.log('Something went wrong!', error);
       this.Retry();
     }); 
+  }
+
+  async checkNewVehicles(id){
+    let newVehicleArray:any = [];
+    let check = await this.storage.get("newVehicle");
+    if(check){
+      newVehicleArray = await this.storage.get("newVehicle");
+      newVehicleArray.forEach(element => {
+        if(id==element){
+          newVehicleArray.splice(newVehicleArray.indexOf(element),1);
+          console.log("Already exist")
+        }
+      });
+      newVehicleArray.push(id);
+    }else{
+      this.storage.set("newVehicle", newVehicleArray);
+      newVehicleArray[0]=id;
+    }
+    console.log("newVehicleArrayBefore",newVehicleArray);
+
+    this.storage.set("newVehicle", newVehicleArray);
+    // this.storage.remove("newVehicle")
+    
+    // setTimeout(async() => {
+    //   newVehicleArray = await this.storage.get("newVehicle").then(()=>{
+    //     console.log("newVehicleArrayAfter",newVehicleArray);  
+    //   });
+    // }, 1000);
   }
 
   async Retry() {
@@ -133,7 +159,7 @@ export class VehicleAddPage implements OnInit {
       backdropDismiss: false,
       message: message,
       buttons: [{
-          text: 'Close',
+          text: 'Okay',
           handler: () => {
             this.router.navigateByUrl('/my-profile');
           }

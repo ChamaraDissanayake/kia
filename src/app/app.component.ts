@@ -5,6 +5,7 @@ import { Device } from '@ionic-native/device/ngx';
 import { KiaProviderService } from './kia-provider.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 export class AppComponent implements OnInit{
   pickAndDropSub: boolean = false;
   accidentSub: boolean = false;
+  pendingVehiclesCount: number = 0;
 
   constructor(
     private router: Router,
@@ -22,7 +24,8 @@ export class AppComponent implements OnInit{
     public http: HttpClient,
     private device: Device,
     private alertController: AlertController,
-    private screenOrientation: ScreenOrientation
+    private screenOrientation: ScreenOrientation,
+    private storage: Storage
     ) {
     this.platform.ready().then(()=>{
       let deviceID = this.device.uuid;
@@ -33,11 +36,27 @@ export class AppComponent implements OnInit{
   ngOnInit() {
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
     setInterval(()=>{
+      this.pendingValidations();
       if(this.kiaProviderService.permissionLevel==1){
         console.log("try to confirm user")
         this.sendDeviceID(this.kiaProviderService.deviceId);
       }
     }, 30000)
+  }
+
+  async pendingValidations() {
+    console.log("Searching for pending vehicles");
+    let newVehicleArray:any = [];
+    let check = await this.storage.get("newVehicle");
+    if(check){
+      newVehicleArray = await this.storage.get("newVehicle");
+      this.pendingVehiclesCount = newVehicleArray.length;
+      // newVehicleArray.forEach(element => {
+      this.checkVehicleRegistration(newVehicleArray);
+      // });
+      console.log("newVehicleArrayLength", newVehicleArray.length)
+      // this.storage.set("newVehicle", newVehicleArray);
+    }
   }
 
   menuClosed(){
@@ -163,7 +182,7 @@ export class AppComponent implements OnInit{
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
       if(this.kiaProviderService.permissionLevel==1 && data.register_status==2){
-        this.Congratulations();
+        this.Congratulations('Your registration details are confirmed. Now onwards you can access all our after sales services.');
       }
       this.kiaProviderService.user_id = data.user_id;
       this.kiaProviderService.permissionLevel=data.register_status;
@@ -173,11 +192,11 @@ export class AppComponent implements OnInit{
     },
     (error: any) => {
       console.log('Something went wrong!', error);
-      this.Retry();
+      this.Retry1();
     });      
   }
 
-  async Retry() {
+  async Retry1() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Alert!',
@@ -193,11 +212,42 @@ export class AppComponent implements OnInit{
     await alert.present();
   }
 
-  async Congratulations() {
+  checkVehicleRegistration(newVehicleArray) {
+    if(this.pendingVehiclesCount>0){
+      let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+      options: any = {
+        "user_id":this.kiaProviderService.user_id,
+        "vehicle_id":newVehicleArray[this.pendingVehiclesCount-1]
+      },
+        
+      url: any = this.kiaProviderService.baseURL + 'getMyVehiclePendingStatus';
+  
+      this.http.post(url, JSON.stringify(options), headers)
+      .subscribe((data: any) => {
+        console.log("Vehicle registrations",data)
+        if(data.verify_status){
+          this.Congratulations('Your '+ data.vehicle_no+ ' vehicle registration details are confirmed.');
+          newVehicleArray.splice(newVehicleArray.indexOf(this.pendingVehiclesCount),1);
+          this.storage.set("newVehicle", newVehicleArray);
+          this.kiaProviderService.updateVehicle.next(true);
+        }
+        this.pendingVehiclesCount = this.pendingVehiclesCount-1;
+        if(this.pendingVehiclesCount>0){
+          this.checkVehicleRegistration(newVehicleArray);
+        }
+      },
+      (error: any) => {
+        console.log('Something went wrong!', error);
+      });     
+    }
+     
+  }
+
+  async Congratulations(msg) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Congratulations!',
-      message: 'Your registration details are confirmed. Now onwards you can access all our after sales services.',
+      message: msg,
       buttons: [{
           text: 'Close',
           role: 'cancel',

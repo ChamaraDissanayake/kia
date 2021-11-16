@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import myProfile from '../../assets/myProfile.json'
 import { KiaProviderService } from '../kia-provider.service';
+import { Storage } from '@ionic/storage-angular';
 
 
 @Component({
@@ -19,8 +20,20 @@ export class MyProfilePage implements OnInit {
     public alertController: AlertController,
     private router: Router,
     public kiaProviderService: KiaProviderService,
-    private http: HttpClient
-    ) { }
+    private http: HttpClient,
+    private storage: Storage
+    ) { 
+      this.kiaProviderService.updateVehicle.subscribe((value) => { 
+        console.log(value);
+        if (true === value) {
+          console.log("Reload vehicles");
+          this.getMyDetails();
+          this.kiaProviderService.updateVehicle.next(false);
+        } else {
+          console.log("No need reload")
+        }
+     });
+    }
 
   ngOnInit() {
     
@@ -126,6 +139,7 @@ export class MyProfilePage implements OnInit {
     .subscribe((data: any) => {
       console.log("vehicle deleted ", data);
       this.getMyDetails();
+      this.checkNewVehicles(vehicle.vehicle_id);
     },
     (error: any) => {
       console.log('Something went wrong!', error);
@@ -147,5 +161,20 @@ export class MyProfilePage implements OnInit {
       ]
     });
     await alert.present();
+  }
+
+  async checkNewVehicles(id){
+    let newVehicleArray:any = [];
+    let check = await this.storage.get("newVehicle");
+    if(check){
+      newVehicleArray = await this.storage.get("newVehicle");
+      newVehicleArray.forEach(element => {
+        if(id==element){
+          newVehicleArray.splice(newVehicleArray.indexOf(element),1);
+          console.log("Vehicle removed from validate array")
+        }
+      });
+      this.storage.set("newVehicle", newVehicleArray);
+    }
   }
 }

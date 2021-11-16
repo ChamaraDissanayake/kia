@@ -5,8 +5,8 @@ import { KiaProviderService } from '../kia-provider.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { File } from '@ionic-native/file/ngx';
-import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
-import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { FileTransfer } from '@ionic-native/file-transfer/ngx';
+// import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { AlertController } from '@ionic/angular';
 
 declare var require: any

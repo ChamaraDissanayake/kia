@@ -284,6 +284,7 @@ export class HomePage implements OnInit {
     this.kiaProviderService.request_part_id = 0;
     this.kiaProviderService.accessory_id = 0;
     this.kiaProviderService.rated.next(false);
+    this.kiaProviderService.updateVehicle.next(false);
   }
 
   async Retry() {
