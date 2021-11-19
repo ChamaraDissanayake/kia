@@ -1,5 +1,5 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { IonContent, Platform, ViewDidEnter } from '@ionic/angular';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { IonContent, ViewDidEnter } from '@ionic/angular';
 // import { KiaProviderService } from '../kia-provider.service';
 
 @Component({

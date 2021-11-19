@@ -38,10 +38,6 @@ const routes: Routes = [
     loadChildren: () => import('./selected-veicle/selected-veicle.module').then( m => m.SelectedVeiclePageModule)
   },
   {
-    path: 'cal-modal',
-    loadChildren: () => import('./pages/cal-modal/cal-modal.module').then( m => m.CalModalPageModule)
-  },
-  {
     path: 'booking-confirmed',
     loadChildren: () => import('./booking-confirmed/booking-confirmed.module').then( m => m.BookingConfirmedPageModule)
   },

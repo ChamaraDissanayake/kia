@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AlertController, Platform } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
-import showroomDetails from './../../assets/showroomdetails.json';
+// import showroomDetails from './../../assets/showroomdetails.json';
 
 declare var google;
 
@@ -17,8 +17,8 @@ export class FindUsPage implements OnInit {
   @ViewChild('map') mapElement: ElementRef;
 
   map: any;
-  showroom = showroomDetails;
-  // showroom;
+  // showroom = showroomDetails;
+  showroom:any=[];
   myheight = '600px'
   constructor(
     private platform: Platform,

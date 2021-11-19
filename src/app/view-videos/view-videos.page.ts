@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { AlertController, Platform } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
 
 // import data from './../../assets/feed.json';

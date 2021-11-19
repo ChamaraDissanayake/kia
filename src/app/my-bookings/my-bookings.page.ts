@@ -1,11 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AlertController, Platform, ToastController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
 // import myAllBookings from './../../assets/allBookings.json';
 import { ModalController } from '@ionic/angular';
 import { StarRatingPage } from '../star-rating/star-rating.page';
-import { BehaviorSubject } from "rxjs/Rx";
 
 @Component({
   selector: 'app-my-bookings',

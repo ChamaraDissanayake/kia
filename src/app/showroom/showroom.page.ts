@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, Platform } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 // import showroomslist from './../../assets/showroom.json';
 // import showroomdetails from './../../assets/showroomdetails.json';

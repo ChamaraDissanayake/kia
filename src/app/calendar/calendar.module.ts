@@ -8,7 +8,6 @@ import { CalendarPageRoutingModule } from './calendar-routing.module';
 
 import { CalendarPage } from './calendar.page';
 import { NgCalendarModule } from 'ionic2-calendar';
-import { CalModalPageModule } from '../pages/cal-modal/cal-modal.module';
 
 
 @NgModule({
@@ -17,8 +16,7 @@ import { CalModalPageModule } from '../pages/cal-modal/cal-modal.module';
     FormsModule,
     IonicModule,
     CalendarPageRoutingModule,
-    NgCalendarModule,
-    CalModalPageModule
+    NgCalendarModule
   ],
   declarations: [CalendarPage]
 })

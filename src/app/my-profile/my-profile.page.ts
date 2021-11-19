@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import myProfile from '../../assets/myProfile.json'
+// import myProfile from '../../assets/myProfile.json'
 import { KiaProviderService } from '../kia-provider.service';
 import { Storage } from '@ionic/storage-angular';
 
@@ -14,7 +14,8 @@ import { Storage } from '@ionic/storage-angular';
 })
 export class MyProfilePage implements OnInit {
 
-  profile = myProfile;
+  // profile = myProfile;
+  profile: any=[];
   constructor(    
     // private platform: Platform,
     public alertController: AlertController,

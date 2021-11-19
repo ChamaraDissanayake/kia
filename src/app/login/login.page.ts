@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SplashScreen } from '@capacitor/splash-screen';
-import { Animation, AnimationController, MenuController, Platform } from '@ionic/angular';
+import { AnimationController, MenuController, Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { KiaProviderService } from '../kia-provider.service'
 
