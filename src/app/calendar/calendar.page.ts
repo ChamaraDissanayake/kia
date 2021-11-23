@@ -73,10 +73,10 @@ export class CalendarPage implements OnInit {
 
   ionViewDidEnter(){
     this.platform.ready().then(()=>{
-      if(this.kiaProviderService.booking_type!=1){
-        this.fillCalendar();
+      if(this.kiaProviderService.booking_type==1){
+        this.fillCalendarTD();
       }else{
-        this.fillTestDrive();
+        this.fillCalendar();
       }
     })
   }
@@ -135,7 +135,7 @@ export class CalendarPage implements OnInit {
     }); 
   }
 
-  fillTestDrive() {
+  fillCalendarTD() {
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {
       "shop_id":this.kiaProviderService.showroom_id
@@ -284,7 +284,7 @@ export class CalendarPage implements OnInit {
             if(!calEvents.isAvailable){
               this.isAvailableDay=false;
               console.log("isAvailableDay",this.isAvailableDay, event)              
-              this.notAvailableDateTD(date);
+              // this.notAvailableDateTD(date);
             }else{
               this.isAvailableDay=true;
               console.log("isAvailableDay",this.isAvailableDay)
@@ -343,8 +343,8 @@ export class CalendarPage implements OnInit {
         
         if(this.bookedSlots.length==0){
           this.slotsAvailable=false;
-          let date = calEvents.day+'/'+calEvents.month+'/'+calEvents.year;
-          this.notAvailableDate(date)
+          // let date = calEvents.day+'/'+calEvents.month+'/'+calEvents.year;
+          // this.notAvailableDate(date)
         }else{
           this.slotsAvailable=true;
         }
@@ -497,7 +497,7 @@ export class CalendarPage implements OnInit {
       buttons: [{
           text: 'Try again',
           handler: () => {
-            this.fillTestDrive();            
+            this.fillCalendarTD();            
           }
         }
       ]
@@ -535,33 +535,33 @@ export class CalendarPage implements OnInit {
     await alert.present();
   }
 
-  async notAvailableDate(date) {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Alert!',
-      message: 'Service bookings are not available on '+date+'. Try different date.',
-      buttons: [{
-          text: 'Close',
-          role: 'cancel'
-        }
-      ]
-    });
-    await alert.present();
-  }
+  // async notAvailableDate(date) {
+  //   const alert = await this.alertController.create({
+  //     cssClass: 'my-custom-class',
+  //     header: 'Alert!',
+  //     message: 'Service bookings are not available on '+date+'. Try different date.',
+  //     buttons: [{
+  //         text: 'Close',
+  //         role: 'cancel'
+  //       }
+  //     ]
+  //   });
+  //   await alert.present();
+  // }
 
-  async notAvailableDateTD(date) {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Alert!',
-      message: 'Test drives are not available on '+date+'. Try different date.',
-      buttons: [{
-          text: 'Close',
-          role: 'cancel'
-        }
-      ]
-    });
-    await alert.present();
-  }
+  // async notAvailableDateTD(date) {
+  //   const alert = await this.alertController.create({
+  //     cssClass: 'my-custom-class',
+  //     header: 'Alert!',
+  //     message: 'Test drives are not available on '+date+'. Try different date.',
+  //     buttons: [{
+  //         text: 'Close',
+  //         role: 'cancel'
+  //       }
+  //     ]
+  //   });
+  //   await alert.present();
+  // }
 
   async holiday(date) {
     const alert = await this.alertController.create({

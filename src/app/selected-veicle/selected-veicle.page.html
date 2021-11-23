@@ -38,14 +38,14 @@
       <div *ngIf="changeSlider">
         <ion-slides [options]="slideOpts">
           <ion-slide *ngFor="let img of vrImages">
-            <img [src]="img" alt="KIA" style="min-height: 100px;">
+            <img [src]="img" alt="KIA" style="min-height: 200px;">
           </ion-slide>
         </ion-slides>
       </div>
       <div *ngIf="!changeSlider">
         <ion-slides [options]="slideOpts">
           <ion-slide *ngFor="let img of vrImages">
-            <img [src]="img" alt="KIA" style="min-height: 100px;">
+            <img [src]="img" alt="KIA" style="min-height: 200px;">
           </ion-slide>
         </ion-slides>
       </div>

@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { ModalController } from '@ionic/angular';
+import { DisclaimerPage } from '../disclaimer/disclaimer.page';
+// import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-pick-and-drop-book',
@@ -14,12 +16,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class PickAndDropBookPage implements OnInit {
   public pickdrop : FormGroup;
   bookingData:any=[];
+  modal: any;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     public kiaProviderService: KiaProviderService,
     private http: HttpClient,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private modalController: ModalController,
+    // private storage: Storage
   ) {
     this.pickdrop = this.formBuilder.group({
       name:['', [Validators.required, Validators.pattern('[A-Za-z ]{2,}')]],
@@ -46,7 +51,8 @@ export class PickAndDropBookPage implements OnInit {
   ngOnInit() {
   }
 
-  ionViewDidEnter(){
+  ionViewWillEnter(){
+    this.showModal();
     this.getBooking();
   }
 
@@ -122,5 +128,23 @@ export class PickAndDropBookPage implements OnInit {
       ]
     });
     await alert.present();
+  }
+
+  async showModal() {
+    // let isAgreed:boolean = await this.storage.get("isAgredTandC");
+    // if(!isAgreed){
+    this.modal = await this.modalController.create({
+      component: DisclaimerPage,
+      cssClass: 'disclaimer-modal',
+      backdropDismiss: false
+    })
+    await this.modal.present();
+    // }
+  }
+
+  ionViewWillLeave(){
+    if(this.modal){
+      this.modal.dismiss();
+    }
   }
 }

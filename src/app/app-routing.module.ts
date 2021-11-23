@@ -176,6 +176,10 @@ const routes: Routes = [
   {
     path: 'booking-success-inquiry',
     loadChildren: () => import('./booking-success-inquiry/booking-success-inquiry.module').then( m => m.BookingSuccessInquiryPageModule)
+  },
+  {
+    path: 'disclaimer',
+    loadChildren: () => import('./disclaimer/disclaimer.module').then( m => m.DisclaimerPageModule)
   }
 
 ];

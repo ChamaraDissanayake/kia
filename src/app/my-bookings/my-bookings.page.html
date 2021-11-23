@@ -45,7 +45,14 @@
       </div>
     </div>
     <div *ngIf="item.change_status==2">
-      <ion-label class="topics">Status: Accepted</ion-label>
+      <div *ngIf="item.cancel_status==1 || item.cancel_status==2">
+        <ion-label class="topics">Status: Cancelled</ion-label>
+        <br>
+        <ion-label class="topics">Reason: {{item.cancel_reason}}</ion-label>
+      </div>
+      <div *ngIf="item.cancel_status!=2">
+        <ion-label class="topics">Status: Accepted</ion-label>
+      </div>
     </div>
     <div *ngIf="item.change_status==3">
       <ion-label class="topics">Status: Completed</ion-label>

@@ -1,0 +1,81 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>DISCLAIMER</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div style="padding: 10px;">
+    <b>Terms and Conditions:</b><br>
+    <p> The above service has been requested by Carplan Limited (hereinafter referred to as ‘CPL’) for the convenience
+      of the Customer and only upon a request being made by the Customer.</p>
+
+    <p>CPL shall not be liable to the Customer, whether in contract, tort (including negligence), breach of statutory
+      duty, or otherwise, for any damage and/or loss/losses, whether direct, indirect, consequential, or, any special,
+      indirect loss, or for costs, damages, charges or expenses arising under or in connection with the services
+      rendered in the above connection by CPL.</p>
+
+    <p>CPL shall not be liable to the Customer or be deemed to be in breach of these Conditions or to be in breach of
+      contract by reason of any delay in performing, or any failure to perform, any or all of CPL’ obligations in
+      relation to the Services, if the delay or failure was due to any cause beyond CPL’ reasonable control.</p>
+
+    <br><b>Inventory:</b><br>
+    <p>CPL shall obtain a detailed Inventory upon collecting the Vehicle from the Customer, and shall retain a copy of
+      such Inventory until the vehicle is returned to the Customer.</p>
+
+    <p>CPL shall not be liable to hand in a copy of the Inventory to the customer, and such copy of the Inventory would
+      only be given upon the Customer’s express request.</p>
+
+    <br><b>Articles/Items Left in Vehicle:</b><br>
+    <p>CPL shall not be responsible for damage or loss to articles or items left in the Customer’s vehicle. The Customer
+      is solely responsible to remove such articles or items from the vehicle at time of handing over the vehicle to
+      CPL.</p>
+
+    <br><b>Damage to Vehicle:</b><br>
+    <p>CPL shall not be responsible for any damage, breakdown, mechanical/electronic failure caused to the customer’s
+      vehicle, during the commute from the Customer’s premises to CPL’ Workshops and back to the Customer’s premises,
+      except where such damage is directly attributable to the negligence and/or recklessness of an employee of CPL
+      assigned to carry out the above service. In the event of any such occurrence, the Customer would be informed
+      immediately.</p>
+
+    <p>Customer shall be liable to recover/make good such damage/loss caused during such commute as referred to above,
+      from the Customer’s own Insurance, except where such damage is directly attributable to the negligence and/or
+      recklessness of an employee of CPL assigned to carry out the above service.</p>
+
+    <p>CPL shall not be liable to indemnify the Customer by providing an additional vehicle, if the Customer’s vehicle
+      is damaged during such commute as referred to above, except where such damage is directly attributable to the
+      negligence and/or recklessness of an employee of CPL assigned to carry out the above service. </p>
+
+    <br><b>Payments:</b><br>
+    <p>All payments pertaining to the above said repair/service of the vehicle shall be agreed upon prior to
+      commencement of such repair/service of the vehicle. Customer shall make payment in full prior to return of the
+      vehicle to the Customer on completion of the repair/service, unless CPL has expressly agreed to release the
+      vehicle on credit basis. The vehicle shall not be handed over to the Customer unless full and final settlement of
+      all payments due to CPL has been made. In the event, the Vehicle is uncollected by the Customer and remains in the
+      custody of CPL due to non-settlement of invoice/invoices by the Customer after completion of such
+      repairs/services, CPL shall not be liable in any manner for any loss, damage, breakdown, mechanical/electronic
+      failure caused to the Vehicle during such period.</p>
+
+    <br><b>CUSTOMER’S ACCEPTANCE</b><br>
+    <p>I agree to the above terms, and hereby authorize CPL to carry out the above repairs/services and to utilize the
+      necessary materials. CPL and its’ employees may operate the above vehicle for the purpose of testing, inspection
+      or delivery at my risk. CPL and/or its’ employees shall not be responsible for loss or damage caused to the
+      vehicle and/or to any items or articles left in the vehicle, in case of fire, theft, accident or any other cause
+      beyond the reasonable control of CPL.</p>
+
+    <p>I hereby unconditionally agree to settle all monies payable to CPL in respect of the above repairs/services prior
+      to return of the vehicle to my custody.</p>
+
+    <br>
+    <p>
+      <ion-checkbox #chk (click)="checkBoxController()"></ion-checkbox>  
+      <ion-label for="chk" style="vertical-align: text-bottom; margin-left: 10px;">I have read and understand</ion-label>
+    </p>
+    
+  </div>
+</ion-content>
+<ion-footer>
+  <div style="color: blue; text-align: end; margin: 10px;">
+    <ion-button class="noBackground" (click)="agreed()" [disabled]="isDisabled">I AGREE</ion-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ion-button class="noBackground" (click)="goBack()">NO THANKS</ion-button>
+  </div>
+</ion-footer>

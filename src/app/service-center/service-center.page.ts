@@ -23,7 +23,7 @@ export class ServiceCenterPage implements OnInit {
   showroomName: string;
   showroomAddress: string;
   showRoomOpenHours: string = '';
-  showRoomCloseHours: string = '';
+  showRoomOpenHoursWE: string = '';
   showroomAddressSplitted;
   isValid: boolean = false;
   tempEvent: any;
@@ -96,9 +96,14 @@ export class ServiceCenterPage implements OnInit {
       this.showroomAddress=data.shop_address;
       this.showroomAddressSplitted = this.showroomAddress.split(",");  
       this.showRoomOpenHours = "Weekdays: "+data.opnTime[0].open.substring(0,5)+" to "+data.opnTime[0].close.substring(0,5);
-      if(data.opnTime.length>5){
-        this.showRoomCloseHours = "Weekends: "+data.opnTime[5].open.substring(0,5)+" to "+data.opnTime[5].close.substring(0,5)
-      }       this.isValid = true;
+      if(data.opnTime.length>5){        
+        this.showRoomOpenHoursWE = "Saturdays: "+data.opnTime[5].open.substring(0,5)+" to "+data.opnTime[5].close.substring(0,5);
+        console.log("if is working", this.showRoomOpenHoursWE);
+      }else{
+        this.showRoomOpenHoursWE='';
+        console.log("else is working")
+      }
+      this.isValid = true;
       this.supervisors = data.supervisors;
       this.tempEvent=null;
     },

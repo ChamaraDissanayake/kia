@@ -21,7 +21,7 @@ export class ShowRoomPage implements OnInit {
   showroomAddress: string = '';
   showroomAddressSplitted:any = [];
   showRoomOpenHours: string = '';
-  showRoomCloseHours: string = '';
+  showRoomOpenHoursWE: string = '';
   isValid: boolean = false;
   tempEvent: any;
 
@@ -80,7 +80,7 @@ export class ShowRoomPage implements OnInit {
       this.showroomAddressSplitted = this.showroomAddress.split(",");  
       this.showRoomOpenHours = "Weekdays: "+data.opnTime[0].open.substring(0,5)+" to "+data.opnTime[0].close.substring(0,5);
       if(data.opnTime.length>5){
-        this.showRoomCloseHours = "Weekends: "+data.opnTime[5].open.substring(0,5)+" to "+data.opnTime[5].close.substring(0,5)
+        this.showRoomOpenHoursWE = "Saturdays: "+data.opnTime[5].open.substring(0,5)+" to "+data.opnTime[5].close.substring(0,5)
       }      
       this.isValid = true;
       this.tempEvent=null;
