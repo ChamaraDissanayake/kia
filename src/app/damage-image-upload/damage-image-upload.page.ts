@@ -361,7 +361,7 @@ export class DamageImageUploadPage implements OnInit {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Alert!',
-      message: 'Are you sure want to delete this image?',
+      message: 'Are you sure you want to delete this image?',
       buttons: [
         {
           text: 'No',

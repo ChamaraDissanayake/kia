@@ -98,7 +98,7 @@ export class RequestPartPage implements OnInit {
           console.log("retrievedFile", data)
           if (data.size > MAX_IMAGE_FILE_SIZE) {
             this.showLoader = false;
-            alert("Maximum individual image size is 5MB!");
+            alert("Maximum image size is 5MB!");
           } else {
             this.image = retrievedFile.nativeURL;
             console.log("native url", this.image);

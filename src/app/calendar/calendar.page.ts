@@ -567,7 +567,7 @@ export class CalendarPage implements OnInit {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Alert!',
-      message: 'Sorry we are closing on '+date+'. Try different date.',
+      message: 'Sorry we are closing on '+date+'. Try a different date.',
       buttons: [{
           text: 'Close',
           role: 'cancel'

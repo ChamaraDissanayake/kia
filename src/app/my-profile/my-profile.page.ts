@@ -106,7 +106,7 @@ export class MyProfilePage implements OnInit {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Alert!',
-      message: 'Are you sure want to remove your vehicle?',
+      message: 'Are you sure you want to remove this vehicle?',
       buttons: [
         {
           text: 'No',
