@@ -45,7 +45,7 @@ export class PickAndDropBookPage implements OnInit {
     ],
     'mobile': [
       { type: 'required', message: '* Mobile number is required!' },
-      { type: 'pattern', message: '* Not a valid! Try 07XXXXXXXX' }
+      { type: 'pattern', message: '* Not valid! Try 07XXXXXXXX' }
     ]
   };
   ngOnInit() {
