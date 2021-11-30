@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar style="--background: #0f0f0f;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/pick-and-drop-book"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-image vertical-center" style="text-align: -webkit-center;" fullscreen="true">
+
+  <div #container style="height: 100%;">
+    <div #map id="map"></div>
+  </div>
+  <div class="fix-button">
+    <ion-button class="btnNavigate" (click)="saveLocation()">Save location</ion-button><br>
+    <ion-label style="color: black;">Drag the pin to set manual location</ion-label>
+  </div>
+</ion-content>

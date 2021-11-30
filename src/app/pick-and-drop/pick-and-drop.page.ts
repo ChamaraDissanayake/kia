@@ -24,6 +24,9 @@ export class PickAndDropPage implements OnInit {
 
   ionViewDidEnter(){
     this.getMyBookings();
+    this.kiaProviderService.pickMap = false;
+    this.kiaProviderService.pickLatitude = 0;
+    this.kiaProviderService.pickLongitude = 0;
   }
 
   getMyBookings() {
@@ -97,7 +100,7 @@ export class PickAndDropPage implements OnInit {
 
   bookPickAndDrop(id){
     console.log("pick & drop id",id)
-    this.kiaProviderService.booking_id = id;
+    this.kiaProviderService.booking_id = id;    
     this.router.navigateByUrl("/pick-and-drop-book");
   }
 }

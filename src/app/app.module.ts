@@ -18,6 +18,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 
 @NgModule({

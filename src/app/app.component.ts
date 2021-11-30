@@ -182,7 +182,7 @@ export class AppComponent implements OnInit{
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
       if(this.kiaProviderService.permissionLevel==1 && data.register_status==2){
-        this.Congratulations('Your registration details are confirmed. Now onwards you can access all our after sales services.');
+        this.Congratulations('Your registration details are confirmed. Now you can access all our after sales services.');
       }
       this.kiaProviderService.user_id = data.user_id;
       this.kiaProviderService.permissionLevel=data.register_status;

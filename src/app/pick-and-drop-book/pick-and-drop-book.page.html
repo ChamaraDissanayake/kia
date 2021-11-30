@@ -11,7 +11,7 @@
 
 <ion-content class="background-image" fullscreen="true">
 
-  <form [formGroup]="pickdrop" (ngSubmit)="bookPick()">
+  <form [formGroup]="pickdrop" (ngSubmit)="bookPickup()">
   <div style="text-align: center;">
     <h1 style="text-align: center;">Pick and drop</h1>
   </div>
@@ -91,6 +91,39 @@
             </ng-container>
           </div>
         </ion-col>
+      </ion-row>
+      <!-- <ion-row>
+        <div style="margin: 40px 0 40px 40px;">
+          <ion-checkbox #addLocation></ion-checkbox>
+          <ion-label style="vertical-align: text-bottom; margin-left: 10px;" label-for="addLocation">Add a pickup location</ion-label>
+        </div>
+      </ion-row> -->
+      <ion-row>
+        <ion-col size = '5'>
+          <ion-label>Pickup location:</ion-label>
+        </ion-col>
+        <ion-col size = '7' style="padding: 2px;">
+          <ion-list>
+            <ion-radio-group #radioLocation value="1">
+              <ion-list-header>
+                <ion-checkbox (click)="addPickupLocation()"></ion-checkbox>
+                <ion-label style="margin-left: 10px;">Add a pickup location</ion-label>
+              </ion-list-header>
+  
+              <ion-item class="select-location" *ngIf="isLocationAdded">              
+                <ion-radio value="1"></ion-radio>
+                <ion-label checked>Get current location</ion-label>
+              </ion-item>
+          
+              <ion-item class="select-location" *ngIf="isLocationAdded" (click)="pickLocation()">              
+                <ion-radio value="2"></ion-radio>
+                <ion-label>Add manual location</ion-label>
+              </ion-item>
+          
+            </ion-radio-group>
+          </ion-list>
+        </ion-col>
+        
       </ion-row>
     </ion-grid>
   </div>

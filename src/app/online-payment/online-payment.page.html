@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content class="background-image" style="text-align: -webkit-center;" fullscreen="true">
-  <!-- <div class="loader" *ngIf="showLoader">
+  <div class="loader" *ngIf="showLoader">
     <ion-label>Please wait</ion-label><br>
     <ion-spinner name="dots"></ion-spinner>
   </div>
@@ -30,12 +30,12 @@
   </div>
   <div *ngIf="bills.length!=0" style="text-align: center; margin: 40px 0;">
     <ion-button class="btnNavigate" [routerLink]="['/online-payment-select']">Pay</ion-button>
-  </div> -->
+  </div>
 
-  <div style=" text-align: center;">
+  <!-- <div style=" text-align: center;">
     <h1 style="margin: 120px 50px 0 50px;">Online payment to be open soon!</h1>
     <div style="width: 100%; margin: 20px 0;">
       <ion-button class="btnNavigate" [routerLink]="['/home']">Back</ion-button>
     </div>
-  </div>
+  </div> -->
 </ion-content>

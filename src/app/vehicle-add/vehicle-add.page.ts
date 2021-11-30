@@ -97,9 +97,9 @@ export class VehicleAddPage implements OnInit {
       this.checkNewVehicles(data.vehicle_id);
       // this.router.navigateByUrl('/my-profile');
       if(this.kiaProviderService.vehicle_id==""){
-        this.addVehicleMessage("Your vehicle added successfully. Once our service advisor validates and approves your vehicle, you can access all our after-sales services.");
+        this.addVehicleMessage("Your vehicle is added successfully. Once our service advisor validates and approves your details, you can access all our after-sales services.");
       }else{
-        this.addVehicleMessage("Your vehicle updated successfully. Once our service advisor validates and approves your vehicle, you can access all our after-sales services.");
+        this.addVehicleMessage("Your vehicle details are updated successfully. Once our service advisor validates and approves your details, you can access all our after-sales services.");
       }
     },
     (error: any) => {

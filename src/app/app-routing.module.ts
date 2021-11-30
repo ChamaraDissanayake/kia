@@ -180,6 +180,10 @@ const routes: Routes = [
   {
     path: 'disclaimer',
     loadChildren: () => import('./disclaimer/disclaimer.module').then( m => m.DisclaimerPageModule)
+  },
+  {
+    path: 'pick-and-drop-location',
+    loadChildren: () => import('./pick-and-drop-location/pick-and-drop-location.module').then( m => m.PickAndDropLocationPageModule)
   }
 
 ];

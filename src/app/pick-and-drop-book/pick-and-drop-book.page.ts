@@ -1,11 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 import { KiaProviderService } from '../kia-provider.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { DisclaimerPage } from '../disclaimer/disclaimer.page';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+
 // import { Storage } from '@ionic/storage-angular';
 
 @Component({
@@ -17,6 +19,11 @@ export class PickAndDropBookPage implements OnInit {
   public pickdrop : FormGroup;
   bookingData:any=[];
   modal: any;
+  isLocationAdded: boolean = false;
+  private liveLatitude: number = 0;
+  private liveLongitude: number = 0;
+  @ViewChild("radioLocation")radioLocation;
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -24,6 +31,8 @@ export class PickAndDropBookPage implements OnInit {
     private http: HttpClient,
     private alertController: AlertController,
     private modalController: ModalController,
+    private platform: Platform,
+    private geolocation: Geolocation
     // private storage: Storage
   ) {
     this.pickdrop = this.formBuilder.group({
@@ -52,8 +61,12 @@ export class PickAndDropBookPage implements OnInit {
   }
 
   ionViewWillEnter(){
-    this.showModal();
-    this.getBooking();
+    if(!this.kiaProviderService.pickMap){
+      this.showModal();
+      this.getBooking();      
+    }else{
+      this.kiaProviderService.pickMap = false;
+    }
   }
 
   getBooking() {
@@ -91,21 +104,39 @@ export class PickAndDropBookPage implements OnInit {
     await alert.present();
   }
 
+  bookPickup(){
+    if(this.isLocationAdded){
+      if(this.radioLocation.value==1){
+        console.log("Curernt location added");
+        this.kiaProviderService.pickLatitude = this.liveLatitude;
+        this.kiaProviderService.pickLongitude = this.liveLongitude;
+        this.bookPickWithLocation();
+      }else{
+        console.log("Manual location added");
+        this.bookPickWithLocation();
+      }
+    }else{
+      this.bookPick();
+      console.log("Location not added");
+    }
+  }
+
   bookPick() {
-    console.log("booking id", this.kiaProviderService.booking_id)
+    console.log("booking id", this.kiaProviderService.booking_id, this.kiaProviderService.pickLatitude)
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {
       "booking_id":this.kiaProviderService.booking_id,
       "address":this.pickdrop.get('address').value,
       "phone":this.pickdrop.get('mobile').value,
       "user_id":this.kiaProviderService.user_id,
-      "name":this.pickdrop.get('name').value,
+      "name":this.pickdrop.get('name').value
     },
     url: any = this.kiaProviderService.baseURL + 'addPickAndDrop';
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
       console.log("my book pick", data);
+      this.isLocationAdded = false;
       this.router.navigateByUrl("/booking-confirmed");
     },
     (error: any) => {
@@ -130,21 +161,85 @@ export class PickAndDropBookPage implements OnInit {
     await alert.present();
   }
 
+  bookPickWithLocation() {
+    console.log("booking id", this.kiaProviderService.booking_id, this.kiaProviderService.pickLatitude)
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "booking_id":this.kiaProviderService.booking_id,
+      "address":this.pickdrop.get('address').value,
+      "phone":this.pickdrop.get('mobile').value,
+      "user_id":this.kiaProviderService.user_id,
+      "name":this.pickdrop.get('name').value,
+      "latitude":this.kiaProviderService.pickLatitude,
+      "longitude":this.kiaProviderService.pickLongitude
+    },
+    url: any = this.kiaProviderService.baseURL + 'addPickAndDrop';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("my book pick", data);
+      this.isLocationAdded = false;
+      this.router.navigateByUrl("/booking-confirmed");
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+      this.Retry3();
+    }); 
+  }
+
+  async Retry3() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.bookPickWithLocation();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
   async showModal() {
-    // let isAgreed:boolean = await this.storage.get("isAgredTandC");
-    // if(!isAgreed){
     this.modal = await this.modalController.create({
       component: DisclaimerPage,
       cssClass: 'disclaimer-modal',
       backdropDismiss: false
     })
     await this.modal.present();
-    // }
   }
 
   ionViewWillLeave(){
     if(this.modal){
       this.modal.dismiss();
     }
+  }
+
+  addPickupLocation(){
+    this.isLocationAdded = !this.isLocationAdded;
+    console.log("isLocationAdded", this.isLocationAdded);
+    console.log(this.radioLocation.value)
+    this.getLocation();
+  }
+
+  getLocation(){
+    this.geolocation.getCurrentPosition().then((resp) => {
+      console.log("geolocation", resp.coords.latitude, resp.coords.longitude);
+      this.liveLatitude = resp.coords.latitude;
+      this.liveLongitude = resp.coords.longitude;
+    }).catch((error) => {
+      alert("Sorry! Your current location can not be identified.")
+      console.log('Error getting location', error);
+    });
+  }
+
+  pickLocation(){
+    this.kiaProviderService.pickMap = true;
+    this.kiaProviderService.pickLatitude = this.liveLatitude;
+    this.kiaProviderService.pickLongitude = this.liveLongitude;
+    this.router.navigateByUrl("/pick-and-drop-location");
   }
 }

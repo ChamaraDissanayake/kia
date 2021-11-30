@@ -25,7 +25,7 @@ export class OnlinePaymentPage implements OnInit {
   }
 
   ionViewDidEnter(){
-    // this.getBillList();
+    this.getBillList();
   }
 
   getBillList() {

@@ -525,7 +525,7 @@ export class CalendarPage implements OnInit {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Alert!',
-      message: 'There are no available slots for particular time. Please check make inquiry checkbox to make an inquiry. Service agent will contact you to confirm your booking.',
+      message: 'There are no available slots for the particular time. Please tick the inquiry checkbox to make an inquiry. Service agent will contact you to confirm your booking.',
       buttons: [{
           text: 'Accept',
           role: 'cancel'
@@ -567,7 +567,7 @@ export class CalendarPage implements OnInit {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Alert!',
-      message: 'Sorry we are closing on '+date+'. Try a different date.',
+      message: 'Sorry we are closed on '+date+'. Please try a different date.',
       buttons: [{
           text: 'Close',
           role: 'cancel'

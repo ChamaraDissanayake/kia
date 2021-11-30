@@ -191,7 +191,7 @@ export class DamageEstimateRespondPage implements OnInit {
           retrievedFile.file( data => {
             console.log("retrievedFile", data)
             if (data.size > MAX_IMAGE_FILE_SIZE){
-              alert("Maximum individual image size is 5MB!, rest will be uploaded.");              
+              alert("Maximum individual image size is 5MB!, balance images will be uploaded.");              
             }else{
               this.images.push(retrievedFile.nativeURL);
             }
