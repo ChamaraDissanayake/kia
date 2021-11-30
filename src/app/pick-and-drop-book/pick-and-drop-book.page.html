@@ -106,19 +106,19 @@
           <ion-list>
             <ion-radio-group #radioLocation value="1">
               <ion-list-header>
-                <ion-checkbox [checked]="isLocationAdded" (ionChange)="addPickupLocation()"></ion-checkbox>
-                <ion-label style="margin-left: 10px;">Add a pickup location</ion-label>
+                <ion-checkbox class="chk-box" [checked]="isLocationAdded" (ionChange)="addPickupLocation()"></ion-checkbox>
+                <ion-label style="margin-left: 10px; padding-top: 2px;">Add a pickup location</ion-label>
               </ion-list-header>
   
-              <ion-item class="select-location" *ngIf="isLocationAdded">              
-                <ion-radio value="1"></ion-radio>
-                <ion-label checked>Get current location</ion-label>
-              </ion-item>
+              <div class="select-location" *ngIf="isLocationAdded">              
+                <ion-radio style="--color-checked: black;" value="1"></ion-radio>
+                <ion-label class="lbl" checked>Get current location</ion-label>
+              </div>
           
-              <ion-item class="select-location" *ngIf="isLocationAdded" (click)="pickLocation()">              
-                <ion-radio value="2"></ion-radio>
-                <ion-label>Add manual location</ion-label>
-              </ion-item>
+              <div class="select-location" *ngIf="isLocationAdded" (click)="pickLocation()">              
+                <ion-radio style="--color-checked: black;" value="2"></ion-radio>
+                <ion-label class="lbl">Add manual location</ion-label>
+              </div>
           
             </ion-radio-group>
           </ion-list>

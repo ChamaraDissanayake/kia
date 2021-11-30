@@ -221,18 +221,17 @@ export class PickAndDropBookPage implements OnInit {
     this.isLocationAdded = !this.isLocationAdded;
     this.locationAccuracy.canRequest().then((canRequest: boolean) => {
       if(canRequest) {
-        console.log("can request", canRequest)
+        console.log("can request", canRequest);
         // the accuracy option will be ignored by iOS
         this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(() => {
             console.log('Request successful');            
             this.getLocation();
-        },
-          error => {
-            console.log('Error requesting location permissions', error);
-            this.isLocationAdded=false;            
-          }
-        );
-      }else{        
+        }, error => {
+          console.log('Error requesting location permissions', error);
+          this.isLocationAdded=false;            
+        });
+      }else{     
+        console.log("No need to request", canRequest);   
         this.getLocation();
       }
     });

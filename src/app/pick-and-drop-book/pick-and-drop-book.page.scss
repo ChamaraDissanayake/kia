@@ -31,4 +31,15 @@
 .select-location{
     margin-left: 15px;
     font-size: small;
+    color: black;
+}
+
+.chk-box{
+    --background-checked: black;
+    --border-color-checked: black;
+}
+
+.lbl{
+    vertical-align: super;
+    padding-left: 10px;
 }
