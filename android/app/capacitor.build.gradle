@@ -15,6 +15,7 @@ dependencies {
     implementation project(':capacitor-splash-screen')
     implementation project(':capacitor-status-bar')
     implementation "androidx.core:core:1.6.+"
+    implementation "com.google.android.gms:play-services-location:16.+"
     implementation "com.android.support:appcompat-v7:27.+"
 }
 apply from: "../../node_modules/com-sarriaroman-photoviewer/src/android/photoviewer.gradle"

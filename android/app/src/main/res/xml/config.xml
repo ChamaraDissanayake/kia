@@ -40,6 +40,10 @@
     <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser"/>
   </feature>
 
+  <feature name="RequestLocationAccuracy">
+    <param name="android-package" value="cordova.plugin.RequestLocationAccuracy"/>
+  </feature>
+
   <feature name="CDVOrientation">
     <param name="android-package" value="cordova.plugins.screenorientation.CDVOrientation"/>
   </feature>

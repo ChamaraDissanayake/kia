@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { DisclaimerPage } from '../disclaimer/disclaimer.page';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 // import { Storage } from '@ionic/storage-angular';
 
 @Component({
@@ -31,9 +31,8 @@ export class PickAndDropBookPage implements OnInit {
     private http: HttpClient,
     private alertController: AlertController,
     private modalController: ModalController,
-    private platform: Platform,
-    private geolocation: Geolocation
-    // private storage: Storage
+    private geolocation: Geolocation,
+    private locationAccuracy: LocationAccuracy
   ) {
     this.pickdrop = this.formBuilder.group({
       name:['', [Validators.required, Validators.pattern('[A-Za-z ]{2,}')]],
@@ -220,9 +219,23 @@ export class PickAndDropBookPage implements OnInit {
 
   addPickupLocation(){
     this.isLocationAdded = !this.isLocationAdded;
-    console.log("isLocationAdded", this.isLocationAdded);
-    console.log(this.radioLocation.value)
-    this.getLocation();
+    this.locationAccuracy.canRequest().then((canRequest: boolean) => {
+      if(canRequest) {
+        console.log("can request", canRequest)
+        // the accuracy option will be ignored by iOS
+        this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(() => {
+            console.log('Request successful');            
+            this.getLocation();
+        },
+          error => {
+            console.log('Error requesting location permissions', error);
+            this.isLocationAdded=false;            
+          }
+        );
+      }else{        
+        this.getLocation();
+      }
+    });
   }
 
   getLocation(){
