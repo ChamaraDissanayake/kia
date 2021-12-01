@@ -106,18 +106,23 @@
           <ion-list>
             <ion-radio-group #radioLocation value="1">
               <ion-list-header>
-                <ion-checkbox class="chk-box" [checked]="isLocationAdded" (ionChange)="addPickupLocation()"></ion-checkbox>
+                <ion-checkbox class="chk-box" [checked]="isLocationAdded" (click)="addPickupLocation()"></ion-checkbox>
                 <ion-label style="margin-left: 10px; padding-top: 2px;">Add a pickup location</ion-label>
               </ion-list-header>
   
-              <div class="select-location" *ngIf="isLocationAdded">              
+              <div class="select-location" *ngIf="isLocationAdded && liveLatitude != 0">              
                 <ion-radio style="--color-checked: black;" value="1"></ion-radio>
-                <ion-label class="lbl" checked>Get current location</ion-label>
+                <ion-label class="lbl">Get current location</ion-label>
               </div>
           
-              <div class="select-location" *ngIf="isLocationAdded" (click)="pickLocation()">              
-                <ion-radio style="--color-checked: black;" value="2"></ion-radio>
+              <div class="select-location" *ngIf="isLocationAdded && liveLatitude != 0">              
+                <ion-radio style="--color-checked: black;" value="2" (click)="pickLocation()"></ion-radio>
                 <ion-label class="lbl">Add manual location</ion-label>
+              </div>
+
+              <div *ngIf="isLocationAdded && liveLatitude == 0">
+                <ion-label style="font-size: small;" class="lbl">Capturing location</ion-label>
+                <ion-spinner name="dots"></ion-spinner>
               </div>
           
             </ion-radio-group>
@@ -128,7 +133,7 @@
     </ion-grid>
   </div>
   <div style="margin-top: 50px; text-align: center;">
-    <ion-button type="submit" [disabled]="!pickdrop.valid" class="btnNavigate">Book</ion-button>
+    <ion-button type="submit" [disabled]="!pickdrop.valid || (isLocationAdded && liveLatitude == 0)" class="btnNavigate">Book</ion-button>
   </div>
   </form>
 </ion-content>

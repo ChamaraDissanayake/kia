@@ -20,8 +20,8 @@ export class PickAndDropBookPage implements OnInit {
   bookingData:any=[];
   modal: any;
   isLocationAdded: boolean = false;
-  private liveLatitude: number = 0;
-  private liveLongitude: number = 0;
+  public liveLatitude: number = 0;
+  public liveLongitude: number = 0;
   @ViewChild("radioLocation")radioLocation;
 
   constructor(
@@ -104,7 +104,7 @@ export class PickAndDropBookPage implements OnInit {
   }
 
   bookPickup(){
-    if(this.isLocationAdded){
+    if(this.isLocationAdded && this.liveLatitude != 0){
       if(this.radioLocation.value==1){
         console.log("Curernt location added");
         this.kiaProviderService.pickLatitude = this.liveLatitude;
@@ -218,23 +218,31 @@ export class PickAndDropBookPage implements OnInit {
   }
 
   addPickupLocation(){
-    this.isLocationAdded = !this.isLocationAdded;
-    this.locationAccuracy.canRequest().then((canRequest: boolean) => {
-      if(canRequest) {
-        console.log("can request", canRequest);
-        // the accuracy option will be ignored by iOS
-        this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(() => {
-            console.log('Request successful');            
-            this.getLocation();
-        }, error => {
-          console.log('Error requesting location permissions', error);
-          this.isLocationAdded=false;            
-        });
-      }else{     
-        console.log("No need to request", canRequest);   
-        this.getLocation();
-      }
-    });
+      this.locationAccuracy.canRequest().then((canRequest: boolean) => {
+        if(canRequest) {
+          console.log("can request", canRequest);
+          // the accuracy option will be ignored by iOS
+          if(!this.isLocationAdded){
+            this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(() => {
+              console.log('Request successful');
+              this.isLocationAdded = true;
+              this.getLocation();
+            }, error => {
+              console.log('Error requesting location permissions', error);
+              this.isLocationAdded=true;
+              setTimeout(() => {
+                this.isLocationAdded=false;  
+              }, 100);              
+            });
+          }else{
+            this.isLocationAdded = false;
+          }
+        }else{     
+          console.log("No need to request", canRequest);
+          this.isLocationAdded = !this.isLocationAdded;
+          this.getLocation();
+        }
+      });
   }
 
   getLocation(){
@@ -245,6 +253,10 @@ export class PickAndDropBookPage implements OnInit {
     }).catch((error) => {
       alert("Sorry! Your current location can not be identified.")
       console.log('Error getting location', error);
+      this.isLocationAdded=true;
+      setTimeout(() => {
+        this.isLocationAdded=false;  
+      }, 100);  
     });
   }
 
