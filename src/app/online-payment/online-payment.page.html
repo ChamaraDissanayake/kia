@@ -14,28 +14,30 @@
     <ion-label>Please wait</ion-label><br>
     <ion-spinner name="dots"></ion-spinner>
   </div>
-  <div *ngFor="let item of bills" class="billItem text-white">
-    <ion-label>Refno: {{item.refNo}}</ion-label><br>
-    <ion-label>Vehicle number: {{item.vehino}}</ion-label><br>
-    <ion-label>Refinv: {{item.refInv}}</ion-label><br>
-    <ion-label>Date: {{item.txnDate}}</ion-label><br>
-    <ion-label>Bill amount: Rs. {{item.bamt | number:'1.2-2':'en-US'}}</ion-label><br>
-    <ion-label>Balance amount: Rs. {{item.totBal | number:'1.2-2':'en-US'}}</ion-label><br>
-    <ion-label>Vehicle type: {{item.dbId}}</ion-label><br>
+  <div *ngIf="kiaProviderService.paymentOnline==true">
+    <div *ngFor="let item of bills" class="billItem text-white">
+      <ion-label>Refno: {{item.refNo}}</ion-label><br>
+      <ion-label>Vehicle number: {{item.vehino}}</ion-label><br>
+      <ion-label>Refinv: {{item.refInv}}</ion-label><br>
+      <ion-label>Date: {{item.txnDate}}</ion-label><br>
+      <ion-label>Bill amount: Rs. {{item.bamt | number:'1.2-2':'en-US'}}</ion-label><br>
+      <ion-label>Balance amount: Rs. {{item.totBal | number:'1.2-2':'en-US'}}</ion-label><br>
+      <ion-label>Vehicle type: {{item.dbId}}</ion-label><br>
+    </div>
+
+    <h2 *ngIf="bills.length==0" style="text-align: center; margin-top: 20%;">Nothing to pay</h2>
+    <div *ngIf="bills.length==0" style="width: 100%; margin: 20px 0; text-align: center;">
+      <ion-button class="btnNavigate" [routerLink]="['/home']">Back</ion-button>
+    </div>
+    <div *ngIf="bills.length!=0" style="text-align: center; margin: 40px 0;">
+      <ion-button class="btnNavigate" [routerLink]="['/online-payment-select']">Pay</ion-button>
+    </div>
   </div>
 
-  <h2 *ngIf="bills.length==0" style="text-align: center; margin-top: 20%;">Nothing to pay</h2>
-  <div *ngIf="bills.length==0" style="width: 100%; margin: 20px 0; text-align: center;">
-    <ion-button class="btnNavigate" [routerLink]="['/home']">Back</ion-button>
-  </div>
-  <div *ngIf="bills.length!=0" style="text-align: center; margin: 40px 0;">
-    <ion-button class="btnNavigate" [routerLink]="['/online-payment-select']">Pay</ion-button>
-  </div>
-
-  <!-- <div style=" text-align: center;">
+  <div style=" text-align: center;" *ngIf="kiaProviderService.paymentOnline==false">
     <h1 style="margin: 120px 50px 0 50px;">Online payment to be open soon!</h1>
     <div style="width: 100%; margin: 20px 0;">
       <ion-button class="btnNavigate" [routerLink]="['/home']">Back</ion-button>
     </div>
-  </div> -->
+  </div>
 </ion-content>

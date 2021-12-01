@@ -288,7 +288,6 @@ export class HomePage implements OnInit {
     this.kiaProviderService.pickMap = false;    
     this.kiaProviderService.pickLatitude = 0;
     this.kiaProviderService.pickLongitude = 0;
-    this.kiaProviderService.accepted.next(false);
   }
 
   async Retry() {

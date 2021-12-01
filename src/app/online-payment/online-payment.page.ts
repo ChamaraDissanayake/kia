@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 // import { Router } from '@angular/router';
 import { KiaProviderService } from '../kia-provider.service';
 // import payList from '../../assets/getInvoices.json';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-online-payment',
@@ -17,15 +17,16 @@ export class OnlinePaymentPage implements OnInit {
     // private router: Router,
     public kiaProviderService: KiaProviderService,
     private http: HttpClient,
-    private alertController: AlertController,
-    private toastController: ToastController) { }
+    private alertController: AlertController) { }
 
   ngOnInit() {
     // this.bills = payList;
   }
 
   ionViewDidEnter(){
-    this.getBillList();
+    if(this.kiaProviderService.paymentOnline){
+      this.getBillList();
+    }    
   }
 
   getBillList() {

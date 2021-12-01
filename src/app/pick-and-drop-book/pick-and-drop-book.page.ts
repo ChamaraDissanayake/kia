@@ -39,12 +39,6 @@ export class PickAndDropBookPage implements OnInit {
       address: ['', [Validators.required, Validators.pattern('[A-Za-z0-9\.\-\s\, ]{10,}')]],
       mobile:['', [Validators.required, Validators.pattern('[0]{1}[7]{1}[0-9]{8}'), Validators.minLength(10)]]
     });
-
-    this.kiaProviderService.accepted.subscribe((value) => {
-      if (true === value) {
-        this.checkPermission();
-      }
-   });
   }
 
   
@@ -62,19 +56,8 @@ export class PickAndDropBookPage implements OnInit {
       { type: 'pattern', message: '* Not valid! Try 07XXXXXXXX' }
     ]
   };
-  ngOnInit() {
-    
-  }
 
-  checkPermission(){
-    this.geolocation.getCurrentPosition().then((resp) => {
-      console.log("geolocation", resp.coords.latitude, resp.coords.longitude);
-      this.liveLatitude = resp.coords.latitude;
-      this.liveLongitude = resp.coords.longitude;
-    }).catch((error) => {
-      console.log('Error getting location', error);
-    });
-  }
+  ngOnInit() { }
 
   ionViewWillEnter(){
     if(!this.kiaProviderService.pickMap){

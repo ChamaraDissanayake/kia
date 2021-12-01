@@ -29,7 +29,6 @@ export class DisclaimerPage implements OnInit {
 
   async agreed(){
     // this.storage.set("isAgredTandC", true);
-    this.kiaProviderService.accepted.next(true);
     await this.modalController.dismiss();
   }
 

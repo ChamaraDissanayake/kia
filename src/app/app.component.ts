@@ -35,6 +35,7 @@ export class AppComponent implements OnInit{
   }
   ngOnInit() {
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+    this.checkPayment()
     setInterval(()=>{
       this.pendingValidations();
       if(this.kiaProviderService.permissionLevel==1){
@@ -258,5 +259,21 @@ export class AppComponent implements OnInit{
       ]
     });
     await alert.present();
+  }
+
+  checkPayment() {
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = { },
+      
+    url: any = this.kiaProviderService.baseURL + 'disablePayment';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("Online payment active", data)
+      this.kiaProviderService.paymentOnline = data.isActive;
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+    });      
   }
 }
