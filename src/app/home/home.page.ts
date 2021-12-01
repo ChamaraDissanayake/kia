@@ -285,9 +285,10 @@ export class HomePage implements OnInit {
     this.kiaProviderService.accessory_id = 0;
     this.kiaProviderService.rated.next(false);
     this.kiaProviderService.updateVehicle.next(false);
-    this.kiaProviderService.pickMap = false;
+    this.kiaProviderService.pickMap = false;    
     this.kiaProviderService.pickLatitude = 0;
     this.kiaProviderService.pickLongitude = 0;
+    this.kiaProviderService.accepted.next(false);
   }
 
   async Retry() {

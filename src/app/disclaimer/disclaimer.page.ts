@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { KiaProviderService } from '../kia-provider.service';
 // import { Storage } from '@ionic/storage-angular';
 
 @Component({
@@ -15,6 +16,7 @@ export class DisclaimerPage implements OnInit {
   constructor(
     private modalController: ModalController,
     private router: Router,
+    private kiaProviderService: KiaProviderService
     // private storage: Storage
   ) { }
 
@@ -27,6 +29,7 @@ export class DisclaimerPage implements OnInit {
 
   async agreed(){
     // this.storage.set("isAgredTandC", true);
+    this.kiaProviderService.accepted.next(true);
     await this.modalController.dismiss();
   }
 

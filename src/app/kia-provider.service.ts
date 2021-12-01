@@ -43,6 +43,7 @@ export class KiaProviderService {
   accessory_id = 0;
   public rated: BehaviorSubject<boolean> = new BehaviorSubject(false);
   public updateVehicle: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  public accepted: BehaviorSubject<boolean> = new BehaviorSubject(false);
   pickMap = false;
   pickLatitude: number = 0;
   pickLongitude: number = 0; 
