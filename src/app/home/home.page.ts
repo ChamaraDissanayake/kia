@@ -9,6 +9,8 @@ import { AlertController, MenuController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-home',
@@ -41,7 +43,9 @@ export class HomePage implements OnInit {
     // private platform: Platform,
     private http: HttpClient,
     private alertController: AlertController,
-    private photoViewer: PhotoViewer
+    private photoViewer: PhotoViewer,
+    private geolocation: Geolocation,
+    private storage: Storage
   ) { }
 
   ngOnInit() {
@@ -57,7 +61,28 @@ export class HomePage implements OnInit {
     //     this.kiaProviderService.firstLoad=false;
     //   }
     // })
-    
+    this.getLocationPermission();
+  }
+
+  async getLocationPermission(){
+    let hasLocationPermission = await this.storage.get("hasLocationPermission");
+    console.log("hasLocationPermission",hasLocationPermission)
+    if(hasLocationPermission){
+      console.log("Has location permission");
+    } else if(hasLocationPermission == false){
+      console.log("Location permission denied");
+    } else {
+      this.geolocation.getCurrentPosition().then((resp) => {
+        this.storage.set("hasLocationPermission", true);
+        console.log("geolocation", resp.coords.latitude, resp.coords.longitude);
+      }).catch((error) => {
+        console.log('Error getting location', error);
+        if(error.code==1){
+          this.storage.set("hasLocationPermission", false);
+        }        
+      });
+    }
+
   }
 
   LoadData(){

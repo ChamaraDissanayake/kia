@@ -8,7 +8,7 @@ import { ModalController } from '@ionic/angular';
 import { DisclaimerPage } from '../disclaimer/disclaimer.page';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
-// import { Storage } from '@ionic/storage-angular';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-pick-and-drop-book',
@@ -32,7 +32,8 @@ export class PickAndDropBookPage implements OnInit {
     private alertController: AlertController,
     private modalController: ModalController,
     private geolocation: Geolocation,
-    private locationAccuracy: LocationAccuracy
+    private locationAccuracy: LocationAccuracy,
+    private storage: Storage
   ) {
     this.pickdrop = this.formBuilder.group({
       name:['', [Validators.required, Validators.pattern('[A-Za-z ]{2,}')]],
@@ -238,8 +239,11 @@ export class PickAndDropBookPage implements OnInit {
             this.isLocationAdded = false;
           }
         }else{     
-          console.log("No need to request", canRequest);
-          this.isLocationAdded = false;
+          console.log("No permission", canRequest);
+          this.isLocationAdded=true;
+          setTimeout(() => {
+            this.isLocationAdded=false;  
+          }, 100);
           this.getLocation();
         }
       });
@@ -248,10 +252,10 @@ export class PickAndDropBookPage implements OnInit {
   getLocation(){
     this.geolocation.getCurrentPosition().then((resp) => {
       console.log("geolocation", resp.coords.latitude, resp.coords.longitude);
+      this.storage.set("hasLocationPermission", true);
       this.liveLatitude = resp.coords.latitude;
       this.liveLongitude = resp.coords.longitude;
     }).catch((error) => {
-      alert("Sorry! Your current location can not be identified.")
       console.log('Error getting location', error);
       this.isLocationAdded=true;
       setTimeout(() => {
