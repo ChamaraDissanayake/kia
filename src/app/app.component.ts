@@ -27,6 +27,8 @@ export class AppComponent implements OnInit{
     private screenOrientation: ScreenOrientation,
     private storage: Storage
     ) {
+    
+    this.storage.create();
     this.platform.ready().then(()=>{
       let deviceID = this.device.uuid;
       this.sendDeviceID(deviceID);    
@@ -189,6 +191,12 @@ export class AppComponent implements OnInit{
       this.kiaProviderService.permissionLevel=data.register_status;
       // this.kiaProviderService.user_id="13";
       // this.kiaProviderService.permissionLevel=2;
+
+      if(this.kiaProviderService.user_id=="0"){
+        this.storedData();
+      }else{
+        this.router.navigateByUrl("home");
+      }
       console.log("user data", data, this.kiaProviderService.user_id, this.kiaProviderService.permissionLevel);
     },
     (error: any) => {
@@ -275,5 +283,19 @@ export class AppComponent implements OnInit{
     (error: any) => {
       console.log('Something went wrong!', error);
     });      
+  }
+
+  async storedData(){
+    let getStoredData = await this.storage.get("isNewUser");
+
+    if(getStoredData == null){
+      this.storage.set("isNewUser", true);
+      this.router.navigateByUrl("login");
+    }
+    else if(!getStoredData){
+      this.router.navigateByUrl("home");
+    }else{
+      this.router.navigateByUrl("login");
+    }
   }
 }

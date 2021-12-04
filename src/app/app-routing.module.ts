@@ -195,22 +195,22 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule {
-  constructor(private router: Router,private storage: Storage){
-    this.storage.create();
-    this.storedData();
-  }
+  // constructor(private router: Router,private storage: Storage){
+    // this.storage.create();
+    // this.storedData();
+  // }
 
-  async storedData(){
-    let getStoredData = await this.storage.get("isNewUser");
+  // async storedData(){
+  //   let getStoredData = await this.storage.get("isNewUser");
 
-    if(getStoredData == null){
-      this.storage.set("isNewUser", true);
-      this.router.navigateByUrl("login");
-    }
-    else if(!getStoredData){
-      this.router.navigateByUrl("home");
-    }else{
-      this.router.navigateByUrl("login");
-    }
-  }
+  //   if(getStoredData == null){
+  //     this.storage.set("isNewUser", true);
+  //     this.router.navigateByUrl("login");
+  //   }
+  //   else if(!getStoredData){
+  //     this.router.navigateByUrl("home");
+  //   }else{
+  //     this.router.navigateByUrl("login");
+  //   }
+  // }
 }
