@@ -15,9 +15,7 @@ export class DisclaimerPage implements OnInit {
 
   constructor(
     private modalController: ModalController,
-    private router: Router,
-    private kiaProviderService: KiaProviderService
-    // private storage: Storage
+    private router: Router
   ) { }
 
   ngOnInit() {

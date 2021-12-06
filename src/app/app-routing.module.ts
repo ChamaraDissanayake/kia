@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, Router, RouterModule, Routes } from '@angular/router';
-import { Storage } from '@ionic/storage-angular';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   // {

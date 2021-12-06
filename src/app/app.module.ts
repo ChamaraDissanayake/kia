@@ -11,7 +11,7 @@ import { Device } from '@ionic-native/device/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
-import { FilePath } from '@ionic-native/file-path/ngx';
+// import { FilePath } from '@ionic-native/file-path/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
@@ -39,7 +39,7 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
     ImagePicker,
     Camera,
     File,
-    FilePath,
+    // FilePath,
     FileTransfer,
     // FileOpener,
     InAppBrowser,

@@ -8,7 +8,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 // import messageList from '../../assets/messageList.json';
 import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { FilePath } from '@ionic-native/file-path/ngx';
+// import { FilePath } from '@ionic-native/file-path/ngx';
 import { KiaProviderService } from '../kia-provider.service';
 import { AlertController, ToastController } from '@ionic/angular';
 
@@ -45,7 +45,7 @@ export class DamageEstimateRespondPage implements OnInit {
     private http: HttpClient,
     private camera: Camera,
     public kiaProviderService: KiaProviderService,
-    public filePath: FilePath,
+    // public filePath: FilePath,
     public transfer: FileTransfer,
     private alertController: AlertController,
     private toastController: ToastController,
