@@ -37,14 +37,17 @@ export class AppComponent implements OnInit{
   }
   ngOnInit() {
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
-    this.checkPayment()
-    setInterval(()=>{
-      this.pendingValidations();
-      if(this.kiaProviderService.permissionLevel==1){
-        console.log("try to confirm user")
-        this.sendDeviceID(this.kiaProviderService.deviceId);
-      }
-    }, 30000)
+      this.checkPayment()
+      setInterval(()=>{
+        if(this.kiaProviderService.appFullyLoaded){
+          this.pendingValidations();
+          if(this.kiaProviderService.permissionLevel==1){
+            console.log("try to confirm user")
+            this.sendDeviceID(this.kiaProviderService.deviceId);
+          }
+        }
+      }, 30000)
+    
   }
 
   async pendingValidations() {
@@ -195,7 +198,7 @@ export class AppComponent implements OnInit{
       if(this.kiaProviderService.user_id=="0"){
         this.storedData();
       }else{
-        this.router.navigateByUrl("home");
+        this.router.navigateByUrl("/home");
       }
       console.log("user data", data, this.kiaProviderService.user_id, this.kiaProviderService.permissionLevel);
     },

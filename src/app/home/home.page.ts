@@ -51,7 +51,8 @@ export class HomePage implements OnInit {
   ngOnInit() {
     setTimeout(async () => {
       await SplashScreen.hide();
-      console.log("splash off now")
+      console.log("splash off now");
+      this.kiaProviderService.appFullyLoaded = true;
     }, 100);
     this.LoadData();
     // this.platform.ready().then(()=>{

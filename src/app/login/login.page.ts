@@ -27,12 +27,13 @@ export class LoginPage implements OnInit {
   ngOnInit() {
     setTimeout(async () => {
       await SplashScreen.hide();
-      console.log("splash off now")
+      console.log("splash off now");
     }, 100);
   }
 
   ionViewDidEnter(){
     this.kiaProviderService.from = 'login';
+    this.kiaProviderService.appFullyLoaded = false;
     this.menu.swipeGesture(false);
     this.platform.ready().then(()=>{
       this.animationCtrl.create()

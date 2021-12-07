@@ -47,4 +47,5 @@ export class KiaProviderService {
   pickLatitude: number = 0;
   pickLongitude: number = 0;
   paymentOnline: boolean = false;
+  appFullyLoaded: boolean = false;
 }
