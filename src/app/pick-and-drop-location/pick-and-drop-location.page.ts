@@ -33,6 +33,8 @@ export class PickAndDropLocationPage implements OnInit {
   ionViewDidEnter(){
     this.platform.ready().then(()=>{
       this.setMapMarker(this.kiaProviderService.pickLatitude, this.kiaProviderService.pickLongitude);
+      this.latitude = this.kiaProviderService.pickLatitude;
+      this.longitude = this.kiaProviderService.pickLongitude;
     })
     this.kiaProviderService.pickMap = true;
   }
