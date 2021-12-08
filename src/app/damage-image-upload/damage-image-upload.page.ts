@@ -73,22 +73,22 @@ export class DamageImageUploadPage implements OnInit {
     this.getInsurances();
   }
 
-  getInsurances(){
+  getInsurances() {
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
-    options: any = {
-    },
-    url: any = this.kiaProviderService.baseURL + 'getInsurance';
+      options: any = {
+      },
+      url: any = this.kiaProviderService.baseURL + 'getInsurance';
 
     this.http.post(url, JSON.stringify(options), headers)
-    .subscribe((data: any) => {
-      console.log("insurance data ", data)
-      this.insurance = data;
-      this.getMyDetails();
-    },
-    (error: any) => {
-      console.log('Something went wrong!', error);
-      this.Retry1();
-    }); 
+      .subscribe((data: any) => {
+        console.log("insurance data ", data)
+        this.insurance = data;
+        this.getMyDetails();
+      },
+        (error: any) => {
+          console.log('Something went wrong!', error);
+          this.Retry1();
+        });
   }
 
   async Retry1() {
@@ -97,46 +97,46 @@ export class DamageImageUploadPage implements OnInit {
       header: 'Alert!',
       message: 'Check your connection and try again!',
       buttons: [{
-          text: 'Try again',
-          handler: () => {
-            this.getInsurances();
-          }
+        text: 'Try again',
+        handler: () => {
+          this.getInsurances();
         }
+      }
       ]
     });
     await alert.present();
   }
 
   submitDetails() {
-    if(this.imageURLs.length>0 || this.videoURLs>0){
+    if (this.imageURLs.length > 0 || this.videoURLs > 0) {
       let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
-      options: any = {
-        "user_id": this.kiaProviderService.user_id,
-        "description": this.collitionForm.get('description').value,
-        "imageList": this.imageURLs,
-        "videoList": this.videoURLs,
-        "insurance_id": this.insuranceId,
-        "vehicle_id": this.vehicleId
-      },
-      url: any = this.kiaProviderService.baseURL + 'addDamageEstimate';
+        options: any = {
+          "user_id": this.kiaProviderService.user_id,
+          "description": this.collitionForm.get('description').value,
+          "imageList": this.imageURLs,
+          "videoList": this.videoURLs,
+          "insurance_id": this.insuranceId,
+          "vehicle_id": this.vehicleId
+        },
+        url: any = this.kiaProviderService.baseURL + 'addDamageEstimate';
 
-    this.http.post(url, JSON.stringify(options), headers)
-      .subscribe((data: any) => {
-        console.log("profile data ", data)
-        if (data.message == 'success') {
-          this.router.navigateByUrl("/damage-estimate");
-        } else {
-          alert("Something went wrong!");
-        }
-      },
-      (error: any) => {
-        console.log('Something went wrong!', error);
-        this.Retry2();
-      });
-    } else{
+      this.http.post(url, JSON.stringify(options), headers)
+        .subscribe((data: any) => {
+          console.log("profile data ", data)
+          if (data.message == 'success') {
+            this.router.navigateByUrl("/damage-estimate");
+          } else {
+            alert("Something went wrong!");
+          }
+        },
+          (error: any) => {
+            console.log('Something went wrong!', error);
+            this.Retry2();
+          });
+    } else {
       alert("Upload at least one image or video to continue.");
     }
-    
+
   }
 
   async Retry2() {
@@ -167,7 +167,7 @@ export class DamageImageUploadPage implements OnInit {
     fileTransfer.upload(this.images[this.i], serverurl, options).then((data) => {
       console.log("fileTransfer", data);
       let imageurl = data.response.substring(2, data.response.length - 2);
-      console.log("imageurl",imageurl);
+      console.log("imageurl", imageurl);
       let imageurlFixed = imageurl.replace(/\\/g, '');
       console.log("image url fixed", imageurlFixed)
       this.imageURLs.push(imageurlFixed);
@@ -177,12 +177,12 @@ export class DamageImageUploadPage implements OnInit {
       } else {
         console.log("send images:", this.imageURLs);
         this.showLoader = false;
-        this.images=[];
+        this.images = [];
         this.presentToast();
         this.refresh();
       }
     }, (error) => {
-      this.showLoader=false;
+      this.showLoader = false;
       console.log(error);
       alert("Sorry! file upload failed. Try another");
     });
@@ -229,35 +229,33 @@ export class DamageImageUploadPage implements OnInit {
           var dirpath = selectedImage[interval].substring(0, selectedImage[interval].lastIndexOf('/') + 1);
 
           dirpath = dirpath.includes("file://") ? dirpath : "file://" + dirpath;
-          
+
           try {
             var dirUrl = await this.file.resolveDirectoryUrl(dirpath);
             var retrievedFile = await this.file.getFile(dirUrl, filename, {});
 
-          } catch(err) {
+          } catch (err) {
             console.log(err);
           }
 
-          retrievedFile.file( data => {
+          retrievedFile.file(data => {
             console.log("retrievedFile", data)
-            if (data.size > MAX_IMAGE_FILE_SIZE){
-              alert("Maximum individual image size is 5MB!, rest will be uploaded.");              
-            }else{
+            if (data.size > MAX_IMAGE_FILE_SIZE) {
+              alert("Maximum individual image size is 5MB!, rest will be uploaded.");
+            } else {
               this.images.push(retrievedFile.nativeURL);
             }
             // if (data.type !== ALLOWED_MIME_TYPE) return console.log("Incorrect file type.");            
           });
         }
-
-        if(this.images.length>0){
-          setTimeout(() => {
+        setTimeout(() => {
+          if (this.images.length > 0) {
             this.i = 0;
             this.sendImages();
-          }, 1000);
-        }else{
-          this.showLoader=false;
-        }
-
+          } else {
+            this.showLoader = false;
+          }
+        }, 1000);
       } else {
         this.showLoader = false;
       }
@@ -292,10 +290,10 @@ export class DamageImageUploadPage implements OnInit {
 
         retrievedFile.file(data => {
           console.log("retrievedFile", data)
-          if (data.size > MAX_VIDEO_FILE_SIZE){
+          if (data.size > MAX_VIDEO_FILE_SIZE) {
             alert("Maximum video size is 20MB!");
             this.showLoader = false;
-          }else{
+          } else {
             this.selectedVideo = retrievedFile.nativeURL;
             setTimeout(() => {
               this.uploadVideo()
@@ -329,7 +327,7 @@ export class DamageImageUploadPage implements OnInit {
         let videourlFixed = videourl.replace(/\\/g, '');
         this.videoURLs.push(videourlFixed);
         this.showLoader = false;
-        console.log("show loader", this.showLoader, "video url fixed", videourlFixed)        
+        console.log("show loader", this.showLoader, "video url fixed", videourlFixed)
         this.presentToast();
         this.refresh();
       })
@@ -341,18 +339,18 @@ export class DamageImageUploadPage implements OnInit {
       });
   }
 
-  selectInsurance(event){
+  selectInsurance(event) {
     console.log(event.target.value);
     this.insuranceId = event.target.value;
-    if(this.vehicleId!='' && this.insuranceId!=''){
+    if (this.vehicleId != '' && this.insuranceId != '') {
       this.isValid = true;
     }
   }
 
-  selectVehicle(event){
+  selectVehicle(event) {
     console.log(event.target.value);
     this.vehicleId = event.target.value;
-    if(this.vehicleId!='' && this.insuranceId!=''){
+    if (this.vehicleId != '' && this.insuranceId != '') {
       this.isValid = true;
     }
   }
@@ -395,20 +393,20 @@ export class DamageImageUploadPage implements OnInit {
   getMyDetails() {
     console.log(this.kiaProviderService.user_id, "user id")
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
-    options: any = {
-      "user_id":this.kiaProviderService.user_id
-    },
-    url: any = this.kiaProviderService.baseURL + 'myProfile';
+      options: any = {
+        "user_id": this.kiaProviderService.user_id
+      },
+      url: any = this.kiaProviderService.baseURL + 'myProfile';
 
     this.http.post(url, JSON.stringify(options), headers)
-    .subscribe((data: any) => {
-      console.log("profile data ", data)
-      this.profile=data[0];
-    },
-    (error: any) => {
-      console.log('Something went wrong!', error);
-      this.Retry3();
-    }); 
+      .subscribe((data: any) => {
+        console.log("profile data ", data)
+        this.profile = data[0];
+      },
+        (error: any) => {
+          console.log('Something went wrong!', error);
+          this.Retry3();
+        });
   }
 
   async Retry3() {
@@ -417,11 +415,11 @@ export class DamageImageUploadPage implements OnInit {
       header: 'Alert!',
       message: 'Check your connection and try again!',
       buttons: [{
-          text: 'Try again',
-          handler: () => {
-            this.getMyDetails();
-          }
+        text: 'Try again',
+        handler: () => {
+          this.getMyDetails();
         }
+      }
       ]
     });
     await alert.present();

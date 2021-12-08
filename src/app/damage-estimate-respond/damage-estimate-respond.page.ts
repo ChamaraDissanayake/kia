@@ -198,15 +198,14 @@ export class DamageEstimateRespondPage implements OnInit {
             // if (data.type !== ALLOWED_MIME_TYPE) return console.log("Incorrect file type.");            
           });
         }
-
-        if(this.images.length>0){
-          setTimeout(() => {
+        setTimeout(() => {
+          if (this.images.length > 0) {
             this.i = 0;
             this.sendImages();
-          }, 1000);
-        }else{
-          this.showLoader=false;
-        }
+          } else {
+            this.showLoader = false;
+          }
+        }, 1000);
 
       } else {
         this.showLoader = false;
