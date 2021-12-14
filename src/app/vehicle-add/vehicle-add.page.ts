@@ -94,13 +94,18 @@ export class VehicleAddPage implements OnInit {
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
       console.log("profile data ", data);
-      this.checkNewVehicles(data.vehicle_id);
-      // this.router.navigateByUrl('/my-profile');
-      if(this.kiaProviderService.vehicle_id==""){
-        this.addVehicleMessage("Your vehicle is added successfully. Once our service advisor validates and approves your details, you can access all our after-sales services.");
+      if(data.code==2){
+        this.checkNewVehicles(data.vehicle_id);
+        // this.router.navigateByUrl('/my-profile');
+        if(this.kiaProviderService.vehicle_id==""){
+          this.addVehicleMessage("Your vehicle is added successfully. Once our service advisor validates and approves your details, you can access all our after-sales services.");
+        }else{
+          this.addVehicleMessage("Your vehicle details are updated successfully. Once our service advisor validates and approves your details, you can access all our after-sales services.");
+        }
       }else{
-        this.addVehicleMessage("Your vehicle details are updated successfully. Once our service advisor validates and approves your details, you can access all our after-sales services.");
+        alert("This vehicle already exists!");
       }
+
     },
     (error: any) => {
       console.log('Something went wrong!', error);
