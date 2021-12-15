@@ -14,6 +14,7 @@ export class PhoneVerifyPage implements OnInit {
   @ViewChild('vehicleAddFirst') vehicleAddFirst
   @ViewChild('vehicleAddLast') vehicleAddLast
   public signup : FormGroup;
+  isSubmitted: boolean =false;
   
   constructor(
     private formBuilder: FormBuilder,
@@ -33,8 +34,8 @@ export class PhoneVerifyPage implements OnInit {
   ngOnInit() {
   }
   
-  ionViewWillLoad() {
-
+  ionViewWillEnter() {
+    this.isSubmitted = false;
   }
 
   validation_messages = {
@@ -61,6 +62,7 @@ export class PhoneVerifyPage implements OnInit {
   };
 
   submitDetails(){
+    this.isSubmitted = true;
     let numberPlate = this.vehicleAddFirst.value.toUpperCase()+" "+this.vehicleAddLast.value;
 
     console.log(
@@ -83,12 +85,14 @@ export class PhoneVerifyPage implements OnInit {
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
+      console.log("Signup success", data);      
       this.kiaProviderService.user_id = data.user_id
       this.kiaProviderService.permissionLevel=data.register_status;
       this.router.navigateByUrl("/otp");
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.isSubmitted = false;
       this.Retry();
     });  
   }

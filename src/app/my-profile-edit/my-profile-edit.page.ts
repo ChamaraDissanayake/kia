@@ -13,7 +13,7 @@ import { KiaProviderService } from '../kia-provider.service';
 })
 export class MyProfileEditPage implements OnInit {
   public signup : FormGroup;
-
+  isSubmitted: boolean =false;
   @ViewChild('myName') myName;
 
   // profile = myProfile;
@@ -36,6 +36,10 @@ export class MyProfileEditPage implements OnInit {
     });
   }
 
+  IonViewWillEnter(){
+    this.isSubmitted = false;
+  }
+
   validation_messages = {
     'email': [
       { type: 'required', message: '* New email required!' },
@@ -48,6 +52,7 @@ export class MyProfileEditPage implements OnInit {
   };
   
   updateDetails() {
+    this.isSubmitted = true;
     let phoneUpdated: boolean = true;
     console.log(this.signup.get('email').value, this.signup.get('mobile').value);
     if(this.kiaProviderService.user_phone == this.signup.get('mobile').value){
@@ -81,6 +86,7 @@ export class MyProfileEditPage implements OnInit {
       }
     },
     (error: any) => {
+      this.isSubmitted = false;
       console.log('Something went wrong!', error);
       this.Retry();
     }); 

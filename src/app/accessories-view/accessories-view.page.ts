@@ -17,6 +17,7 @@ export class AccessoriesViewPage implements OnInit {
   name: string = '';
   price: string = '';
   isAvailable: boolean = false;
+  isSubmitted: boolean =false;
 
   constructor(
     public kiaProviderService: KiaProviderService,
@@ -29,7 +30,9 @@ export class AccessoriesViewPage implements OnInit {
     this.getAccessoryData()
   }
 
-
+  ionViewWillEnter() {
+    this.isSubmitted = false;
+  }
 
 
   getAccessoryData() {
@@ -72,6 +75,7 @@ export class AccessoriesViewPage implements OnInit {
 
 
   requestAccessory() {
+    this.isSubmitted = true;
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
       options: any = {
         "accessory_id":this.kiaProviderService.accessory_id,
@@ -80,14 +84,15 @@ export class AccessoriesViewPage implements OnInit {
       url: any = this.kiaProviderService.baseURL + 'orderAccessories';
 
     this.http.post(url, JSON.stringify(options), headers)
-      .subscribe((data: any) => {
-        console.log("accessory request", data)
-        this.router.navigateByUrl('/booking-accessory-confirmed');
-      },
-        (error: any) => {
-          console.log('Something went wrong!', error);
-          this.Retry2();
-        });
+    .subscribe((data: any) => {
+      console.log("accessory request", data)
+      this.router.navigateByUrl('/booking-accessory-confirmed');
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+      this.isSubmitted = false;
+      this.Retry2();
+    });
   }
 
   async Retry2() {

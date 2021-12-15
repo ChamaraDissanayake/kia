@@ -61,7 +61,7 @@
 
 
         <div style="margin-top: 50px; text-align: center;">
-          <ion-button type="submit" [disabled]="!signup.valid" class="btnNavigate">Save</ion-button>
+          <ion-button type="submit" [disabled]="!signup.valid || isSubmitted" class="btnNavigate">Save</ion-button>
         </div>
       </div>
     </form>

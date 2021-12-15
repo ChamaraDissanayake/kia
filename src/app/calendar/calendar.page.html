@@ -136,7 +136,7 @@
 
   <div style="text-align: -webkit-center;">
     <div style="width: 100%; margin-bottom: 20px;">
-      <ion-button class="btnNavigate" style="margin-right: 40px;" (click)="gotoNextPage()" [disabled]='isDisabled'>Confirm</ion-button>
+      <ion-button class="btnNavigate" style="margin-right: 40px;" (click)="gotoNextPage()" [disabled]='isDisabled || isSubmitted'>Confirm</ion-button>
       <ion-button *ngIf="kiaProviderService.booking_type==1" class="btnNavigate" [routerLink]="['/showroom']">Back</ion-button>
       <ion-button *ngIf="kiaProviderService.booking_type!=1" class="btnNavigate" [routerLink]="['/service-center']">Back</ion-button>
     </div>

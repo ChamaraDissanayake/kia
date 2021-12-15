@@ -23,6 +23,7 @@ export class RequestPartPage implements OnInit {
   vehicleModels: any = [];
   showLoader: boolean = false;
   vehicle_model: string = '';
+  isSubmitted: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -42,16 +43,27 @@ export class RequestPartPage implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.getVehicleModels();
-  }
-
   validation_messages = {
     'description': [
       { type: 'required', message: '* Description required!' },
       { type: 'minlength', message: '* Description too short!' }
     ]
   };
+
+  ngOnInit() {
+    this.getVehicleModels();
+    this.imagePicker.hasReadPermission().then((val) => {
+      if (val == false) {
+        this.imagePicker.requestReadPermission();
+      }
+    }, (err) => {
+      this.imagePicker.requestReadPermission();
+    })
+  }
+
+  ionViewWillEnter() {
+    this.isSubmitted = false;
+  }
 
   selectImage() {
     // this.showLoader=true;
@@ -146,6 +158,7 @@ export class RequestPartPage implements OnInit {
   }
 
   submitDetails() {
+    this.isSubmitted = true;
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
       options: any = {
         "user_id": this.kiaProviderService.user_id,
@@ -160,10 +173,11 @@ export class RequestPartPage implements OnInit {
         console.log("Request part success", data);
         this.router.navigateByUrl("/my-part-requests");
       },
-        (error: any) => {
-          console.log('Something went wrong!', error);
-          this.Retry2();
-        });
+      (error: any) => {
+        console.log('Something went wrong!', error);
+        this.isSubmitted = false;
+        this.Retry2();
+      });
   }
 
   async deleteImage() {

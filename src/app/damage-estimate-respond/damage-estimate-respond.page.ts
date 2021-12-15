@@ -36,6 +36,7 @@ export class DamageEstimateRespondPage implements OnInit {
   selectedVideo: string='';
   videoFileUpload: FileTransferObject;
   showLoader: boolean = false;
+  isSubmitted: boolean =false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -70,6 +71,10 @@ export class DamageEstimateRespondPage implements OnInit {
     })
   }
 
+  ionViewWillEnter() {
+    this.isSubmitted = false;
+  }
+
   ionViewDidEnter(){
     this.getDetails();
   }
@@ -97,6 +102,7 @@ export class DamageEstimateRespondPage implements OnInit {
   }
 
   submitDetails(){
+    this.isSubmitted = true;
     console.log(
       "user_id",this.kiaProviderService.user_id,
       "damage_estimate_id",this.kiaProviderService.damage_estimate_id,
@@ -126,9 +132,11 @@ export class DamageEstimateRespondPage implements OnInit {
       },
       (error: any) => {
         console.log('Something went wrong!', error);
+        this.isSubmitted = false;
         this.Retry2();
       });
     } else{
+      this.isSubmitted = false;
       alert("Upload at least one another image or video to continue.");
     }
   }

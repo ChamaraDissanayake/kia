@@ -37,6 +37,7 @@ export class DamageImageUploadPage implements OnInit {
   videoFileUpload: FileTransferObject;
   showLoader: boolean = false;
   isValid: boolean = false;
+  isSubmitted: boolean =false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -71,6 +72,10 @@ export class DamageImageUploadPage implements OnInit {
       this.imagePicker.requestReadPermission();
     })
     this.getInsurances();
+  }
+
+  ionViewWillEnter() {
+    this.isSubmitted = false;
   }
 
   getInsurances() {
@@ -108,6 +113,7 @@ export class DamageImageUploadPage implements OnInit {
   }
 
   submitDetails() {
+    this.isSubmitted = true;
     if (this.imageURLs.length > 0 || this.videoURLs > 0) {
       let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
         options: any = {
@@ -121,19 +127,21 @@ export class DamageImageUploadPage implements OnInit {
         url: any = this.kiaProviderService.baseURL + 'addDamageEstimate';
 
       this.http.post(url, JSON.stringify(options), headers)
-        .subscribe((data: any) => {
-          console.log("profile data ", data)
-          if (data.message == 'success') {
-            this.router.navigateByUrl("/damage-estimate");
-          } else {
-            alert("Something went wrong!");
-          }
-        },
-          (error: any) => {
-            console.log('Something went wrong!', error);
-            this.Retry2();
-          });
+      .subscribe((data: any) => {
+        console.log("profile data ", data)
+        if (data.message == 'success') {
+          this.router.navigateByUrl("/damage-estimate");
+        } else {
+          alert("Something went wrong!");
+        }
+      },
+      (error: any) => {
+        console.log('Something went wrong!', error);
+        this.isSubmitted = false;
+        this.Retry2();
+      });
     } else {
+      this.isSubmitted = false;
       alert("Upload at least one image or video to continue.");
     }
 

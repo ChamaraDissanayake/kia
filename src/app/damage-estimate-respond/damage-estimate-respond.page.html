@@ -91,7 +91,7 @@
         </tr>
       </div>
       <div style="width: 100%; margin-top: 20px; text-align: center;">
-        <ion-button class="btnNavigate" type="Submit" [disabled]="!collitionForm.valid">Submit</ion-button>
+        <ion-button class="btnNavigate" type="Submit" [disabled]="!collitionForm.valid || isSubmitted">Submit</ion-button>
       </div>
     </form>
 </ion-content>

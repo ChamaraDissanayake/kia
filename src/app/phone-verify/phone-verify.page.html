@@ -124,7 +124,7 @@
     </div>
 
     <div style="margin-top: 50px; text-align: center;">
-      <ion-button type="submit" [disabled]="!signup.valid" class="btnNavigate" style="margin-right: 40px;">Submit</ion-button>
+      <ion-button type="submit" [disabled]="!signup.valid || isSubmitted" class="btnNavigate" style="margin-right: 40px;">Submit</ion-button>
       <ion-button class="btnNavigate" [routerLink]="['/login']">Back</ion-button>
     </div>
 

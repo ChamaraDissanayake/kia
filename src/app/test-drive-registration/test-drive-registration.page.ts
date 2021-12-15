@@ -12,7 +12,8 @@ import { KiaProviderService } from '../kia-provider.service';
 })
 export class TestDriveRegistrationPage implements OnInit {
   public signup : FormGroup;
-  
+  isSubmitted: boolean =false;
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -41,7 +42,16 @@ export class TestDriveRegistrationPage implements OnInit {
     ]
   };
 
+  ngOnInit() {
+  }
+
+  IonViewWillEnter(){
+    this.isSubmitted = false;
+  }
+
+
   submitDetails(){
+    this.isSubmitted = true;
     this.kiaProviderService.from = 'test_drive';
     console.log(this.kiaProviderService.user_id)
 
@@ -65,12 +75,10 @@ export class TestDriveRegistrationPage implements OnInit {
       this.router.navigateByUrl("/otp");
     },
     (error: any) => {
+      this.isSubmitted = false;
       console.log('Something went wrong!', error);
       this.Retry();
     }); 
-  }
-
-  ngOnInit() {
   }
 
   async Retry() {

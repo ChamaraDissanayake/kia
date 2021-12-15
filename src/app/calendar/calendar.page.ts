@@ -36,6 +36,7 @@ export class CalendarPage implements OnInit {
   ett:number = 0;
   slotsAvailable:boolean = false;
   phoneNo:string ='011 750 8708';
+  isSubmitted: boolean =false;
 
   public calendar = {
     currentDate: new Date(),
@@ -69,6 +70,10 @@ export class CalendarPage implements OnInit {
       this.vehicleSelected = false;
       this.getMyVehicles();
     }
+  }
+
+  ionViewWillEnter() {
+    this.isSubmitted = false;
   }
 
   ionViewDidEnter(){
@@ -232,7 +237,7 @@ export class CalendarPage implements OnInit {
     // "supervisor_name",this.kiaProviderService.supervisor_name,
     // "customer_name",this.kiaProviderService.user_name,
     // "customer_email",this.kiaProviderService.user_email);
-    
+    this.isSubmitted = true;
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {
       "deviceId":this.kiaProviderService.deviceId,
@@ -265,6 +270,7 @@ export class CalendarPage implements OnInit {
     },
     (error: any) => {
       console.log('Something went wrong!', error);
+      this.isSubmitted = true;
       this.Retry3();
     }); 
   }
