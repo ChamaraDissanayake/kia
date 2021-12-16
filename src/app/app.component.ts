@@ -171,6 +171,12 @@ export class AppComponent implements OnInit{
     }, 500);
   }
 
+  gotoHelpSupport(){
+    setTimeout(() => {
+      this.router.navigateByUrl("/help-support");
+    },500);
+  }
+
   gotoContactUs(){
     setTimeout(() => {
       this.router.navigateByUrl("/contact-us");

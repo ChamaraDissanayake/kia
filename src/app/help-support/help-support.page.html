@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar style="--background: #0f0f0f;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-image" fullscreen="true">
+  <div style="min-height: 200px;">
+    <ion-card *ngFor="let item of videoData; let i = index" class="video-wrapper">
+      <ion-label class="lblHeader">{{item.name}}</ion-label>
+      <ion-card-content style="padding: unset;">
+        <video #player playinline preload="auto" controls loop controlsList="nodownload" poster="{{item.thumb_url}}">
+          <source [src]="item.url" type="video/mp4">
+        </video>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

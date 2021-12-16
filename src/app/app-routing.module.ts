@@ -133,10 +133,6 @@ const routes: Routes = [
     loadChildren: () => import('./accessories-view/accessories-view.module').then( m => m.AccessoriesViewPageModule)
   },
   {
-    path: 'accessories-orders',
-    loadChildren: () => import('./accessories-orders/accessories-orders.module').then( m => m.AccessoriesOrdersPageModule)
-  },
-  {
     path: 'pick-and-drop',
     loadChildren: () => import('./pick-and-drop/pick-and-drop.module').then( m => m.PickAndDropPageModule)
   },
@@ -183,6 +179,10 @@ const routes: Routes = [
   {
     path: 'pick-and-drop-location',
     loadChildren: () => import('./pick-and-drop-location/pick-and-drop-location.module').then( m => m.PickAndDropLocationPageModule)
+  },
+  {
+    path: 'help-support',
+    loadChildren: () => import('./help-support/help-support.module').then( m => m.HelpSupportPageModule)
   }
 
 ];
