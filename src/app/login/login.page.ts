@@ -64,7 +64,7 @@ export class LoginPage implements OnInit {
   }
 
   gotoHome(){
-    this.router.navigateByUrl('/home');
+    this.router.navigateByUrl('/home', {replaceUrl:true});
     this.storage.set("isNewUser", false);
     this.platform.ready().then(()=>{
       this.animationCtrl.create()

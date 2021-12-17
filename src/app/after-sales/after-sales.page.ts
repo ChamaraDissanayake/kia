@@ -26,41 +26,20 @@ export class AfterSalesPage implements OnInit {
     this.router.navigateByUrl("/service-center");
   }
 
-  gotoRequestPart() {
-    this.router.navigateByUrl("/my-part-requests");
-  }
-
   gotoAccessories() {
     this.router.navigateByUrl("/accessories");
-  }
-
-  gotoHome() {
-    this.router.navigateByUrl("/home");
   }
 
   gotoShowroomList() {
     this.router.navigateByUrl("/showroom-list");
   }
 
-  goToMyBookings() {
-    this.router.navigateByUrl("/my-bookings");
-  }
-
   gotoCallUs() {
     this.router.navigateByUrl("/call-us");
   }
 
-  gotoDamageEstimate() {
-    this.kiaProviderService.booking_type = 6;
-    this.router.navigateByUrl("/damage-estimate");
-  }
-
   gotoOnlinePayment() {
     this.router.navigateByUrl("/online-payment");
-  }
-
-  gotoPickAndDropBookings() {
-    this.router.navigateByUrl("/pick-and-drop-bookings");
   }
 
   gotoPickAndDrop() {
