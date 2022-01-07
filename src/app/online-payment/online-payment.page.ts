@@ -44,7 +44,7 @@ export class OnlinePaymentPage implements OnInit {
       this.showLoader = false;
     },
     (error: any) => {
-      console.log('Something went wrong!', error);
+      console.log('Something went wrong!', error.error.text);
       this.showLoader = false;
       this.Retry();
     }); 

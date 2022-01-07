@@ -76,7 +76,7 @@ export class OnlinePaymentSelectPage implements OnInit {
       "user_id": this.kiaProviderService.user_id,
       "invoiceList": this.payList
     },
-    url: any = this.kiaProviderService.baseURL + 'add-invoices';
+    url: any = this.kiaProviderService.baseURL + 'add-invoices-test';
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {

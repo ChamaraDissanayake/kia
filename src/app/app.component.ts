@@ -198,7 +198,7 @@ export class AppComponent implements OnInit{
       }
       this.kiaProviderService.user_id = data.user_id;
       this.kiaProviderService.permissionLevel=data.register_status;
-      // this.kiaProviderService.user_id="13";
+      // this.kiaProviderService.user_id="138";
       // this.kiaProviderService.permissionLevel=2;
 
       if(this.kiaProviderService.user_id=="0"){
