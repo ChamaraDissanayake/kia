@@ -83,14 +83,15 @@ export class OnlinePaymentSelectPage implements OnInit {
       console.log("payment", data.url);
       const browse = this.inAppBrowser.create(data.url,"_blank",this.IABoptions);
       
-      browse.on('loadstart').subscribe(event => {
-        if(event.url == 'http://web.kialanka.lk/exitDirectpayCardPayment'){
+      browse.on('loadstart').subscribe(event => {        
+        let redirectUrl = event.url.substring(0,event.url.indexOf('exit')+4)
+        console.log("Redirect", redirectUrl)
+        if(redirectUrl == 'http://web.kialanka.lk/directpay/cardPayment/exit'){
           browse.close();
         }
       });
       
       // 4508 7500 1574 1019
-      // 5123 4500 0000 0008
 
       this.router.navigateByUrl('/home');
     },
