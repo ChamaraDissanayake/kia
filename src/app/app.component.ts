@@ -12,10 +12,18 @@ import { Storage } from '@ionic/storage-angular';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
+
+// TEST USER DETAILS:
+// id: 557
+// phone: 079 823 4935
+// otp: 1234
+
+
 export class AppComponent implements OnInit{
   pickAndDropSub: boolean = false;
   accidentSub: boolean = false;
   pendingVehiclesCount: number = 0;
+  androidTest: boolean = false;
 
   constructor(
     private router: Router,
@@ -31,10 +39,50 @@ export class AppComponent implements OnInit{
     this.storage.create();
     this.platform.ready().then(()=>{
       let deviceID = this.device.uuid;
-      this.sendDeviceID(deviceID);    
       kiaProviderService.deviceId = deviceID;
+      this.checkIsReview(deviceID);
     })
   }
+
+
+  checkIsReview(deviceID) {
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = { },
+      
+    url: any = this.kiaProviderService.baseURL + 'android/review';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      console.log("chamara", data)
+      if(!data.isAndroidReview){
+        this.sendDeviceID(deviceID);
+      } else {
+        this.androidTest = true;
+        this.sendDeviceIDTest(deviceID);
+      }
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+      this.Retry0();
+    });  
+  }
+
+  async Retry0() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.checkIsReview(this.kiaProviderService.deviceId);
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
   ngOnInit() {
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
       this.checkPayment()
@@ -42,8 +90,13 @@ export class AppComponent implements OnInit{
         if(this.kiaProviderService.appFullyLoaded){
           this.pendingValidations();
           if(this.kiaProviderService.permissionLevel==1){
-            console.log("try to confirm user")
-            this.sendDeviceID(this.kiaProviderService.deviceId);
+            if(this.androidTest){
+              console.log("try to confirm test user");
+              this.sendDeviceIDTest(this.kiaProviderService.deviceId);
+            }else{
+              console.log("try to confirm user");
+              this.sendDeviceID(this.kiaProviderService.deviceId);
+            }
           }
         }
       }, 30000)
@@ -184,9 +237,11 @@ export class AppComponent implements OnInit{
   }
 
   sendDeviceID(deviceID:string) {
+    console.log("test mode off")
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
     options: any = {
-      "device_id":deviceID
+      "device_id":deviceID,
+      "androidReview":false
     },
       
     url: any = this.kiaProviderService.baseURL + 'appLoading';
@@ -223,6 +278,64 @@ export class AppComponent implements OnInit{
           text: 'Try again',
           handler: () => {
             this.sendDeviceID(this.kiaProviderService.deviceId);
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  sendDeviceIDTest(deviceID:string) {
+    console.log("test mode on")
+    console.log("device_id sendDeviceIDTest",deviceID,
+    "phone_number","0798234935",
+    "androidReview",true)
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    options: any = {
+      "device_id":deviceID,
+      "phone_number":"0798234935",
+      "androidReview":true
+    },
+      
+    url: any = this.kiaProviderService.baseURL + 'appLoading';
+
+    this.http.post(url, JSON.stringify(options), headers)
+    .subscribe((data: any) => {
+      if(this.kiaProviderService.permissionLevel==1 && data.register_status==2){
+        this.Congratulations('Your registration details are confirmed. Now you can access all our after sales services.');
+      }
+
+      this.kiaProviderService.user_id = data.user_id;
+      this.kiaProviderService.permissionLevel=data.register_status;
+
+      console.log("User id testing", this.kiaProviderService.user_id)
+      if(this.kiaProviderService.user_id=="557"){
+        console.log("User id testing 2", this.kiaProviderService.user_id)
+        this.kiaProviderService.permissionLevel=2;
+      }
+
+      if(this.kiaProviderService.user_id=="0"){
+        this.storedData();
+      }else{
+        this.router.navigateByUrl("/home");
+      }
+      console.log("user data", data);
+    },
+    (error: any) => {
+      console.log('Something went wrong!', error);
+      this.Retry2();
+    });      
+  }
+
+  async Retry2() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert!',
+      message: 'Check your connection and try again!',
+      buttons: [{
+          text: 'Try again',
+          handler: () => {
+            this.sendDeviceIDTest(this.kiaProviderService.deviceId);
           }
         }
       ]

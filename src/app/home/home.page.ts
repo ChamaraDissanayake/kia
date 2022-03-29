@@ -1,9 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-// import sliderAll from '../../assets/SliderAll.json';
-// import sliderSUV from '../../assets/SliderSUV.json';
-// import sliderCar from '../../assets/SliderCar.json';
-// import sliderCommercial from '../../assets/SliderCommercial.json';
 import { KiaProviderService } from '../kia-provider.service';
 import { AlertController, MenuController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -17,6 +13,11 @@ import { Storage } from '@ionic/storage-angular';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
+
+// TEST USER DETAILS:
+// id: 557
+// phone: 0798234935
+// otp: 1234
 export class HomePage implements OnInit {
   kiaSlider:any =[];
   sliderAll:any=[];
@@ -32,15 +33,12 @@ export class HomePage implements OnInit {
 
   videoPaused1 = true;
   videoPaused2 = true;
-  // @ViewChild('player1')videoPlayer1;
-  // @ViewChild('player2')videoPlayer2;
   @ViewChild('loader')loader
 
   constructor(
     private router: Router,
     public kiaProviderService: KiaProviderService,
     private menu: MenuController,
-    // private platform: Platform,
     private http: HttpClient,
     private alertController: AlertController,
     private photoViewer: PhotoViewer,
@@ -55,13 +53,6 @@ export class HomePage implements OnInit {
       this.kiaProviderService.appFullyLoaded = true;
     }, 100);
     this.LoadData();
-    // this.platform.ready().then(()=>{
-    //   if(this.kiaProviderService.firstLoad){
-    //     this.videoPlayer.nativeElement.muted = true;
-    //     this.playVideo();
-    //     this.kiaProviderService.firstLoad=false;
-    //   }
-    // })
     this.getLocationPermission();
   }
 
@@ -92,7 +83,6 @@ export class HomePage implements OnInit {
 
     },
     url: any = this.kiaProviderService.baseURL + 'ShowCaseForSliderV2';
-    // url: any = this.kiaProviderService.baseURL + 'ShowCaseForSlider';
 
     this.http.post(url, JSON.stringify(options), headers)
     .subscribe((data: any) => {
@@ -105,7 +95,6 @@ export class HomePage implements OnInit {
       this.secondaryVideo = data[5];
       this.sliderPromotion = data[6];
       this.kiaSlider = this.sliderAll;
-      // this.presentToast();
       this.sliderChange = !this.sliderChange;
     },
     (error: any) => {
@@ -114,13 +103,6 @@ export class HomePage implements OnInit {
     }); 
   }
 
-  // async presentToast() {
-  //   const toast = await this.toastController.create({
-  //     message: 'Your settings have been saved.',
-  //     duration: 2000
-  //   });
-  //   toast.present();
-  // }
   
   ionViewDidEnter(){
     this.menu.swipeGesture(true);
@@ -128,12 +110,6 @@ export class HomePage implements OnInit {
   }
 
   ionViewWillLeave(){
-    // if(this.videoPlayer1){
-    //   this.videoPlayer1.nativeElement.pause();
-    // }
-    // this.videoPlayer2.nativeElement.pause();
-    // this.videoPaused1=true;
-    // this.videoPaused2=true;
     this.menu.swipeGesture(false);
   }
 
@@ -142,13 +118,6 @@ export class HomePage implements OnInit {
     speed: 400,
     autoplay: true
   };
-
-  // slideOptsPromo = {
-  //   initialSlide: 0,
-  //   speed: 400,
-  //   autoplay: true,
-  //   loop: true
-  // };
 
   slideOptsPromo = {
     autoplay:true,
@@ -261,35 +230,6 @@ export class HomePage implements OnInit {
         this.activeSlider = 'car';
     }
   }
-
-  // playVideo1(){
-  //   if(this.videoPaused1){
-  //     this.videoPlayer1.nativeElement.play();
-  //     this.videoPlayer2.nativeElement.pause();
-  //     this.videoPaused2=true;
-  //     this.videoPaused1=!this.videoPaused1;
-  //     // this.videoPlayer.nativeElement.muted = false;
-  //   }else{
-  //     this.videoPlayer1.nativeElement.pause();
-  //     this.videoPaused1=!this.videoPaused1;
-  //   }
-  // }
-
-  // playVideo2(){
-  //   if(this.videoPaused2){
-  //     this.videoPlayer2.nativeElement.play();
-  //     console.log("video", this.videoPlayer1)
-  //     if(this.videoPlayer1){
-  //       this.videoPlayer1.nativeElement.pause();
-  //       this.videoPaused1=true;
-  //     }
-
-  //     this.videoPaused2=!this.videoPaused2;
-  //   }else{
-  //     this.videoPlayer2.nativeElement.pause();
-  //     this.videoPaused2=!this.videoPaused2;
-  //   }
-  // }
 
   resetValues(){
     this.kiaProviderService.showroom_id = '';

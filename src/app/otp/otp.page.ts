@@ -10,6 +10,12 @@ import { AlertController } from '@ionic/angular';
   templateUrl: './otp.page.html',
   styleUrls: ['./otp.page.scss'],
 })
+
+// TEST USER DETAILS:
+// id: 557
+// phone: 0798234935
+// otp: 1234
+
 export class OtpPage implements OnInit {
 
   @ViewChild('otp1') otp1;
@@ -96,6 +102,9 @@ export class OtpPage implements OnInit {
       } else {
         this.isIncorrectOtp=true;
         console.log("OTP verification failed");
+      }
+      if(this.kiaProviderService.user_id=="557"){
+        this.kiaProviderService.permissionLevel=2;
       }
     },
     (error: any) => {
