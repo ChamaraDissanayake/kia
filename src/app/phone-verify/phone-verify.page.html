@@ -17,11 +17,11 @@
   <form [formGroup]="signup" (ngSubmit)="submitDetails()">
     <div class="text-white main-div">
       <div>
-        <ion-label class="topics">Enter your name</ion-label>
+        <ion-label class="topics">Enter your first name</ion-label>
       </div>
       <div class="input-wrapper">
         <ion-item class="input-style">
-          <ion-input placeholder="Enter your name here" type="text" formControlName="name"></ion-input>
+          <ion-input placeholder="Enter your name here" (keydown)="checkSpace($event)" type="text" formControlName="name"></ion-input>
           <!-- <ion-input placeholder="Enter your name here" type="text" [(ngModel)]="signup.name"
           formControlName="name"></ion-input> -->
         </ion-item>
@@ -29,6 +29,25 @@
           <ng-container *ngFor="let validation of validation_messages.name">
             <div class="error-message"
               *ngIf="signup.get('name').hasError(validation.type) && (signup.get('name').dirty || signup.get('name').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <div>
+        <ion-label class="topics">Enter your last name</ion-label>
+      </div>
+      <div class="input-wrapper">
+        <ion-item class="input-style">
+          <ion-input placeholder="Enter your name here" (keydown)="checkSpace($event)" type="text" formControlName="lastname"></ion-input>
+          <!-- <ion-input placeholder="Enter your name here" type="text" [(ngModel)]="signup.name"
+          formControlName="name"></ion-input> -->
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.lastname">
+            <div class="error-message"
+              *ngIf="signup.get('lastname').hasError(validation.type) && (signup.get('lastname').dirty || signup.get('lastname').touched)">
               {{ validation.message }}
             </div>
           </ng-container>
