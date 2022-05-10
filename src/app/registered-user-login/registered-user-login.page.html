@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar style="--background: #0f0f0f;">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/Kia White Logo (no BG).png" style="width: 33%; margin-left: 25%;">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="background-image" fullscreen="true">
+
+  <form [formGroup]="signup" (ngSubmit)="login()">
+    <div class="text-white main-div">
+      <div class="text-white main-div">
+        <div>
+          <ion-label class="topics">Mobile number</ion-label>
+        </div>
+        <div class="input-wrapper">
+          <ion-item class="input-style">
+            <ion-input type="tel" maxlength="10" minlength="10" placeholder="07X XX XX XXX" formControlName="mobile">
+            </ion-input>
+          </ion-item>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validation_messages.mobile">
+              <div class="error-message"
+                *ngIf="signup.get('mobile').hasError(validation.type) && (signup.get('mobile').dirty || signup.get('mobile').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 50px; text-align: center;">
+        <ion-button type="submit" [disabled]="!signup.valid || isSubmitted" class="btnNavigate"
+          style="margin-right: 40px;">Login</ion-button>
+      </div>
+    </div>
+  </form>
+
+</ion-content>

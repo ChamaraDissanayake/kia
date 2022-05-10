@@ -178,4 +178,22 @@ export class MyProfilePage implements OnInit {
       this.storage.set("newVehicle", newVehicleArray);
     }
   }
+
+  logout(){
+    // let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
+    // options: any = {
+    //   "user_id":this.kiaProviderService.user_id
+    // },
+    // url: any = this.kiaProviderService.baseURL + '';
+
+    // this.http.post(url, JSON.stringify(options), headers)
+    // .subscribe((data: any) => {
+    //   console.log("Logout success", data);
+    // },
+    // (error: any) => {
+    //   console.log('Logout failed', error);
+    // }); 
+    this.storage.remove("user_phone");
+    this.router.navigateByUrl("/login")
+  }
 }

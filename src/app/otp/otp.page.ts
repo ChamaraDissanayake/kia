@@ -92,6 +92,7 @@ export class OtpPage implements OnInit {
       if(data.code==2){
         if(this.kiaProviderService.from=='login'){
           this.storage.set("isNewUser", false);
+          this.storage.set("user_phone",this.kiaProviderService.user_phone);
           this.router.navigateByUrl("/login-success");
         }else if(this.kiaProviderService.from=='update'){
           this.router.navigateByUrl("/my-profile");

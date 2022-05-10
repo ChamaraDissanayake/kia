@@ -26,11 +26,16 @@
         <span>{{profile.phone_number}}</span><br>
         <span>{{profile.email}}</span>
       </div>
-      
+
     </div>
-    <div style="margin-top: 30px; padding-top: 30px; border-top: 1px solid white;">
+    
+    <div style="text-align: center; margin: 20px 0;">
+      <ion-button (click)="logout()" style="height: 44px;" class="btn-add btn-edit">Logout</ion-button>
+    </div>
+
+    <div style="padding-top: 30px; border-top: 1px solid white;">
       <div style="text-align: center;">
-        <ion-button (click)="gotoAddVehicle()" style="height: 44px;" class="btn-add btn-edit">+ Add</ion-button>
+        <ion-button (click)="gotoAddVehicle()" style="height: 44px;" class="btn-add btn-edit">+ Add vehicle</ion-button>
       </div>
       <div style="text-align: center; margin: 30px 0 18px 0;">
         <ion-label style="font-size: 20px; font-weight: bold;">My vehicles</ion-label>

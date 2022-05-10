@@ -71,8 +71,8 @@ export class PhoneVerifyPage implements OnInit {
     let numberPlate = this.vehicleAddFirst.value.toUpperCase() + " " + this.vehicleAddLast.value;
 
     console.log(
-      "name", this.signup.get('name').value,
-      "lastname", this.signup.get('lastname').value,
+      "fname", this.signup.get('name').value,
+      "lname", this.signup.get('lastname').value,
       "email", this.signup.get('email').value,
       "phone", this.signup.get('mobile').value,
       "vehicle_no", numberPlate,
@@ -80,8 +80,8 @@ export class PhoneVerifyPage implements OnInit {
 
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' }),
       options: any = {
-        "name": this.signup.get('name').value,
-        "lastname": this.signup.get('lastname').value,
+        "fname": this.signup.get('name').value,
+        "lname": this.signup.get('lastname').value,
         "email": this.signup.get('email').value,
         "phone": this.signup.get('mobile').value,
         "vehicle_no": numberPlate,
@@ -93,6 +93,7 @@ export class PhoneVerifyPage implements OnInit {
     this.http.post(url, JSON.stringify(options), headers)
       .subscribe((data: any) => {
         console.log("Signup success", data);
+        this.kiaProviderService.user_phone = this.signup.get('mobile').value;
         this.kiaProviderService.user_id = data.user_id
         this.kiaProviderService.permissionLevel = data.register_status;
         this.router.navigateByUrl("/otp");

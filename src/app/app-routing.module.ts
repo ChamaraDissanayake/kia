@@ -183,6 +183,10 @@ const routes: Routes = [
   {
     path: 'help-support',
     loadChildren: () => import('./help-support/help-support.module').then( m => m.HelpSupportPageModule)
+  },
+  {
+    path: 'registered-user-login',
+    loadChildren: () => import('./registered-user-login/registered-user-login.module').then( m => m.RegisteredUserLoginPageModule)
   }
 
 ];
